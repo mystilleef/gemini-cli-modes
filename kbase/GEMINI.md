@@ -2,7 +2,7 @@
 
 ## Directory Overview
 
-This directory, `/home/lateef/Documents/Projects/gemini/kbase`, serves as the knowledge base for a sophisticated AI agent. The documents within define the core operational protocols, communication styles, and development conventions that govern the agent's behavior. The central purpose of this knowledge base is to provide a foundational set of rules and best practices, ensuring the agent operates in a clear, deliberate, and verifiable manner.
+This directory, `~/.gemini/kbase`, serves as the knowledge base for a sophisticated AI agent. The documents within define the core operational protocols, communication styles, and development conventions that govern the agent's behavior. The central purpose of this knowledge base is to provide a foundational set of rules and best practices, ensuring the agent operates in a clear, deliberate, and verifiable manner.
 
 ## Key Files
 

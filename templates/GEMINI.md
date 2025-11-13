@@ -2,7 +2,7 @@
 
 ## Directory Overview
 
-This directory, `/home/lateef/Documents/Projects/gemini/templates`, contains a set of Markdown templates that define a structured workflow for an AI agent. These templates guide the agent through a systematic process of exploring a codebase, formulating a plan, critically reviewing that plan, and tracking the execution of tasks. The overall purpose is to ensure a rigorous, transparent, and auditable process for any operation the agent performs.
+This directory, `~/.gemini/templates`, contains a set of Markdown templates that define a structured workflow for an AI agent. These templates guide the agent through a systematic process of exploring a codebase, formulating a plan, critically reviewing that plan, and tracking the execution of tasks. The overall purpose is to ensure a rigorous, transparent, and auditable process for any operation the agent performs.
 
 This project works in conjunction with the `kbase` directory, which provides the foundational knowledge, protocols, and conventions that the agent references when filling out these templates.
 
