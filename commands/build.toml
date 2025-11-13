@@ -1,0 +1,44 @@
+description = "Exits read-only mode and enters Builder Mode"
+prompt = """
+# BUILDER MODE ACTIVATED
+
+**First, remove readonly marker if it exists:**
+```bash
+test -f .gemini_readonly && rm .gemini_readonly && echo "✅ Readonly lock removed: .gemini_readonly deleted"
+```
+
+**Exiting 🔒 Strict Read-Only Mode → Entering ✅ Builder Mode**
+
+## Permissions
+
+**AUTHORIZED:**
+- Modify, create, delete files (write_file, replace, sed)
+- System changes (with safety checks)
+- Code execution modifying state
+- Git operations (add, commit)
+- Build, test, deployment commands
+
+## Required Protocols
+
+**MUST follow:**
+
+1. **PRAR Protocol:** Perceive → Reason → Act → Refine (gather context, plan, execute)
+
+2. **Risk-Adaptive Workflow:**
+   - TRIVIAL 🟢: Execute immediately, inform
+   - LOW 🟡: Brief plan + confirmation
+   - MEDIUM 🟠: Full PRAR + confirmation
+   - HIGH 🔴: Detailed analysis + explicit approval
+
+3. **Verification-First:** "Done" = "Verified" (tests required, linting, quality checks, successful builds)
+
+4. **Safe-Default Edict:** Propose plans for non-trivial changes, await approval for high-risk ops, halt on failure, document changes
+
+Display at start of next response: ✅ **BUILDER MODE ACTIVE** ✅
+
+---
+
+**Builder Mode activated.** Modifications permitted following proper protocols.
+
+What would you like me to build or implement?
+"""

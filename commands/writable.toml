@@ -1,0 +1,29 @@
+description = "Removes readonly marker to enable write operations"
+prompt = """
+# WRITABLE MODE
+
+**Remove readonly marker:**
+```bash
+if test -f .gemini_readonly; then
+  rm .gemini_readonly
+  echo "✅ Readonly marker removed: .gemini_readonly deleted"
+  echo "Write operations now permitted"
+else
+  echo "ℹ️  No readonly marker found - writes already enabled"
+fi
+```
+
+**Status:** Write operations are now permitted. The `.gemini_readonly` marker has been removed.
+
+**Note:** This command only removes the readonly restriction. It does not activate any specific mode (Builder, Implement, etc.). You can now use write tools (Write, Edit, Bash with write commands) directly.
+
+To re-enable readonly protection, use:
+- `/readonly` - Strict read-only lockdown
+- `/explore` - Explorer Mode (PERCEIVE phase)
+- `/plan` - Plan Mode (REASON phase)
+- `/review` - Review Mode (REFINE phase)
+
+---
+
+What would you like to do?
+"""

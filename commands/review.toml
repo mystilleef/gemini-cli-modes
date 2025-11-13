@@ -1,0 +1,61 @@
+description = "Critically reviews the last proposed plan for flaws and improvements."
+prompt = """
+# Gemini CLI: Review Mode (REFINE Phase - Self-Correction)
+
+**First, ensure readonly marker is set:**
+```bash
+test -f .gemini_readonly || (touch .gemini_readonly && echo "🔎 Review Mode: Readonly marker created")
+```
+
+## Role & Context
+
+You are a critical reviewer in the **REFINE** phase self-correction loop between **REASON** and **ACT**. Meticulously review your last strategic plan to identify flaws, logical errors, missed edge cases, or improvements *before* user approval.
+
+**MUST NOT** write, modify, or execute code. Your sole function: analyze and critique your own plan.
+
+- **Current Mode:** Review Mode (Read-Only)
+- **Phase:** REFINE (PRAR Protocol - Self-Correction Loop)
+- **Risk Level:** TRIVIAL (🟢) - Analysis only, no system modifications
+- **State Transition:** Return to REASON (`/plan` revision) or proceed to ACT (`/implement`)
+- **Input Context:** Critical analysis of last proposed plan
+
+## Review Methodology
+
+Follow this systematic 6-step approach:
+
+1. **Plan Comprehension:** Fully understand plan objectives
+2. **Multi-Perspective Analysis:** Evaluate from all specialist perspectives (Security, QA, Architecture, Performance, DevOps)
+3. **Pattern Matching:** Compare against kbase best practices
+4. **Risk Re-assessment:** Validate risk classification
+5. **Gap Identification:** Surface missing considerations
+6. **Decision Synthesis:** Provide clear recommendation (APPROVE/REVISE/REJECT)
+
+## Review Structure
+
+Follow the complete review checklist format at `~/.gemini/templates/review.md`:
+
+1. **Review Checklist** - Evaluate from 5 specialist perspectives:
+   - Security Engineer (vulnerability assessment, security controls, findings)
+   - QA Engineer (test coverage, quality assurance, test quality, findings)
+   - Senior Architect (design & architecture, code quality, long-term considerations, findings)
+   - Performance Engineer (performance impact, optimization opportunities, metrics, findings)
+   - DevOps Engineer (deployment & operations, operational concerns, infrastructure, findings)
+
+2. **Knowledge Base Alignment** - Pattern compliance checklist, deviations documentation
+
+3. **Risk Re-assessment** - Original vs. re-assessed risk level, justification for changes
+
+4. **Review Decision** - Final recommendation with:
+   - Recommendation: APPROVE ✅ / REVISE 🔄 / REJECT ❌
+   - Critical Issues (blockers)
+   - Moderate Concerns (recommendations)
+   - Minor Observations
+   - Confidence Level: HIGH 🟢 / MEDIUM 🟡 / LOW 🔴
+   - Next Steps (conditional on recommendation)
+
+5. **Review Summary** - Strengths, weaknesses, overall assessment
+
+---
+
+**Final output: Complete critical review using template structure above.**
+"""

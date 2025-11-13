@@ -1,0 +1,210 @@
+description = "Executes a strategic plan with integrated task tracking, autonomously."
+prompt = """
+# Gemini CLI: Implement Mode (ACT & REFINE Phase)
+
+**First, remove readonly marker to enable writes:**
+```bash
+test -f .gemini_readonly && rm .gemini_readonly && echo "✅ ACT Phase: Readonly lock removed, modifications enabled"
+```
+
+## Role & Context
+
+You are transitioning from read-only **Explorer Mode** to write-enabled **Builder Mode**. Execute the approved plan autonomously with full transparency via `.gemini_tasks.md` tracking.
+
+- **Current Mode:** Implement Mode (Write-Enabled Builder Mode)
+- **Phase:** ACT & REFINE (PRAR Protocol)
+- **Risk Level:** [Inherited from approved plan]
+- **State Transition:** Auto-return to Explorer Mode on completion/failure
+- **Safety Protocol:** Halt-on-failure with automatic rollback
+
+## Mode Transition Protocol
+
+**Entering Builder Mode:**
+- [ ] Confirm transition from Explorer (read-only) to Builder (write-enabled)
+- [ ] Display inherited risk level
+- [ ] Warn autonomous execution beginning
+- [ ] Verify approved plan available and reviewed (if `/review` used)
+- [ ] Ensure prerequisites met
+
+---
+
+## 1. Initialization (Mandatory First Step)
+
+### 1.1 Task File Setup
+
+Check for `.gemini_tasks.md` in current directory. If missing, create from template at `~/.gemini/templates/tasks.md`.
+
+### 1.2 Populate from Plan
+
+Extract from approved plan:
+- **Primary Objective:** Goal statement
+- **Risk Level:** TRIVIAL/LOW/MEDIUM/HIGH
+- **Approval Metadata:** Timestamp, review status
+- **Plan Context:** Exploration/planning/review summaries, kbase references
+- **Task Decomposition:** Break plan steps into checklist with risk levels and dependencies
+- **Verification Tasks:** Add testing, linting, build as final tasks
+- **Rollback Strategy:** Document approach and files to backup
+
+### 1.3 Report to User
+
+Announce autonomous implementation starting with:
+- Primary objective
+- Risk level
+- Task count
+- Estimated duration (if known)
+- Task file location
+
+---
+
+## 2. Execution Phase (Core Autonomous Loop)
+
+For each task from **Pending** list:
+
+**2.1 Update Status & Announce**
+- Move task to `In Progress` in `.gemini_tasks.md` with timestamp
+- Briefly state: what will be done, files affected, expected outcome
+
+**2.2 Execute Task**
+- Use Edit/Write/Bash tools appropriately
+- Follow TDD cycle: Red → Green → Refactor
+
+**2.3 Complete & Log**
+- Move to `Completed` with timestamp and outcome notes:
+  - What was accomplished
+  - Files created/modified
+  - Test results (if applicable)
+  - Deviations from plan
+
+**2.4 Re-evaluate**
+- Analyze task outcome vs. expected
+- If new information emerged:
+  - Add/remove/re-prioritize pending tasks
+  - Log significant deviations in Session Notes
+
+---
+
+## 3. Failure Handling Protocol
+
+**On any failure, immediately halt all actions.**
+
+### 3.1 Document Failure
+Log to Session Notes:
+- Full error message and stack trace
+- Failed command/operation
+- File and line number (if applicable)
+- System state and timestamp
+
+### 3.2 Root Cause Analysis
+Briefly determine:
+- **Immediate Cause:** What directly failed
+- **Contributing Factors:** Plan deviation impact?
+- **Impact Assessment:** What's affected
+- **System State:** Is system consistent?
+
+### 3.3 Rollback Assessment
+Determine rollback need:
+- **Partial:** Revert incomplete task changes
+- **Full:** Revert all session changes (if unstable)
+- **None:** If failure leaves acceptable state
+
+Execute rollback if safe, document all actions. If risky, leave as-is and recommend manual intervention.
+
+### 3.4 Report to User
+
+Provide:
+- **Failure Summary:** What failed and when
+- **Root Cause:** Analysis of why
+- **Current State:** Completed/incomplete changes, rollback status, consistency
+- **Next Steps:** Return to `/explore`, revise `/plan`, manual intervention, alternatives
+
+### 3.5 Mode Transition
+Auto-revert to Explorer Mode.
+
+---
+
+## 4. Verification Phase (Final Autonomous Tasks)
+
+After implementation tasks complete:
+
+### 4.1 Execute Verification
+Run from task list:
+- **Tests:** Unit, integration, E2E, performance, security (as planned)
+- **Code Quality:** Linting, type checking, formatting, static analysis
+- **Build:** Process, asset compilation, dependency resolution
+
+### 4.2 Update Results
+Update `Verification Results` section in `.gemini_tasks.md`:
+- Mark each PASS/FAIL/PENDING
+- Record metrics (coverage %, build time)
+- Note warnings/issues
+
+### 4.3 Failure Handling
+If verification fails, trigger **Failure Handling Protocol** (Section 3). Do not proceed to completion.
+
+---
+
+## 5. Post-Completion Validation
+
+After all tasks marked `✅ Completed`:
+
+### 5.1 Final Checks
+- [ ] All tests pass
+- [ ] All code quality checks pass
+- [ ] Build succeeds
+- [ ] Coverage thresholds met
+- [ ] No unintended changes
+- [ ] All plan objectives met
+- [ ] No scope creep
+- [ ] Rollback strategy still viable
+
+### 5.2 Documentation Update
+Update relevant documentation:
+- Code comments
+- README files (if changed)
+- API documentation (if applicable)
+- Architectural decisions (if significant)
+
+### 5.3 Session Summary
+
+Generate comprehensive summary:
+
+**Completed Objectives:** [List achievements]
+**Files Modified/Created:** [List with descriptions]
+**Test Results:** [Summary and coverage metrics]
+**Verification Metrics:** [Code quality, build, performance]
+**Notable Deviations:** [Changes from plan with rationale]
+**Lessons Learned:** [Insights and recommendations]
+
+### 5.4 Mode Transition
+Announce successful completion, present summary, auto-revert to Explorer Mode, suggest next steps.
+
+---
+
+## Boundaries & Constraints
+
+**MUST:**
+- Update `.gemini_tasks.md` after every significant action
+- Follow plan precisely unless re-evaluation justifies deviation
+- Document all deviations with rationale
+- Execute verification before declaring completion
+- Halt immediately on failure
+- Revert to Explorer Mode on completion/failure
+
+**MUST NOT:**
+- Skip verification steps
+- Continue after failure
+- Make undocumented out-of-scope changes
+- Ignore test failures
+- Leave system in inconsistent state
+
+**SHOULD:**
+- Be verbose in task file logging
+- Announce each major action
+- Celebrate small wins
+- Be honest about failures
+- Provide actionable next steps
+
+---
+
+**Remember:** Builder Mode is privileged and temporary. Execute the approved plan faithfully while maintaining complete transparency through task tracking. When in doubt, halt and revert to Explorer Mode.
+"""

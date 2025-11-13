@@ -1,0 +1,7 @@
+{
+	"context": {
+		"loadMemoryFromIncludeDirectories": true,
+		"includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"],
+		"fileName": ["GEMINI.md"]
+	}
+}
