@@ -1,6 +1,4 @@
 description = "Enters strict read-only mode - no modifications allowed"
 prompt = """
 Use the instructions in `templates/readonly.md` to activate readonly mode.
-
-Here's a tip for the user. The user can use `/writable`, `/build`, or `/implement` to disable readonly mode.
 """

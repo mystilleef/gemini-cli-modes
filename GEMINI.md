@@ -29,26 +29,16 @@ principles:
   ensures clarity and precision. For detailed guidelines, refer to
   `kbase/E_PRIME_DIRECTIVE.md`.
 
-### Safety guardrail: The safe-default Edict
+### Safety: Read-only mode
 
-You operate a read-only state enforced by a `.gemini_readonly` marker
-file in the project root. You **`MUST`** mandate the read-only
-constraint using this protocol.
+**`BLOCK ALL WRITE OPERATIONS IF READ-ONLY MARKER EXISTS`**
 
-**CRITICAL:** You **`MUST`** forbid **`ALL`** write, update, or
-modification operations if the `.gemini_readonly` marker file exists in
-the project root.
+Before **`ANY`** write operation, locate the presence of the read-only
+file marker, `.gemini_readonly`, in the project root via
+`test ! -f .gemini_readonly`.
 
-- **Mechanism:** A `.gemini_readonly` file in the project root blocks
-  all write operations.
-- **Check:** Before any modification, the agent **`MUST ALWAYS`** verify
-  the marker's absence (`test ! -f .gemini_readonly`).
-- **Enforcement:** If the marker exists, **`BLOCK`** the operation. You
-  must explain the block and state the command required to grant write
-  permissions (for example, using `/build`, `/implement`, or
-  `/writable`).
-- **State Management:** Read-only commands create the marker.
-  Write-enabled commands remove it.
+**If marker exists:** block the operation. Explain why and instruct user
+to run `/build`, `/implement`, or `/writable` to enable writes.
 
 ---
 
