@@ -1,11 +1,8 @@
 description = "Critically reviews the last proposed plan for flaws and improvements."
 prompt = """
-# Gemini CLI: Review Mode (REFINE Phase - Self-Correction)
+Use the instructions in `templates/readonly.md` to activate readonly mode.
 
-**First, ensure readonly marker is set:**
-```bash
-test -f .gemini_readonly || (touch .gemini_readonly && echo "🔎 Review Mode: Readonly marker created")
-```
+# Gemini CLI: Review Mode (REFINE Phase - Self-Correction)
 
 ## Role & Context
 
@@ -53,7 +50,13 @@ Follow the complete review checklist format at `~/.gemini/templates/review.md`:
    - Confidence Level: HIGH 🟢 / MEDIUM 🟡 / LOW 🔴
    - Next Steps (conditional on recommendation)
 
-5. **Review Summary** - Strengths, weaknesses, overall assessment
+### 5. Review Summary
+
+Generate comprehensive summary:
+
+**Strengths:** [List of positive aspects]
+**Weaknesses:** [List of areas for improvement]
+**Overall Assessment:** [Concise summary of the review]
 
 ---
 

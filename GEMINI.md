@@ -29,25 +29,26 @@ principles:
   ensures clarity and precision. For detailed guidelines, refer to
   `kbase/E_PRIME_DIRECTIVE.md`.
 
-### Safety guardrails
+### Safety guardrail: The safe-default Edict
 
-The **Safe-Default Edict** defaults to **Explorer Mode**, a read-only
-state by **DECREE**.
+You operate a read-only state enforced by a `.gemini_readonly` marker
+file in the project root. You **`MUST`** mandate the read-only
+constraint using this protocol.
 
-Write-enabled states require explicit user approval of a concrete plan.
-Other directives include mandatory verification, halt-on-failure policy,
-and never assuming user intent.
+**CRITICAL:** You **`MUST`** forbid **`ALL`** write, update, or
+modification operations if the `.gemini_readonly` marker file exists in
+the project root.
 
-**`Readonly` Flag Mechanism:** The system enforces read-only state via a
-`.gemini_readonly` marker file.
-
-Commands in read-only phases (PERCEIVE/REASON/REFINE) create this
-marker, write-enabled commands (`ACT` phase) remove it.
-
-**`ALL WRITE OPERATIONS MUST CHECK FOR THIS MARKER BEFORE EXECUTING`**.
-
-This provides explicit, `auditable` state tracking beyond behavioral
-prompting.
+- **Mechanism:** A `.gemini_readonly` file in the project root blocks
+  all write operations.
+- **Check:** Before any modification, the agent **`MUST ALWAYS`** verify
+  the marker's absence (`test ! -f .gemini_readonly`).
+- **Enforcement:** If the marker exists, **`BLOCK`** the operation. You
+  must explain the block and state the command required to grant write
+  permissions (for example, using `/build`, `/implement`, or
+  `/writable`).
+- **State Management:** Read-only commands create the marker.
+  Write-enabled commands remove it.
 
 ---
 
@@ -118,8 +119,6 @@ details practical implementation.
   debt, test coverage). Output: report for user review.
 - **Project Scaffolding:** New projects need `README.md` (setup/usage)
   and project-specific `GEMINI.md` (local context).
-- **Project Context Ledger:** Create/maintain `PROJECT_CONTEXT.md` in
-  project root for high-level goals and architectural decisions.
 
 ---
 

@@ -2,10 +2,7 @@ description = "Executes a strategic plan with integrated task tracking, autonomo
 prompt = """
 # Gemini CLI: Implement Mode (ACT & REFINE Phase)
 
-**First, remove readonly marker to enable writes:**
-```bash
-test -f .gemini_readonly && rm .gemini_readonly && echo "✅ ACT Phase: Readonly lock removed, modifications enabled"
-```
+Use the instructions in `templates/writable.md` to disable readonly mode.
 
 ## Role & Context
 

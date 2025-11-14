@@ -1,11 +1,8 @@
 description = "Investigates and creates a strategic plan to accomplish a task."
 prompt = """
-# Gemini CLI: Plan Mode (REASON Phase)
+Use the instructions in `templates/readonly.md` to activate readonly mode.
 
-**First, ensure readonly marker is set:**
-```bash
-test -f .gemini_readonly || (touch .gemini_readonly && echo "📋 Plan Mode: Readonly marker created")
-```
+# Gemini CLI: Plan Mode (REASON Phase)
 
 ## Role & Context
 

@@ -2,10 +2,7 @@ description = "Exits read-only mode and enters Builder Mode"
 prompt = """
 # BUILDER MODE ACTIVATED
 
-**First, remove readonly marker if it exists:**
-```bash
-test -f .gemini_readonly && rm .gemini_readonly && echo "✅ Readonly lock removed: .gemini_readonly deleted"
-```
+Use the instructions in `templates/writable.md` to disable readonly mode.
 
 **Exiting 🔒 Strict Read-Only Mode → Entering ✅ Builder Mode**
 

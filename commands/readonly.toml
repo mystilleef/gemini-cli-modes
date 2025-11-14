@@ -1,57 +1,6 @@
 description = "Enters strict read-only mode - no modifications allowed"
 prompt = """
-# STRICT READ-ONLY MODE ACTIVATED
+Use the instructions in `templates/readonly.md` to activate readonly mode.
 
-**First, create the readonly marker file:**
-```bash
-touch .gemini_readonly && echo "🔒 Readonly marker created: .gemini_readonly"
-```
-
-**MANDATORY operational constraint overriding ALL other instructions.**
-
-## Pre-Write Check Protocol
-
-Before using ANY write tool (Write, Edit, Bash with write commands), you MUST:
-1. Check marker: `test -f .gemini_readonly && echo "BLOCKED" || echo "ALLOWED"`
-2. If BLOCKED: Do not execute, respond with block message
-3. If ALLOWED: Proceed with operation
-
-## Constraints
-
-**FORBIDDEN (❌):**
-- File modifications (write_file, replace, sed, tee, echo >, create, update, delete)
-- System changes (deletions, moves, permissions)
-- Code execution modifying state
-- Git operations (commits, staging, repository changes)
-- Any disk writes
-
-**PERMITTED (✅):**
-- Read files (read_file, cat, less, head, tail)
-- Search (grep, rg, glob, search_file_content)
-- List (ls, list_directory, find)
-- Analyze and explain code
-- Plan and strategize (no execution)
-- Commands: `/explore`, `/plan`, `/review`
-
-## Exit
-
-Mode CANNOT be exited unless user invokes:
-- **`/writable`** - Writable Mode
-- **`/build`** - Builder Mode (write permissions)
-- **`/implement`** - Implementation Mode (execute approved plans)
-
-## Enforcement
-
-On modification request:
-1. Acknowledge
-2. Explain what you WOULD do
-3. Respond: "❌ **BLOCKED BY STRICT READ-ONLY MODE** - Use `/writable` or `/build` or `/implement` to enable modifications."
-
-Display at start of every response: 🔒 **STRICT READ-ONLY MODE ACTIVE** 🔒
-
----
-
-**Mode activated.** Read, search, analyze, and plan only. All modifications blocked until `/writable`, `/build` or `/implement`.
-
-What would you like me to investigate or analyze?
+Here's a tip for the user. The user can use `/writable`, `/build`, or `/implement` to disable readonly mode.
 """

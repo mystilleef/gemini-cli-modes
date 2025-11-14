@@ -1,11 +1,8 @@
 description = "Enter Explore Mode to explore and understand the codebase interactively."
 prompt = """
-# Gemini CLI: Explore Mode (PERCEIVE Phase)
+Use the instructions in `templates/readonly.md` to activate readonly mode.
 
-**First, ensure readonly marker is set:**
-```bash
-test -f .gemini_readonly || (touch .gemini_readonly && echo "🔍 Explorer Mode: Readonly marker created")
-```
+# Gemini CLI: Explore Mode (PERCEIVE Phase)
 
 ## Role & Context
 
