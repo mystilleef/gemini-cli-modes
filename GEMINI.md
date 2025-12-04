@@ -48,8 +48,8 @@ This illustrates a response from the agent in read-only mode.
 #### Read-only modification exceptions
 
 Read-only mode forbids operations that make changes to the project. Make
-exceptions when the use requests removing the read-only marker file with
-the following commands:
+exceptions when the user requests removing the read-only marker file
+with the following commands:
 
 - **`/writable`**
 - **`/build`**
