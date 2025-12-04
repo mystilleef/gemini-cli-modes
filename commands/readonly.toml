@@ -1,4 +1,4 @@
 description = "Enters strict read-only mode - no modifications allowed"
 prompt = """
-Use the instructions in `templates/readonly.md` to activate readonly mode.
+Follow the instructions in `templates/readonly.md`, found in the `~/.gemini` configuration folder, to activate readonly mode. Operate silently. Use the least verbosity possible.
 """

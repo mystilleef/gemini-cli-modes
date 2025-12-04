@@ -1,7 +1,69 @@
 {
 	"context": {
 		"loadMemoryFromIncludeDirectories": true,
-		"includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"],
-		"fileName": ["GEMINI.md"]
+		"includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"]
+	},
+	"modelConfigs": {
+		"customAliases": {
+			"base": {
+				"modelConfig": {
+					"generateContentConfig": {
+						"temperature": 0.1,
+						"topP": 0.95
+					}
+				}
+			},
+			"chat-base": {
+				"extends": "base",
+				"modelConfig": {
+					"generateContentConfig": {
+						"temperature": 0.2,
+						"topP": 0.9,
+						"topK": 1
+					}
+				}
+			}
+		}
+	},
+	"hooks": {
+		"SessionStart": [
+			{
+				"matcher": "*",
+				"hooks": [
+					{
+						"name": "remind-readonly-session-start",
+						"type": "command",
+						"command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
+						"description": "Injects readonly mode reminders into agent context at startup"
+					}
+				]
+			}
+		],
+		"BeforeAgent": [
+			{
+				"matcher": "*",
+				"hooks": [
+					{
+						"name": "remind-readonly-before-agent",
+						"type": "command",
+						"command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
+						"description": "Injects readonly mode reminders into agent context"
+					}
+				]
+			}
+		],
+		"BeforeTool": [
+			{
+				"matcher": "WriteFile|Edit|write_file|replace",
+				"hooks": [
+					{
+						"name": "enforce-readonly",
+						"type": "command",
+						"command": "~/.gemini/hooks/enforce-readonly.sh",
+						"description": "Blocks write operations when .gemini_readonly exists"
+					}
+				]
+			}
+		]
 	}
 }
