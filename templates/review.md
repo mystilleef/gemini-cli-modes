@@ -186,7 +186,7 @@ Based on the multi-perspective analysis:
   - [Suggest alternative approaches if applicable]
 
 **If REJECT ❌:**
-- Return to `/explore` for additional context
+Return to Explorer Mode for additional context
 - Fundamental issues with approach:
   - [Explain why the plan cannot be salvaged with revision]
   - [Suggest alternative investigation areas]

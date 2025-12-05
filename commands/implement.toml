@@ -112,7 +112,7 @@ Provide:
 - **Failure Summary:** What failed and when
 - **Root Cause:** Analysis of why
 - **Current State:** Completed/incomplete changes, rollback status, consistency
-- **Next Steps:** Return to `/explore`, revise `/plan`, manual intervention, alternatives
+Return to Explorer Mode, revise /plan, manual intervention, alternatives
 
 ### 3.5 Mode Transition
 Auto-revert to Explorer Mode.

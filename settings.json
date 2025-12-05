@@ -28,6 +28,17 @@
 	"hooks": {
 		"SessionStart": [
 			{
+				"matcher": "startup",
+				"hooks": [
+					{
+						"name": "enable-readonly-startup",
+						"type": "command",
+						"command": "~/.gemini/hooks/enable-readonly-startup.sh",
+						"description": "Enables readonly mode automatically when a session starts"
+					}
+				]
+			},
+			{
 				"matcher": "*",
 				"hooks": [
 					{
@@ -48,6 +59,12 @@
 						"type": "command",
 						"command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
 						"description": "Injects readonly mode reminders into agent context"
+					},
+					{
+						"name": "enforce-eprime",
+						"type": "command",
+						"command": "~/.gemini/hooks/enforce-eprime.sh",
+						"description": "Enforces E-Prime directive by injecting system message"
 					}
 				]
 			}
@@ -66,4 +83,3 @@
 			}
 		]
 	}
-}

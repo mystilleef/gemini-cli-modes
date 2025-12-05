@@ -1,38 +1,55 @@
-# Gemini CLI Operational Modes: A Structured Workflow
+# Gemini CLI operational modes: a structured workflow
 
-This project provides a set of custom commands and templates to enforce a structured, mode-based workflow for the Gemini CLI agent. These modes guide the agent through the distinct phases of a software engineering task—Perceive, Reason, Act, and Refine (PRAR)—ensuring a safe, deliberate, and verifiable process.
+This project provides a set of custom commands and templates to enforce
+a structured, mode-based workflow for the Gemini CLI agent. These modes
+guide the agent through the distinct phases of a software engineering
+task—Perceive, Reason, Act, and Refine (PRAR)—ensuring a safe,
+deliberate, and verifiable process.
 
-**Important:** To begin a session, it is recommended to start by using the `/readonly` command to ensure the agent is in a safe, read-only state.
+**Important:** To begin a session, start by using the `/readonly`
+command to ensure the agent operates in a safe, read-only state.
 
-## Core Concepts: Operational Modes
+## Core concepts: Operational modes
 
-Each custom command transitions the Gemini CLI agent into a specific **operational mode**, each with its own set of permissions and protocols. The core of this system is the `.gemini_readonly` marker file, which enforces a "Safe-Default" state, preventing accidental modifications.
+Each custom command transitions the Gemini CLI agent into a specific
+**operational mode**, each with its own set of permissions and
+protocols. The system relies on the `.gemini_readonly` marker file,
+which enforces a "Safe-Default" state, preventing accidental
+modifications.
 
-- **Read-Only Modes (`/readonly`, `/explore`, `/plan`, `/review`):** These modes are for investigation, analysis, and planning. All file modification tools are disabled.
-- **Write-Enabled Modes (`/writable`, `/build`, `/implement`):** These modes are for executing an approved plan. The `.gemini_readonly` marker is removed, and file modification tools are enabled under strict protocols.
+- **Read-Only Modes (`/readonly`, `/plan`, `/review`):** These modes
+  enable investigation, analysis, and planning. The system disables all
+  file modification tools.
+- **Write-Enabled Modes (`/writable`, `/build`, `/implement`):** These
+  modes allow executing an approved plan. The agent removes the
+  `.gemini_readonly` marker and enables file modification tools under
+  strict protocols.
 
-## Setup and Installation
+## Setup and installation
 
-To use these custom modes, you need to place the project files into your `~/.gemini/` directory and configure your `settings.json` file.
+To use these custom modes, place the project files into your
+`~/.gemini/` directory and configure your `settings.json` file.
 
-### 1. Required Directory Structure
+### 1. Required directory structure
 
-Place the files and directories from this project directly inside your `~/.gemini/` directory. Your `~/.gemini/` folder should look like this:
+Place the files and directories from this project directly inside your
+`~/.gemini/` directory. Your `~/.gemini/` folder should look like this:
 
-```
+```bash
 ~/.gemini/
 ├── settings.json
 ├── SYSTEM.md                    # Foundational operating principles
 ├── GEMINI.md                    # Project-specific directives
 ├── commands/
 │   ├── build.toml
-│   ├── explore.toml
 │   ├── implement.toml
 │   ├── plan.toml
 │   ├── readonly.toml
 │   ├── review.toml
 │   └── writable.toml
-├── hooks/                        # Read-only enforcement scripts
+├── hooks/                        # Enforcement and behavior hooks
+│   ├── enable-readonly-startup.sh
+│   ├── enforce-eprime.sh
 │   ├── enforce-readonly.sh
 │   └── remind-readonly-dynamic.sh
 ├── kbase/
@@ -46,74 +63,102 @@ Place the files and directories from this project directly inside your `~/.gemin
     └── writable.md
 ```
 
-### 2. `settings.json` Configuration
+### 2. `settings.json` configuration
 
-The `settings.json` file is crucial for the Gemini CLI agent to locate the `kbase` and `templates` directories, load the main `GEMINI.md` directive, and configure the required hooks. Copy the `settings.json` file from this project to your `~/.gemini/` directory. The file includes:
+The `settings.json` file plays a crucial role for the Gemini CLI agent
+to locate the `kbase` and `templates` directories, load the main
+`GEMINI.md` directive, and configure the required hooks. Copy the
+`settings.json` file from this project to your `~/.gemini/` directory.
+The file includes:
 
 - Context configuration for loading knowledge base and templates
 - Model aliases for temperature and output control
 - Hook definitions for read-only enforcement
 
 **Key hooks configured:**
-- `SessionStart`: Injects readonly reminders when session begins
-- `BeforeAgent`: Injects readonly reminders before agent execution
-- `BeforeTool`: Blocks write operations (`WriteFile`, `Edit`, etc.) when `.gemini_readonly` marker exists
 
-Here's what the configuration looks like:
+- `SessionStart`: Creates `.gemini_readonly` marker and injects
+  `readonly` reminders when session begins
+- `BeforeAgent`: Injects `readonly` reminders and enforces E-Prime
+  communication protocol before agent execution
+- `BeforeTool`: Blocks write operations (`WriteFile`, `Edit`, etc.) when
+  `.gemini_readonly` marker exists
+
+The configuration follows this structure:
 
 ```json
 {
-	"context": {
-		"loadMemoryFromIncludeDirectories": true,
-		"includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"]
-	},
-	"hooks": {
-		"SessionStart": [
-			{
-				"matcher": "*",
-				"hooks": [
-					{
-						"name": "remind-readonly-session-start",
-						"type": "command",
-						"command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
-						"description": "Injects readonly mode reminders into agent context at startup"
-					}
-				]
-			}
-		],
-		"BeforeAgent": [
-			{
-				"matcher": "*",
-				"hooks": [
-					{
-						"name": "remind-readonly-before-agent",
-						"type": "command",
-						"command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
-						"description": "Injects readonly mode reminders into agent context"
-					}
-				]
-			}
-		],
-		"BeforeTool": [
-			{
-				"matcher": "WriteFile|Edit|write_file|replace",
-				"hooks": [
-					{
-						"name": "enforce-readonly",
-						"type": "command",
-						"command": "~/.gemini/hooks/enforce-readonly.sh",
-						"description": "Blocks write operations when .gemini_readonly exists"
-					}
-				]
-			}
-		]
-	}
+  "context": {
+    "loadMemoryFromIncludeDirectories": true,
+    "includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "name": "enable-readonly-startup",
+            "type": "command",
+            "command": "~/.gemini/hooks/enable-readonly-startup.sh",
+            "description": "Enables readonly mode automatically when a session starts"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "remind-readonly-session-start",
+            "type": "command",
+            "command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
+            "description": "Injects readonly reminders into agent context at startup"
+          }
+        ]
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "remind-readonly-before-agent",
+            "type": "command",
+            "command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
+            "description": "Injects readonly mode reminders into agent context"
+          },
+          {
+            "name": "enforce-eprime",
+            "type": "command",
+            "command": "~/.gemini/hooks/enforce-eprime.sh",
+            "description": "Enforces E-Prime directive by injecting system message"
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "WriteFile|Edit|write_file|replace",
+        "hooks": [
+          {
+            "name": "enforce-readonly",
+            "type": "command",
+            "command": "~/.gemini/hooks/enforce-readonly.sh",
+            "description": "Blocks write operations when .gemini_readonly exists"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
-### 3. `SYSTEM.md` Configuration (Environment Variable Setup)
+### 3. `SYSTEM.md` configuration (environment variable setup)
 
-The `SYSTEM.md` file provides foundational operating principles including the PRAR method, safety philosophy, risk assessment framework, and operational modes. This file overrides the agent's core directives when properly configured.
+The `SYSTEM.md` file provides foundational operating principles
+including the PRAR method, safety philosophy, risk assessment framework,
+and operational modes. This file overrides the agent's core directives
+when properly configured.
 
 **To enable `SYSTEM.md`:**
 
@@ -130,29 +175,50 @@ echo 'export GEMINI_SYSTEM_MD="~/.gemini/SYSTEM.md"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-**Important:** The `GEMINI_SYSTEM_MD` environment variable must be set for `SYSTEM.md` to take effect. Without this variable, the agent will use its default core directives.
+**Important:** The `GEMINI_SYSTEM_MD` environment variable must exist
+for `SYSTEM.md` to take effect. Without this variable, the agent uses
+its default core directives.
 
 ---
 
-### 4. `GEMINI.md` Directive Configuration
+### 4. `GEMINI.md` directive configuration
 
-You have two options for configuring your main `GEMINI.md` directive, which is loaded via the `settings.json` file.
+Choose between two options for configuring your main `GEMINI.md`
+directive, which loads via the `settings.json` file.
 
-#### Option A (Recommended): Full Integration
+#### Option A (recommended): Full integration
 
-For the most robust experience, use the full configuration provided in this project:
+For the most robust experience, use the full configuration provided in
+this project:
 
-1.  Place the `SYSTEM.md` file at the root of your `~/.gemini/` directory (and set `GEMINI_SYSTEM_MD` environment variable per section 3).
-2.  Place the `GEMINI.md` file at the root of your `~/.gemini/` directory.
-3.  Place the `kbase/` directory at the root of your `~/.gemini/` directory.
-4.  Place the `hooks/` directory at the root of your `~/.gemini/` directory.
-5.  Configure hooks in your `~/.gemini/settings.json` (see "Hooks Integration" section below). **This is required for the read-only system to function.**
+1. Place the `SYSTEM.md` file at the root of your `~/.gemini/` directory
+   (and set `GEMINI_SYSTEM_MD` environment variable per section 3).
+2. Place the `GEMINI.md` file at the root of your `~/.gemini/`
+   directory.
+3. Place the `kbase/` directory at the root of your `~/.gemini/`
+   directory.
+4. Place the `hooks/` directory at the root of your `~/.gemini/`
+   directory.
+5. Configure hooks in your `~/.gemini/settings.json` (see "Hooks
+   integration" section below). **This step ensures the read-only system
+   functions correctly.**
 
-The `SYSTEM.md` provides core foundational principles (via `GEMINI_SYSTEM_MD` environment variable), while `GEMINI.md` provides project-specific directives and protocols. The `kbase/` directory supplies detailed reference documentation. Together they create a comprehensive operational framework ensuring the agent fully understands and adheres to the underlying protocols and architectural knowledge base.
+`SYSTEM.md` establishes core foundational principles (via
+`GEMINI_SYSTEM_MD` environment variable), while `GEMINI.md` provides
+project-specific directives and protocols. The `kbase/` directory
+supplies detailed reference documentation. Together they create a
+comprehensive operational framework ensuring the agent fully understands
+and adheres to the underlying protocols and architectural knowledge
+base.
 
-#### Option B: Custom Directive Integration
+#### Option B: Custom directive integration
 
-If you prefer to use your own `GEMINI.md` directive, you **must** ensure it is located in a directory specified in `settings.json`'s `includeDirectories` (or directly in `~/.gemini/` if `fileName` includes it). Additionally, you **must** add a rule to it that forbids write tools when the `.gemini_readonly` marker is present. Add the following section to your main directive prompt:
+If you prefer to use your own `GEMINI.md` directive, you **must** ensure
+it resides in a directory specified in `settings.json`'s
+`includeDirectories` (or directly in `~/.gemini/` if `fileName` includes
+it). Additionally, you **must** add a rule to it that forbids write
+tools when the `.gemini_readonly` marker exists. Add the following
+section to your main directive prompt:
 
 ```markdown
 # STRICT READ-ONLY MODE
@@ -161,128 +227,261 @@ If you prefer to use your own `GEMINI.md` directive, you **must** ensure it is l
 
 ## Pre-Write Check Protocol
 
-Before using ANY write tool (Write, Edit, Bash with write commands), you MUST:
-1. Check for the marker: `test -f .gemini_readonly && echo "BLOCKED" || echo "ALLOWED"`
-2. If the result is "BLOCKED": Do not execute the write operation and respond with a block message.
+Before using ANY write tool (Write, Edit, Bash with write commands), you
+MUST:
+
+1. Check for the marker:
+   `test -f .gemini_readonly && echo "BLOCKED" || echo "ALLOWED"`
+2. If the result is "BLOCKED": Do not execute the write operation and
+   respond with a block message.
 3. If the result is "ALLOWED": You may proceed with the operation.
 
 ## Enforcement
 
 On any modification request while in read-only mode:
+
 1. Acknowledge the request.
 2. Explain what you WOULD do.
-3. Respond: "❌ **BLOCKED BY STRICT READ-ONLY MODE** - Use `/writable`, `/build`, or `/implement` to enable modifications."
+3. Respond: "❌ **BLOCKED BY STRICT READ-ONLY MODE** - Use `/writable`,
+   `/build`, or `/implement` to enable modifications."
 ```
 
-### 5. `.gitignore` Configuration
+### 5. `.gitignore` configuration
 
-To prevent the temporary `.gemini_readonly` marker from being committed to your projects, add it to your global or project-specific `.gitignore` file.
+To prevent committing the temporary `.gemini_readonly` marker to your
+projects, add it to your global or project-specific `.gitignore` file.
 
-```
+```bash
 # .gitignore
 .gemini_readonly
 ```
 
-### 6. Note on Portability
+### 6. Note on portability
 
-All configuration files and templates in this project use `~` (tilde) for home directory references, making the project portable across different systems and users without requiring path modifications.
+All configuration files and templates in this project use `~` (tilde)
+for home directory references, making the project portable across
+different systems and users without requiring path modifications.
 
-## Hooks Integration (Required)
+## Hooks integration (required)
 
-This project includes shell hooks that are **required** for the read-only mode system to function properly. These hooks enforce read-only mode at the system level and are critical to the security model.
+This project includes shell hooks that the read-only mode system
+**requires** to function properly. These hooks enforce read-only mode at
+the system level and serve as a critical component of the security
+model.
 
-**Requirement:** Hooks require the nightly version of the Gemini CLI app. Ensure you have the nightly build installed. Check your Gemini CLI version with `gemini --version` and update to the nightly release if you haven't already.
+**Prerequisite:** Hooks require the nightly version of the Gemini CLI
+app. Ensure you have the nightly build installed. Check your Gemini CLI
+version with `gemini --version` and update to the nightly release if you
+haven't already.
 
-### Available Hooks
+### Available hooks
 
 #### `enforce-readonly.sh`
-Blocks write operations when the `.gemini_readonly` marker exists. Returns a JSON response denying the operation with clear messaging. This script acts as a pre-flight check before any write tools execute.
+
+Blocks write operations when the `.gemini_readonly` marker exists.
+Returns a JSON response denying the operation with clear messaging. This
+script functions as a pre-flight check before any write tools execute.
 
 **Location:** `~/.gemini/hooks/enforce-readonly.sh`
 
 #### `remind-readonly-dynamic.sh`
-Dynamically injects read-only reminders into agent context based on hook events. Outputs contextual system messages reinforcing read-only constraints and operational directives.
+
+Dynamically injects read-only reminders into agent context based on hook
+events. Outputs contextual system messages reinforcing read-only
+constraints and operational directives.
 
 **Location:** `~/.gemini/hooks/remind-readonly-dynamic.sh`
 
-### How Hooks Work
+#### `enable-readonly-startup.sh`
 
-The hooks are configured in `settings.json` and operate as follows:
+Automatically creates the `.gemini_readonly` marker file when a new
+session starts, ensuring all sessions begin in read-only mode by default
+(Safe-Default principle). This hook runs once at session initialization.
 
-1. **SessionStart hook**: When you start a Gemini CLI session, `remind-readonly-dynamic.sh` executes and injects readonly mode context
-2. **BeforeAgent hook**: Before the agent processes any input, the reminder hook runs to reinforce readonly constraints
-3. **BeforeTool hook**: When the agent attempts to use write tools (`WriteFile`, `Edit`, `write_file`, `replace`), the `enforce-readonly.sh` hook intercepts and blocks the operation if `.gemini_readonly` marker exists
+**Location:** `~/.gemini/hooks/enable-readonly-startup.sh`
 
-The hooks use pattern matching (`matcher` field) to apply only when relevant:
-- `SessionStart` and `BeforeAgent`: Apply to all commands (`matcher: "*"`)
-- `BeforeTool`: Apply only to write operations (`matcher: "WriteFile|Edit|write_file|replace"`)
+#### `enforce-eprime.sh`
 
-No additional configuration is needed—hooks are pre-configured in the provided `settings.json` file.
+Enforces the E-Prime communication protocol by injecting system messages
+that remind the agent to avoid `to be` verbs. E-Prime encourages more
+precise, active language and clearer technical communication.
+
+**Location:** `~/.gemini/hooks/enforce-eprime.sh`
+
+### How hooks work
+
+The `settings.json` file configures the hooks to operate as follows:
+
+1. **SessionStart hooks**: When you start a Gemini CLI session:
+   - First, `enable-readonly-startup.sh` executes to create the
+     `.gemini_readonly` marker (Safe-Default principle)
+   - Then, `remind-readonly-dynamic.sh` executes and injects `readonly`
+     mode context
+
+2. **BeforeAgent hooks**: Before the agent processes any input:
+   - `remind-readonly-dynamic.sh` runs to reinforce `readonly`
+     constraints
+   - `enforce-eprime.sh` runs to inject E-Prime communication reminders
+
+3. **BeforeTool hook**: When the agent attempts to use write tools
+   (`WriteFile`, `Edit`, `write_file`, `replace`), the
+   `enforce-readonly.sh` hook intercepts and blocks the operation if
+   `.gemini_readonly` marker exists
+
+The hooks use pattern matching (`matcher` field) to apply only when
+relevant:
+
+- `SessionStart:` Two `matchers` configured:
+  - `matcher: "startup"` for `enable-readonly-startup.sh` (runs once at
+    session start)
+  - `matcher: "*"` for `remind-readonly-dynamic.sh` (runs on all startup
+    events)
+- `BeforeAgent`: `matcher: "*"` applies both hooks to all agent
+  executions
+- `BeforeTool`: `matcher: "WriteFile|Edit|write_file|replace"` applies
+  only to write operations
+
+The system requires no further configuration—hooks come pre-configured
+in the provided `settings.json` file.
 
 ---
 
-## Understanding the Operational Modes
+## Understanding the operational modes
 
 ### `/readonly`
+
 - **Mode:** Strict Read-Only
 - **Phase:** PERCEIVE
-- **Description:** The default, most restrictive mode. Forbids all write operations.
+- **Description:** The default, most restrictive mode forbids all write
+  operations.
 
-### `/explore`
+### Explorer mode (default)
+
 - **Mode:** Explorer Mode
 - **Phase:** PERCEIVE
-- **Description:** For understanding code, mapping dependencies, and reviewing tests.
+- **Description:** The default read-only mode for understanding code,
+  mapping dependencies, and reviewing tests. This mode activates by
+  default when a session starts (via `.gemini_readonly` marker). Note:
+  The project removed the `/explore` command; Explorer Mode now
+  functions as the default operational state.
 
 ### `/plan`
+
 - **Mode:** Plan Mode
 - **Phase:** REASON
-- **Description:** For creating a comprehensive, strategic plan to achieve a goal.
+- **Description:** For creating a comprehensive, strategic plan to
+  achieve a goal.
 
 ### `/review`
+
 - **Mode:** Review Mode
 - **Phase:** REFINE
-- **Description:** For critically self-reviewing a plan before execution.
+- **Description:** For critically self-reviewing a plan before
+  execution.
 
 ### `/build`
+
 - **Mode:** Builder Mode
-- **Phase:** ACT & REFINE
-- **Description:** A write-enabled mode for executing plans and building solutions.
+- **Phase:** Act & REFINE
+- **Description:** A write-enabled mode for executing plans and building
+  solutions.
 
 ### `/implement`
-- **Mode:** Implement Mode
-- **Phase:** ACT & REFINE
-- **Description:** A more structured version of Builder Mode for autonomous plan execution.
+
+- **Mode:** `Execution` Mode
+- **Phase:** Act & REFINE
+- **Description:** A more structured version of Builder Mode for
+  autonomous plan execution.
 
 ### `/writable`
+
 - **Mode:** Writable Mode
-- **Phase:** ACT
-- **Description:** Removes the read-only lock, permitting direct write operations without a formal plan.
+- **Phase:** Act
+- **Description:** Removes the read-only lock, permitting direct write
+  operations without a formal plan.
 
-## Illustrative Workflow Example
+## `E-Prime` Communication protocol
 
-Here is a typical workflow for using these modes to fix a bug:
+E-Prime represents a variant of English that excludes all forms of the
+verb `to be`. This project enforces E-Prime through the
+`enforce-eprime.sh` hook to encourage more precise, active technical
+communication.
 
-1.  **Start in Read-Only Mode:** Begin your session by issuing the `/readonly` command to ensure the agent is in a safe state.
-2.  **/explore:** You ask the agent to investigate the bug. It uses read-only tools to understand the relevant code and its test coverage.
-3.  **/plan:** Once enough context is gathered, you ask the agent to create a plan. It outlines the steps to fix the bug and, crucially, how to verify the fix.
-4.  **/review:** The agent performs a self-critique of its plan, checking for flaws from multiple engineering perspectives.
-5.  **/implement:** With an approved plan, you instruct the agent to execute it. The agent removes the read-only lock and performs the changes, runs tests, and verifies the fix.
-6.  **Return to Read-Only:** Upon completion, the agent automatically returns to a safe, read-only mode.
+**Why E-Prime?**
 
-## Alternative Workflows (Expert Use)
+- **Clarity**: Forces more specific, descriptive language
+- **Precision**: Eliminates ambiguous identity statements
+- **Active Voice**: Encourages action-oriented descriptions
+- **Reduced Assumptions**: Prevents treating opinions as facts
 
-While the full `explore` -> `plan` -> `review` -> `implement` cycle provides the most safety and structure, it is not always necessary for simpler tasks or more experienced users. Here are two more direct, less token-intensive workflows.
+**Example transformations:**
 
-### Direct Build Workflow: `/readonly` → `/build`
+- `The bug is in the parser` → `The parser contains the bug`
+- `This is a security issue` → `This presents a security risk`
+- `The code is inefficient` → `The code performs inefficiently`
+- `It was fixed yesterday` → `We fixed it yesterday`
+- `This approach is better` → `This approach performs better`
 
-This workflow is ideal when you have a clear objective and do not need the formal planning and review phases.
+**Note:** The E-Prime hook injects reminders without blocking agent
+responses. It serves as a communication guideline rather than a strict
+enforcement mechanism.
 
-1.  **Start in Read-Only Mode:** Begin with `/readonly`.
-2.  **/build:** Transition directly to the write-enabled "Builder Mode". The agent can now modify files and execute commands, while still benefiting from the structured protocols of this mode.
+---
 
-### Direct Write Workflow: `/readonly` → `/writable`
+## Illustrative workflow example
 
-This is the most direct path to enabling write operations and is suitable for quick, simple edits where the overhead of a structured mode is unnecessary.
+The following list outlines a typical workflow for using these modes to
+fix a bug:
 
-1.  **Start in Read-Only Mode:** Begin with `/readonly`.
-2.  **/writable:** This command removes the `.gemini_readonly` marker, immediately permitting the use of write tools without entering a formal mode.
+1. **Session Starts in Read-Only Mode:** Your session automatically
+   begins with the `.gemini_readonly` marker created by
+   `enable-readonly-startup.sh`, ensuring a safe-default state. You
+   operate in Explorer Mode, which provides read-only access for
+   investigation.
+2. **Explore & Gather Context:** You ask the agent to investigate the
+   bug. It uses read-only tools to understand the relevant code, trace
+   dependencies, and review test coverage.
+3. **/plan:** Once enough context accumulates, you ask the agent to
+   create a strategic plan. It outlines the steps to fix the bug and,
+   crucially, how to verify the fix.
+4. **/review:** The agent performs a self-critique of its plan, checking
+   for flaws from five engineering perspectives (security, QA,
+   architecture, performance, DevOps).
+5. **/implement:** With an approved plan, you instruct the agent to
+   execute it. The agent removes the read-only lock and performs the
+   changes, runs tests, and verifies the fix.
+6. **Return to Read-Only:** Upon completion, the agent automatically
+   returns to a safe, read-only mode with the `.gemini_readonly` marker
+   restored.
+
+## Alternative workflows (expert use)
+
+While the full cycle of `plan`, `review`, and `implement` (with
+automatic initial Explorer Mode) provides the most safety and structure,
+it often exceeds the needs of simpler tasks or more experienced users.
+Here follow two more direct, less token-intensive workflows.
+
+### Direct build workflow: default explorer mode → `/build`
+
+This workflow suits situations where you have a clear goal and don't
+need the formal planning and review phases.
+
+1. **Session Starts in Read-Only Mode:** Your session automatically
+   begins in Explorer Mode with the `.gemini_readonly` marker enabled
+   (Safe-Default).
+2. **/build:** Transition directly to the write-enabled "Builder Mode."
+   The agent can now change files and execute commands, while still
+   benefiting from the structured protocols of this mode.
+
+### Direct write workflow: default explorer mode → `/writable`
+
+This path offers the most direct way to enable write operations and
+suits quick, straightforward edits where the overhead of a structured
+mode proves unnecessary.
+
+1. **Session Starts in Read-Only Mode:** Your session automatically
+   begins in Explorer Mode with the `.gemini_readonly` marker enabled
+   (Safe-Default).
+2. **/writable:** This command removes the `.gemini_readonly` marker,
+   immediately permitting the use of write tools without entering a
+   formal mode.

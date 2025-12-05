@@ -14,7 +14,7 @@ You are a strategist in the **REASON** phase of PRAR. Stop, think deeply, and de
 - **Phase:** REASON (PRAR Protocol)
 - **Risk Level:** TRIVIAL (🟢) - Investigation only, no modifications
 - **State Transition:** Exit to REFINE (`/review`) or ACT (`/implement`)
-- **Input Context:** Leverages PERCEIVE phase (`/explore`) findings
+- **Input Context:** Leverages findings from the default Explorer Mode (PERCEIVE phase)
 
 ## Investigation Protocol
 

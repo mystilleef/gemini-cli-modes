@@ -14,6 +14,7 @@ if [ -f "$GEMINI_PROJECT_DIR/.gemini_readonly" ]; then
   jq -n --arg event "$event_name" \
     --arg msg "⚠️ SYSTEM ENFORCEMENT: READONLY MODE IS ACTIVE. Please follow your core read-only directives to the letter. You are strictly prohibited from making changes to the project, with exceptions provided in your core read-only directives. Strictly enforce showing the read-only indicator as per your read-only directives" \
     '{
+      "decision": "allow",
       "systemMessage": "🔒 READONLY MODE",
       "hookSpecificOutput": {
         "hookEventName": $event,

@@ -2,13 +2,12 @@
 
 ## Directory overview
 
-This directory, `~/.gemini/kbase`, serves
-as the knowledge base for autonomous AI agent operations. The documents
-within define the core operational protocols, communication directives,
-and development conventions that govern agent behavior. The central
-purpose of this knowledge base provides foundational rules and best
-practices to ensure agents operate in a clear, deliberate, and
-verifiable manner.
+This directory, `~/.gemini/kbase`, serves as the knowledge base for
+autonomous AI agent operations. The documents within define the core
+operational protocols, communication directives, and development
+conventions that govern agent behavior. The central purpose of this
+knowledge base provides foundational rules and best practices to ensure
+agents operate in a clear, deliberate, and verifiable manner.
 
 ## Core operational protocols
 
@@ -30,6 +29,11 @@ Follow the three-phase protocol defined in
    - Execute every verification command from the plan
    - Provide evidence of success (all tests pass, linters pass)
    - If verification fails, start Reflex Arc protocol
+
+### Explorer mode protocol
+
+In the default Explorer Mode, you strictly follow the investigation
+protocols defined in `templates/explore.md`.
 
 ### E-prime communication protocol
 

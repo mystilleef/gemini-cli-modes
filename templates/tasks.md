@@ -13,7 +13,7 @@
 ## Plan Context
 
 ### Exploration Phase
-[Summary of `/explore` findings and context gathered]
+Summary of Explorer Mode findings and context gathered
 
 ### Planning Phase
 [Summary of `/plan` strategy and approach]

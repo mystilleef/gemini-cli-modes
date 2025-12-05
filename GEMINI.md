@@ -89,6 +89,14 @@ with the following commands:
 
 - Output structured report.
 
+### Commit Protocol
+
+**STRICT PROHIBITION:**
+
+- **`AVOID`** creating Git commits without explicit user request,
+  confirmation, **`AND`** approval.
+- **`NEVER`** assume authorization for commit actions.
+
 ---
 
 ## Knowledge base integration
