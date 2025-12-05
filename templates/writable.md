@@ -4,6 +4,4 @@ Perform the following instructions to disable `readonly` mode:
 
 - Delete the `.gemini_readonly` file in the project root if it exists
 - Verify that the `.gemini_readonly` file doesn't exist
-- Prepend the `🔓 WRITABLE MODE \n\n` message to the command output
-- Silence all feedback and operations, other than permissions and
-  confirmations for approval by the user
+- Display `🔓 WRITABLE MODE \n\n` message once to the command output
