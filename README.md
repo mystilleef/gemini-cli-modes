@@ -1,5 +1,7 @@
 # Gemini CLI operational modes: a structured workflow
 
+![Readonly Mode Diagram](assets/readonly.png)
+
 This project provides a set of custom commands and templates to enforce
 a structured, mode-based workflow for the Gemini CLI agent. These modes
 guide the agent through the distinct phases of a software engineering
