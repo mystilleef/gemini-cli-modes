@@ -24,8 +24,7 @@ test ! -f .gemini_readonly
 - Block **`ALL`** write operations;
 - Forbid **`ALL`** changes to the project;
 - Show the read-only mode indicator on startup;
-- Prepend the read-only mode indicator before every response;
-- Append the read-only mode indicator after every response;
+- Enclose each response inside read-only indicators.
 
 #### Read-only indicator
 
@@ -34,8 +33,8 @@ indicator as follows:
 
 `🔒 READONLY MODE`
 
-Use an empty line to separate the indicator from the response. For
-example:
+To enclose each response inside read-only indicators, use an empty line
+to separate the indicator from the response, like so:
 
 ```markdown
 `🔒 READONLY MODE`
@@ -70,6 +69,17 @@ with the following commands:
 - **`Builder Mode:`** write-enabled (marker absent, approval granted).
 
 ---
+
+## Code generation protocol
+
+**`ALWAYS`** write code that meets these requirements:
+
+- Testable;
+- Maintainable;
+- Traceable;
+- Documented;
+- Efficient; and
+- Idiomatic.
 
 ## Specialized protocols
 
