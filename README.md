@@ -8,7 +8,7 @@ guide the agent through the distinct phases of a software engineering
 task—Perceive, Reason, Act, and Refine (`PRAR`)—ensuring a safe,
 deliberate, and verifiable process.
 
-**Important:** _Assuming you have hooks properly installed, all session
+**Important:** _Assuming you have hooks properly installed, all sessions
 begin in `readonly` mode._
 
 ## Core concepts: Operational modes
@@ -238,10 +238,10 @@ This project includes shell hooks that the read-only mode system
 the system level and serve as a critical component of the security
 model.
 
-**Prerequisite:** Hooks require the nightly version of the Gemini CLI
+**Prerequisite:** _Hooks require the nightly version of the Gemini CLI
 app. Ensure you have the nightly build installed. Check your Gemini CLI
 version with `gemini --version` and update to the nightly release if you
-haven't already.
+haven't already._
 
 ### Available hooks
 
