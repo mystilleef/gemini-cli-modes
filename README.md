@@ -397,6 +397,8 @@ enforcement mechanism.
 
 ---
 
+![Fix Mode Diagram](assets/fix.png)
+
 ## Illustrative workflow example
 
 The following list outlines a typical workflow for using these modes to
