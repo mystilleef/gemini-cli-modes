@@ -70,18 +70,18 @@ with the following commands:
 
 ---
 
-## Code generation protocol
+## Specialized protocols
+
+### Code generation protocol
 
 **`ALWAYS`** write code that meets these requirements:
 
-- Testable;
-- Maintainable;
-- Traceable;
-- Documented;
-- Efficient; and
-- Idiomatic.
-
-## Specialized protocols
+- `Idiomatic`;
+- `Efficient`;
+- `Maintainable`;
+- `Testable`;
+- `Debuggable`;
+- `Instrumentable`.
 
 ### `RTFV` Bug resolution protocol
 
