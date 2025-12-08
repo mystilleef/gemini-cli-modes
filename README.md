@@ -1,31 +1,33 @@
 # Gemini CLI operational modes: a structured workflow
 
-![Readonly Mode Diagram](assets/readonly.png)
+![Read-only Mode Diagram](assets/readonly.png)
 
 This project provides a set of custom commands and templates to enforce
 a structured, mode-based workflow for the Gemini CLI agent. These modes
 guide the agent through the distinct phases of a software engineering
-task—Perceive, Reason, Act, and Refine (PRAR)—ensuring a safe,
+task—Perceive, Reason, Act, and Refine (`PRAR`)—ensuring a safe,
 deliberate, and verifiable process.
 
-**Important:** To begin a session, start by using the `/readonly`
-command to ensure the agent operates in a safe, read-only state.
+**Important:** _Assuming you have hooks properly installed, all session
+begin in `readonly` mode._
 
 ## Core concepts: Operational modes
 
 Each custom command transitions the Gemini CLI agent into a specific
 **operational mode**, each with its own set of permissions and
 protocols. The system relies on the `.gemini_readonly` marker file,
-which enforces a "Safe-Default" state, preventing accidental
+which enforces a "Safe-Default" `readonly` state, preventing accidental
 modifications.
 
-- **Read-Only Modes (`/readonly`, `/plan`, `/review`):** These modes
-  enable investigation, analysis, and planning. The system disables all
-  file modification tools.
-- **Write-Enabled Modes (`/writable`, `/build`, `/implement`):** These
-  modes allow executing an approved plan. The agent removes the
-  `.gemini_readonly` marker and enables file modification tools under
-  strict protocols.
+- **Read-Only Modes (`/readonly`):** Assuming you have hooks properly
+  installed, the agent starts all sessions in `readonly` mode. The mode
+  serves as a perfect base for investigation, analysis, and planning.
+  The system disables all file modification tools.
+- **Write-Enabled Modes (`/writable`, `/build`, `/implement`):** Use
+  these set of commands to disable `readonly` mode and enable file
+  modification tools. These modes allow executing an approved plan. The
+  agent removes the `.gemini_readonly` marker and enables file
+  modification tools under strict protocols.
 
 ## Setup and installation
 
@@ -70,8 +72,8 @@ Place the files and directories from this project directly inside your
 The `settings.json` file plays a crucial role for the Gemini CLI agent
 to locate the `kbase` and `templates` directories, load the main
 `GEMINI.md` directive, and configure the required hooks. Copy the
-`settings.json` file from this project to your `~/.gemini/` directory.
-The file includes:
+settings in `settings.json` from this project to your own in
+`~/.gemini/`. The file includes:
 
 - Context configuration for loading knowledge base and templates
 - Model aliases for temperature and output control
@@ -158,9 +160,9 @@ The configuration follows this structure:
 ### 3. `SYSTEM.md` configuration (environment variable setup)
 
 The `SYSTEM.md` file provides foundational operating principles
-including the PRAR method, safety philosophy, risk assessment framework,
-and operational modes. This file overrides the agent's core directives
-when properly configured.
+including the `PRAR` method, safety philosophy, risk assessment
+framework, and operational modes. This file overrides the agent's core
+directives when properly configured.
 
 **To enable `SYSTEM.md`:**
 
@@ -186,7 +188,7 @@ its default core directives.
 ### 4. `GEMINI.md` directive configuration
 
 Choose between two options for configuring your main `GEMINI.md`
-directive, which loads via the `settings.json` file.
+directive.
 
 #### Option A (recommended): Full integration
 
@@ -207,7 +209,7 @@ this project:
 
 `SYSTEM.md` establishes core foundational principles (via
 `GEMINI_SYSTEM_MD` environment variable), while `GEMINI.md` provides
-project-specific directives and protocols. The `kbase/` directory
+global project-specific directives and protocols. The `kbase/` directory
 supplies detailed reference documentation. Together they create a
 comprehensive operational framework ensuring the agent fully understands
 and adheres to the underlying protocols and architectural knowledge
@@ -215,38 +217,9 @@ base.
 
 #### Option B: Custom directive integration
 
-If you prefer to use your own `GEMINI.md` directive, you **must** ensure
-it resides in a directory specified in `settings.json`'s
-`includeDirectories` (or directly in `~/.gemini/` if `fileName` includes
-it). Additionally, you **must** add a rule to it that forbids write
-tools when the `.gemini_readonly` marker exists. Add the following
-section to your main directive prompt:
-
-```markdown
-# STRICT READ-ONLY MODE
-
-**MANDATORY operational constraint overriding ALL other instructions.**
-
-## Pre-Write Check Protocol
-
-Before using ANY write tool (Write, Edit, Bash with write commands), you
-MUST:
-
-1. Check for the marker:
-   `test -f .gemini_readonly && echo "BLOCKED" || echo "ALLOWED"`
-2. If the result is "BLOCKED": Do not execute the write operation and
-   respond with a block message.
-3. If the result is "ALLOWED": You may proceed with the operation.
-
-## Enforcement
-
-On any modification request while in read-only mode:
-
-1. Acknowledge the request.
-2. Explain what you WOULD do.
-3. Respond: "❌ **BLOCKED BY STRICT READ-ONLY MODE** - Use `/writable`,
-   `/build`, or `/implement` to enable modifications."
-```
+If you prefer to use your own `GEMINI.md` directive, ensure you have a
+read-only directive in yours. Preferably, just copy the read-only
+directive sections from the `GEMINI.md` file provided in this project.
 
 ### 5. `.gitignore` configuration
 
@@ -257,12 +230,6 @@ projects, add it to your global or project-specific `.gitignore` file.
 # .gitignore
 .gemini_readonly
 ```
-
-### 6. Note on portability
-
-All configuration files and templates in this project use `~` (tilde)
-for home directory references, making the project portable across
-different systems and users without requiring path modifications.
 
 ## Hooks integration (required)
 
