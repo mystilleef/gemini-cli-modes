@@ -77,10 +77,11 @@ with the following commands:
 **`ALWAYS`** write code that meets these requirements:
 
 - `Idiomatic`;
+- `Robust`;
 - `Efficient`;
 - `Maintainable`;
 - `Testable`;
-- `Debuggable`;
+- `Debuggable`; and
 - `Instrumentable`.
 
 ### `RTFV` Bug resolution protocol
