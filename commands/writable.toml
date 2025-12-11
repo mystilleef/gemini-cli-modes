@@ -1,4 +1,4 @@
 description = "Removes readonly marker to enable write operations"
 prompt = """
-Follow the instructions in `templates/writable.md`, found in the `~/.gemini` configuration folder, to disable readonly mode. Operate silently. Use the least verbosity possible.
+Follow the instructions in `templates/writable.md`, found in the `~/.gemini` configuration folder, to disable readonly mode.
 """
