@@ -2,6 +2,14 @@
 
 Real-world examples demonstrating proper Conventional Commits format with line length adherence and visual presentation format.
 
+## Character Limit Standards
+
+Strict adherence to character limits ensures readability in git logs and terminals.
+
+- **Subject Line:** ≤50 characters recommended (Hard limit: 72)
+- **Body Lines:** Wrap at 72 characters
+- **Footer:** Wrap at 72 characters
+
 ## Visual Presentation Format
 
 When presenting commit messages to users for approval, use this boxed format:
@@ -9,10 +17,10 @@ When presenting commit messages to users for approval, use this boxed format:
 **Template:**
 ```
 ════════════════════════════════════════════════════════════
+123456789012345678901234567890123456789012345678901234567890123456789012
+<subject line> (Max 50 recommended)
 
-<subject line>
-
-[optional body paragraph]
+[optional body paragraph - wrap at 72 characters]
 
 [optional bullet points]
 
@@ -49,7 +57,7 @@ feat(auth): add OAuth2 login support
 **Analysis:**
 - Type: `feat` (new feature)
 - Scope: `auth` (authentication module)
-- Description: 47 characters, imperative mood
+- Subject Length: 47/50 chars (Optimal)
 - No body needed for straightforward addition
 - Visual format: Simplest case with just subject line between separators
 
@@ -90,11 +98,11 @@ nesting due to recursion limit.
 **Analysis:**
 - Type: `fix` (bug fix)
 - Scope: `parser`
-- Description: 48 characters
+- Subject Length: 48/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Body includes:
   - Paragraph explaining context/rationale
   - Bullet points detailing the changes
-- All lines ≤72 characters
 - Visual format: Full structure with paragraph and bullets
 
 ---
@@ -128,7 +136,8 @@ fix(api): handle null responses from external service
 **Analysis:**
 - Type: `fix`
 - Scope: `api`
-- Description: 50 characters
+- Subject Length: 50/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Body uses bullets only (no paragraph needed)
 - Clear, concise change summary
 - Visual format: Subject and bullets with no paragraph
@@ -172,6 +181,8 @@ script to convert existing configs.
 **Analysis:**
 - Type: `feat` with `!` indicating breaking change
 - Scope: `config`
+- Subject Length: 46/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Breaking change explained in footer
 - Footer wrapped at 72 characters
 - Visual format: Complete structure with BREAKING CHANGE footer
@@ -221,6 +232,8 @@ field name. Migration: UPDATE users SET email = username;
 **Analysis:**
 - Type: `refactor`
 - Scope: `database`
+- Subject Length: 39/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Body includes rationale paragraph + bullets
 - Breaking change in footer with migration guidance
 - Visual format: Complete structure with BREAKING CHANGE footer
@@ -256,6 +269,8 @@ docs(api): update authentication examples
 **Analysis:**
 - Type: `docs` (documentation only)
 - Scope: `api`
+- Subject Length: 39/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - No SemVer impact (unless breaking)
 - Bullets-only body for multiple doc changes
 - Visual format: Clean bullets-only presentation
@@ -299,9 +314,10 @@ improves maintainability and enables easier testing.
 **Analysis:**
 - Type: `refactor`
 - Scope: `core`
+- Subject Length: 57/50 chars (Acceptable, <72)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Paragraph explains WHY refactoring is valuable
 - Bullets detail WHAT changed
-- 72-character line wrapping maintained
 - Visual format: Paragraph + bullets pattern
 
 ---
@@ -341,7 +357,8 @@ feat(dashboard): add real-time analytics widgets
 **Analysis:**
 - Type: `feat`
 - Scope: `dashboard`
-- Description: 47 characters
+- Subject Length: 47/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Comprehensive bullet list (no paragraph needed)
 - Each bullet is clear and specific
 - Visual format: Long bullet list presentation
@@ -391,6 +408,8 @@ Co-authored-by: Jane Smith <jane@example.com>
 **Analysis:**
 - Type: `fix`
 - Scope: `security`
+- Subject Length: 57/50 chars (Acceptable, <72)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Multiple footers for references and attribution
 - Footer tokens use hyphens (Co-authored-by, Reviewed-by)
 - Visual format: Shows multiple footer types
@@ -430,9 +449,10 @@ Results: Search latency reduced from 2.3s to 180ms average.
 **Analysis:**
 - Type: `perf` (performance improvement)
 - Scope: `query`
+- Subject Length: 52/50 chars (Acceptable, <72)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Bullets detail optimizations made
 - Results summary shows impact
-- 65-character lines maintained
 - Visual format: Includes results footer
 
 ---
@@ -466,6 +486,8 @@ ci: add automated dependency security scanning
 **Analysis:**
 - Type: `ci` (CI/CD changes)
 - No scope needed (CI is specific enough)
+- Subject Length: 44/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Clear bullet points for each change
 - Visual format: No-scope example
 
@@ -500,6 +522,35 @@ chore(deps): update dependencies to latest versions
 **Analysis:**
 - Type: `chore` (maintenance task)
 - Scope: `deps` (dependencies)
+- Subject Length: 49/50 chars (Optimal)
+- Body Wrapping: All lines ≤72 chars (Verified)
 - Specific version changes listed
 - No SemVer impact
 - Visual format: Maintenance task presentation
+
+---
+
+## Example 13: Length Violation (Anti-pattern)
+
+**Bad Commit Message:**
+```
+feat(auth): add new login system that supports google and facebook and handles errors
+```
+
+**Analysis:**
+- ❌ Subject Length: 85 chars (Exceeds 72 char hard limit)
+- ❌ Hard to read in `git log --oneline`
+- ❌ Truncated in GitHub UI
+
+**Corrected Version:**
+```
+feat(auth): add social login support
+
+Implements OAuth2 providers for Google and Facebook. Includes
+error handling for network failures and invalid tokens.
+```
+
+**Analysis:**
+- ✅ Subject Length: 32 chars (Optimal)
+- ✅ Details moved to body
+- ✅ Body wrapped at 72 chars
