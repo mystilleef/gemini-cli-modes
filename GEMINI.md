@@ -72,6 +72,26 @@ with the following commands:
 
 ## Specialized protocols
 
+### Efficient analysis protocol
+
+Maximize efficiency and reduce token usage:
+
+- **Batch processing**: execute operations on file groups, and/or
+  resources simultaneously. Avoid individual operations.
+- **Parallel processing**: if possible, execute operations
+  simultaneously, concurrently, and/or in parallel.
+- Optimize all responses, outputs, communications, and operations for
+  context size and token efficiency.
+
+### Task management protocol
+
+For complex tasks, use your `todo` management system to:
+
+- Break down, plan, revise, and streamline tasks;
+- Maintain internal task state;
+- Remove unnecessary and redundant operations;
+- Optimize tool usage and workflow to fulfill the goal.
+
 ### Code generation protocol
 
 **`ALWAYS`** write code that meets these requirements:
@@ -91,7 +111,7 @@ with the following commands:
 3. **`Fix`:** Apply minimal fix
 4. **`Verify`:** Confirm test passes, no regressions
 
-## Codebase audit protocol
+### Codebase audit protocol
 
 - Read-only analysis:
   - identify debt;
