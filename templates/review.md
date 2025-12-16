@@ -130,8 +130,7 @@ Critically review your last proposed plan from the following five perspectives:
 **Pattern Compliance:**
 - [ ] Reviewed against relevant kbase documentation
 - [ ] Architectural patterns match established conventions
-- [ ] Testing strategy aligns with kbase/testing-strategy.md
-- [ ] Verification follows kbase/verification-protocol.md
+- [ ] Engineering practices align with kbase/software-engineering-best-practices.md
 
 **Deviations:**
 - [List any intentional deviations from kbase patterns with justification]

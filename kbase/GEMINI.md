@@ -187,19 +187,14 @@ GitOps workflow using Cloud Build and Cloud Deploy:
 
 - **`agent-verification-protocol.md`**: Multi-phase verification
   checklist for agent operations
-- **`verification-protocol.md`**: Three-phase gating system
-  (Perceive→Reason→Act→Refine)
 - **`code-quality-and-dependencies.md`**: Code standards, linting,
   dependency management
-- **`testing-strategy.md`**: Testing pyramid, coverage requirements,
-  test patterns
+- **`software-engineering-best-practices.md`**: Universal engineering
+  standards for code quality, architecture, and testing
 
 ### Architecture & development
 
-- **`backend-architecture.md`**: Server-side patterns, API design,
-  service structure
-- **`frontend-architecture.md`**: Client-side patterns, component
-  design, state management
+- **`technology-stack-recommendations.md`**: Guides for selecting frontend and backend technology stacks.
 - **`database-interaction.md`**: Database access patterns, query
   optimization, migrations
 - **`local-development-setup.md`**: Environment setup, tooling,
