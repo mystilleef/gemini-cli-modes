@@ -73,7 +73,7 @@
     ],
     "BeforeTool": [
       {
-        "matcher": "WriteFile|Edit|write_file|replace",
+        "matcher": "write_file|replace",
         "hooks": [
           {
             "name": "enforce-readonly",
