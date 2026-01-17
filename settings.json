@@ -83,5 +83,18 @@
           }
         ]
       }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "exit",
+        "hooks": [
+          {
+            "name": "disable-readonly-sessionend",
+            "type": "command",
+            "command": "~/.gemini/hooks/disable-readonly-sessionend.sh",
+            "description": "Removes readonly mode marker when session ends"
+          }
+        ]
+      }
     ]
   }
