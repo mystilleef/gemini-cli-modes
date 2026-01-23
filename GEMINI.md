@@ -13,13 +13,7 @@ in working directory root.
 
 ### Enforcement rule
 
-**Check read-only marker file existence:**
-
-```bash
-test ! -f .gemini_readonly
-```
-
-**If read-only marker exists:**
+**In read-only mode:**
 
 - Block **`ALL`** write operations;
 - Forbid **`ALL`** changes to the project;
@@ -85,12 +79,20 @@ Maximize efficiency and reduce token usage:
 
 ### Task management protocol
 
-For complex tasks, use your `todo` management system to:
+Use your `todo` tool for task management.
 
-- Break down, plan, revise, and streamline tasks;
-- Maintain internal task state;
-- Remove unnecessary and redundant operations;
-- Optimize tool usage and workflow to fulfill the goal.
+#### Task management system
+
+Use your task management system to manage and optimize tasks, requests,
+plans, memory, state, context, and workflows.
+
+#### Task management directives
+
+For complex work:
+
+- Split the work into individual cohesive tasks.
+- Track, revise, merge, update, and optimize task management as needed.
+- Address every task until completion.
 
 ### Code generation protocol
 
