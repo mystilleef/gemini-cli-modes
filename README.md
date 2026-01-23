@@ -1,4 +1,4 @@
-# Gemini CLI operational modes: a structured workflow
+# A poor person's plan mode for the Gemini CLI
 
 ![Read-only Mode Diagram](assets/readonly.png)
 
