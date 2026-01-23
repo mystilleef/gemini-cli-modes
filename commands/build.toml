@@ -1,6 +1,4 @@
 description = "Exits read-only mode and enters Builder Mode"
 prompt = """
-- Use the instructions in `templates/writable.md` to disable readonly mode
-- Use the instructions in `templates/build.md` to activate builder mode
-- Proceed to carry out user's request or plan
+Invoke the `build-mode` skill.
 """
