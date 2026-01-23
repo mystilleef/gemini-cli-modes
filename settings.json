@@ -1,8 +1,13 @@
 {
-  "tools": { "enableHooks": true },
+  "experimental": {
+    "skills": true
+  },
+  "tools": {
+    "enableHooks": true
+  },
   "context": {
     "loadMemoryFromIncludeDirectories": true,
-    "includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"]
+    "includeDirectories": ["~/.gemini/kbase"]
   },
   "modelConfigs": {
     "customAliases": {
@@ -26,8 +31,10 @@
       }
     }
   },
+  "hooksConfig": {
+    "enabled": true
+  },
   "hooks": {
-    "enabled": true,
     "SessionStart": [
       {
         "matcher": "startup",
@@ -73,7 +80,7 @@
     ],
     "BeforeTool": [
       {
-        "matcher": "write_file|replace",
+        "matcher": "write_file|replace|run_shell_command|delete_file|create_directory|move_file|copy_file",
         "hooks": [
           {
             "name": "enforce-readonly",
@@ -98,3 +105,4 @@
       }
     ]
   }
+}
