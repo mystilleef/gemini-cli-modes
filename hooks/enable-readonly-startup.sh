@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+# Read input from stdin (required for hook compatibility)
+input=$(cat)
+
 # Define the readonly marker file path
-READONLY_MARKER="$GEMINI_PROJECT_DIR/.gemini_readonly"
+TARGET_DIR="${GEMINI_PROJECT_DIR:-.}"
+READONLY_MARKER="$TARGET_DIR/.gemini_readonly"
 
 # Check if the marker exists
 if [ ! -f "$READONLY_MARKER" ]; then
@@ -9,10 +13,10 @@ if [ ! -f "$READONLY_MARKER" ]; then
   touch "$READONLY_MARKER"
 
   # Output a message indicating readonly mode has been enabled
-  echo '{"systemMessage": "Read-only mode enabled on session startup."}'
+  jq -n '{"systemMessage": "STARTED READONLY MODE"}'
 else
   # Output a message indicating readonly mode is already active
-  echo '{"systemMessage": "Read-only mode is already active."}'
+  jq -n '{"systemMessage": "STARTED READONLY MODE"}'
 fi
 
 exit 0
