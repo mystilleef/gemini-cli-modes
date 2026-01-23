@@ -2,6 +2,9 @@
 
 ![Read-only Mode Diagram](assets/readonly.png)
 
+**If you don't like Gemini eagerly or randomly modifying, or even
+deleting, files in your projects, look no further.**
+
 This project provides a set of custom commands and skills to enforce a
 structured, mode-based workflow for the Gemini CLI agent. These modes
 guide the agent through the distinct phases of a software engineering
