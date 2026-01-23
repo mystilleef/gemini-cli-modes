@@ -46,17 +46,6 @@
             "description": "Enables readonly mode automatically when a session starts"
           }
         ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "name": "remind-readonly-session-start",
-            "type": "command",
-            "command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
-            "description": "Injects readonly mode reminders into agent context at startup"
-          }
-        ]
       }
     ],
     "BeforeAgent": [

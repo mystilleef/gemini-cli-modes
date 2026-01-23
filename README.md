@@ -2,8 +2,8 @@
 
 ![Read-only Mode Diagram](assets/readonly.png)
 
-This project provides a set of custom commands and templates to enforce
-a structured, mode-based workflow for the Gemini CLI agent. These modes
+This project provides a set of custom commands and skills to enforce a
+structured, mode-based workflow for the Gemini CLI agent. These modes
 guide the agent through the distinct phases of a software engineering
 task—Perceive, Reason, Act, and Refine (`PRAR`)—ensuring a safe,
 deliberate, and verifiable process.
@@ -42,8 +42,8 @@ Place the files and directories from this project directly inside your
 ```bash
 ~/.gemini/
 ├── settings.json
-├── SYSTEM.md                    # Foundational operating principles
-├── GEMINI.md                    # Project-specific directives
+├── SYSTEM.md                              # Foundational operating principles
+├── GEMINI.md                              # Project-specific directives
 ├── commands/
 │   ├── build.toml
 │   ├── implement.toml
@@ -51,50 +51,104 @@ Place the files and directories from this project directly inside your
 │   ├── readonly.toml
 │   ├── review.toml
 │   └── writable.toml
-├── hooks/                        # Enforcement and behavior hooks
+├── hooks/                                  # Enforcement and behavior hooks
+│   ├── disable-readonly-sessionend.sh    # NEW: Clean session termination
 │   ├── enable-readonly-startup.sh
 │   ├── enforce-eprime.sh
 │   ├── enforce-readonly.sh
 │   └── remind-readonly-dynamic.sh
-├── kbase/
-│   └── [knowledge base files]
-└── templates/
-    ├── explore.md
-    ├── plan.md
-    ├── readonly.md
-    ├── review.md
-    ├── tasks.md
-    └── writable.md
+├── kbase/                                  # CONSOLIDATED: Unified knowledge base
+│   ├── GEMINI.md
+│   ├── agent-protocols.md
+│   ├── cloud-patterns.md
+│   ├── data-science-workflow.md
+│   ├── e-prime-protocol.md
+│   ├── engineering-principles.md
+│   ├── gemini-prompt-engineering.md
+│   └── ui-ux-design.md
+└── skills/                                 # NEW: Skills-based architecture
+    ├── build-mode/
+    │   └── SKILL.md
+    ├── implement-mode/
+    │   └── SKILL.md
+    ├── plan-mode/
+    │   └── SKILL.md
+    ├── readonly-mode/
+    │   ├── SKILL.md
+    │   ├── scripts/
+    │   └── tests/
+    ├── review-mode/
+    │   └── SKILL.md
+    └── write-mode/
+        ├── SKILL.md
+        ├── scripts/
+        └── tests/
 ```
 
 ### 2. `settings.json` configuration
 
 The `settings.json` file plays a crucial role for the Gemini CLI agent
-to locate the `kbase` and `templates` directories, load the main
-`GEMINI.md` directive, and configure the required hooks. Copy the
-settings in `settings.json` from this project to your own in
-`~/.gemini/`. The file includes:
+to locate the `kbase` directory, enable the experimental skills feature,
+configure hooks, and manage session lifecycle. Copy the settings in
+`settings.json` from this project to your own in `~/.gemini/`. The file
+includes:
 
-- Context configuration for loading knowledge base and templates
-- Model aliases for temperature and output control
-- Hook definitions for read-only enforcement
+- Experimental skills feature activation
+- Tools hooks configuration (`enableHooks`)
+- Context configuration for loading knowledge base
+- Model configuration with custom aliases for temperature and output
+  control
+- Hooks configuration (`hooksConfig`) to enable hook system
+- Hook definitions for read-only enforcement and session lifecycle
 
 **Key hooks configured:**
 
-- `SessionStart`: Creates `.gemini_readonly` marker and injects
-  `readonly` reminders when session begins
+- `SessionStart`: Creates `.gemini_readonly` marker when session begins
 - `BeforeAgent`: Injects `readonly` reminders and enforces E-Prime
   communication protocol before agent execution
-- `BeforeTool`: Blocks write operations (`WriteFile`, `Edit`, etc.) when
-  `.gemini_readonly` marker exists
+- `BeforeTool`: Blocks write operations (write, replace, shell commands,
+  file operations, etc.) when `.gemini_readonly` marker exists
+- `SessionEnd`: Removes `.gemini_readonly` marker when session
+  terminates, ensuring clean exit state
 
 The configuration follows this structure:
 
 ```json
 {
+  "experimental": {
+    "skills": true
+  },
+  "tools": {
+    "enableHooks": true
+  },
   "context": {
     "loadMemoryFromIncludeDirectories": true,
-    "includeDirectories": ["~/.gemini/kbase", "~/.gemini/templates"]
+    "includeDirectories": ["~/.gemini/kbase"]
+  },
+  "modelConfigs": {
+    "customAliases": {
+      "base": {
+        "modelConfig": {
+          "generateContentConfig": {
+            "temperature": 0.1,
+            "topP": 0.95
+          }
+        }
+      },
+      "chat-base": {
+        "extends": "base",
+        "modelConfig": {
+          "generateContentConfig": {
+            "temperature": 0.2,
+            "topP": 0.9,
+            "topK": 1
+          }
+        }
+      }
+    }
+  },
+  "hooksConfig": {
+    "enabled": true
   },
   "hooks": {
     "SessionStart": [
@@ -106,17 +160,6 @@ The configuration follows this structure:
             "type": "command",
             "command": "~/.gemini/hooks/enable-readonly-startup.sh",
             "description": "Enables readonly mode automatically when a session starts"
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "name": "remind-readonly-session-start",
-            "type": "command",
-            "command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
-            "description": "Injects readonly reminders into agent context at startup"
           }
         ]
       }
@@ -142,13 +185,26 @@ The configuration follows this structure:
     ],
     "BeforeTool": [
       {
-        "matcher": "WriteFile|Edit|write_file|replace",
+        "matcher": "write_file|replace|run_shell_command|delete_file|create_directory|move_file|copy_file",
         "hooks": [
           {
             "name": "enforce-readonly",
             "type": "command",
             "command": "~/.gemini/hooks/enforce-readonly.sh",
             "description": "Blocks write operations when .gemini_readonly exists"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "exit",
+        "hooks": [
+          {
+            "name": "disable-readonly-sessionend",
+            "type": "command",
+            "command": "~/.gemini/hooks/disable-readonly-sessionend.sh",
+            "description": "Removes readonly mode marker when session ends"
           }
         ]
       }
@@ -231,6 +287,82 @@ projects, add it to your global or project-specific `.gitignore` file.
 .gemini_readonly
 ```
 
+## Skills system architecture
+
+The project uses the Gemini CLI experimental skills feature to provide
+structured, reusable command workflows. Each skill encapsulates a
+specific operational mode with its own permissions, protocols, and
+efficiency directives.
+
+**Key benefits:**
+
+- **Better encapsulation**: Each skill contains complete implementation
+  logic
+- **Improved portability**: Skills work independently across different
+  contexts
+- **Native CLI support**: Leverages the Gemini CLI built-in skills
+  system
+- **Cleaner separation**: Commands remain straightforward while skills
+  handle complexity
+
+### Skills directory structure
+
+All skills live in `~/.gemini/skills/`:
+
+- `readonly-mode/` - Enforces read-only safety with verification
+- `write-mode/` - Removes read-only marker to enable writes
+- `plan-mode/` - Investigation and strategic planning workflow
+- `review-mode/` - Self-critique and validation protocols
+- `build-mode/` - Builder mode execution with structured protocols
+- `implement-mode/` - Autonomous plan execution workflow
+
+### Skill file format
+
+Each skill directory contains a `SKILL.md` file with YAML `frontmatter`:
+
+```yaml
+---
+name: plan-mode
+description:
+  Investigates and creates a strategic plan to complete a task.
+---
+```
+
+The `SKILL.md` file provides structured workflows with:
+
+- **Goal:** Primary aim of the skill
+- **When:** Trigger conditions for using the skill
+- **Efficiency directives:** Token and context optimization rules
+- **Workflow:** Step-by-step execution protocol with numbered steps
+
+### Commands invoke skills
+
+Commands in `commands/` directory provide the user interface by invoking
+skills. For example:
+
+- `/plan` command → invokes `plan-mode` skill → follows `SKILL.md`
+  workflow
+- `/build` command → invokes `build-mode` skill → follows `SKILL.md`
+  workflow
+- `/review` command → invokes `review-mode` skill → follows `SKILL.md`
+  workflow
+
+This separation allows commands to remain straightforward (typically 4
+lines) while skills contain comprehensive implementation logic and
+protocols.
+
+### Migration from templates
+
+Earlier versions used a template-based system with files in `templates/`
+directory. The skills system replaces this with a more structured
+approach using the Gemini CLI native skills support, providing:
+
+- Stronger guarantees of skill invocation
+- Better integration with CLI lifecycle
+- More maintainable and modular architecture
+- Clearer boundaries between user interface (commands) and
+  implementation (skills)
+
 ## Hooks integration (required)
 
 This project includes shell hooks that the read-only mode system
@@ -277,15 +409,22 @@ precise, active language and clearer technical communication.
 
 **Location:** `~/.gemini/hooks/enforce-eprime.sh`
 
+#### `disable-readonly-sessionend.sh`
+
+Automatically removes the `readonly` marker when a session ends,
+ensuring clean exit states. Prevents stale `readonly` markers from
+persisting between sessions and guarantees proper cleanup on session
+termination.
+
+**Location:** `~/.gemini/hooks/disable-readonly-sessionend.sh`
+
 ### How hooks work
 
 The `settings.json` file configures the hooks to operate as follows:
 
-1. **SessionStart hooks**: When you start a Gemini CLI session:
-   - First, `enable-readonly-startup.sh` executes to create the
+1. **SessionStart hook**: When you start a Gemini CLI session:
+   - `enable-readonly-startup.sh` executes to create the
      `.gemini_readonly` marker (Safe-Default principle)
-   - Then, `remind-readonly-dynamic.sh` executes and injects `readonly`
-     mode context
 
 2. **BeforeAgent hooks**: Before the agent processes any input:
    - `remind-readonly-dynamic.sh` runs to reinforce `readonly`
@@ -293,22 +432,30 @@ The `settings.json` file configures the hooks to operate as follows:
    - `enforce-eprime.sh` runs to inject E-Prime communication reminders
 
 3. **BeforeTool hook**: When the agent attempts to use write tools
-   (`WriteFile`, `Edit`, `write_file`, `replace`), the
+   (`write_file`, `replace`, `run_shell_command`, `delete_file`,
+   `create_directory`, `move_file`, `copy_file`), the
    `enforce-readonly.sh` hook intercepts and blocks the operation if
    `.gemini_readonly` marker exists
+
+4. **SessionEnd hook**: When you exit a Gemini CLI session:
+   - `disable-readonly-sessionend.sh` executes to remove the
+     `.gemini_readonly` marker
+   - This ensures clean session termination without stale markers
+   - Prevents `readonly` mode from incorrectly persisting to future
+     sessions
 
 The hooks use pattern matching (`matcher` field) to apply only when
 relevant:
 
-- `SessionStart:` Two `matchers` configured:
-  - `matcher: "startup"` for `enable-readonly-startup.sh` (runs once at
-    session start)
-  - `matcher: "*"` for `remind-readonly-dynamic.sh` (runs on all startup
-    events)
+- `SessionStart`: `matcher: "startup"` for `enable-readonly-startup.sh`
+  (runs once at session start)
 - `BeforeAgent`: `matcher: "*"` applies both hooks to all agent
   executions
-- `BeforeTool`: `matcher: "WriteFile|Edit|write_file|replace"` applies
-  only to write operations
+- `BeforeTool`:
+  `matcher: "write_file|replace|run_shell_command|delete_file|create_directory|move_file|copy_file"`
+  (note the pipe-separated tool names) applies to all write and
+  destructive operations
+- `SessionEnd`: `matcher: "exit"` applies when session terminates
 
 The system requires no further configuration—hooks come pre-configured
 in the provided `settings.json` file.
@@ -316,6 +463,11 @@ in the provided `settings.json` file.
 ---
 
 ## Understanding the operational modes
+
+All operational modes operate through the skills system, which provides
+structured workflows with safety protocols and efficiency directives.
+Each command invokes a corresponding skill that implements the mode's
+complete behavior.
 
 ### `/readonly`
 
@@ -418,12 +570,13 @@ fix a bug:
 4. **/review:** The agent performs a self-critique of its plan, checking
    for flaws from five engineering perspectives (security, QA,
    architecture, performance, DevOps).
-5. **/implement:** With an approved plan, you instruct the agent to
-   execute it. The agent removes the read-only lock and performs the
+5. **`/implement`:** With an approved plan, you direct the agent to
+   execute it. The agent removes the read-only lock and carries out the
    changes, runs tests, and verifies the fix.
-6. **Return to Read-Only:** Upon completion, the agent automatically
-   returns to a safe, read-only mode with the `.gemini_readonly` marker
-   restored.
+6. **Return to Read-Only or Session End:** Upon completion, the agent
+   may return to read-only mode. When you exit the session, the
+   SessionEnd hook automatically removes the `.gemini_readonly` marker
+   for clean termination, preventing stale markers from persisting.
 
 ## Alternative workflows (expert use)
 
