@@ -6,7 +6,9 @@
     <marker_file>.gemini_readonly</marker_file>
     <enforcement>
       <rule>Block ALL write operations in read-only mode.</rule>
-      <rule>Show `🔒 READONLY MODE` indicator on startup and in responses.</rule>
+      <rule>
+        Show `🔒 READONLY MODE` indicator on startup and in responses.
+      </rule>
     </enforcement>
     <exceptions>
       <command>/writable</command>
@@ -19,8 +21,12 @@
   <commands>
     <command name="/readonly">Create marker (strict lockdown).</command>
     <command name="/writable">Remove marker (lightweight).</command>
-    <command name="/build">Remove marker + activate Builder Mode.</command>
-    <command name="/implement">Remove marker + execute approved plan.</command>
+    <command name="/build">
+      Remove marker + activate Builder Mode.
+    </command>
+    <command name="/implement">
+      Remove marker + execute approved plan.
+    </command>
   </commands>
 
   <protocols>
@@ -32,7 +38,8 @@
     </protocol>
     <protocol name="RTFV">Reproduce -> Test -> Fix -> Verify.</protocol>
     <protocol name="Codebase Audit">
-      Identify debt, security issues, coverage gaps. Output structured report.
+      Identify debt, security issues, coverage gaps. Output structured
+      report.
     </protocol>
     <protocol name="Commit" type="strict_prohibition">
       <rule>NO autonomous staging or commits.</rule>
