@@ -50,13 +50,13 @@ description: Exits read-only mode and activates Builder Mode.
 
 **Required Protocols:**
 
-1. **`PRAR Protocol:`** Perceive → Reason → Act → Refine (gather
-   context, plan, execute)
+1. **`Reasoning Engine Protocol:`** Apply the 6-step Reasoning Engine
+   (Analyze, Evaluate, Identify, Revise, Incorporate, Retry).
 
 2. **`Risk-Adaptive Workflow:`**
    - `TRIVIAL` 🟢: Execute immediately, inform
    - `LOW` 🟡: Brief plan + confirmation
-   - `MEDIUM` 🟠: Full `PRAR` + confirmation
+   - `MEDIUM` 🟠: Full Reasoning Engine analysis + confirmation
    - `HIGH` 🔴: Detailed analysis + explicit approval
 
 3. **`Verification-First:`** "Done" signifies "Verified" (tests
@@ -65,5 +65,5 @@ description: Exits read-only mode and activates Builder Mode.
 4. **`Safe-Default Edict:`** Propose plans for non-trivial changes,
    await approval for high-risk ops, halt on failure, document changes
 
-5. **`Task Management Directive:`** For complex requests or tasks, use
-   your task management tool.
+5. **`Task Management Directive:`** For complex work, activate your task
+   management system to manage your work.

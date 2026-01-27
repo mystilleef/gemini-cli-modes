@@ -32,15 +32,13 @@ permissions.
 
 ### Step 2: Initialization
 
-- **Setup:** Following your task management directive, configure your
-  task management tool to start tracking and managing tasks.
+- **Setup:** Activate your task management system to manage your work
 - **Announce:** State the goal, risk level, and management method.
 
 ### Step 3: Execution loop
 
 - Refine, streamline, and optimize the plan, or user's request.
-- Use your task management protocol and directives to manage the plan or
-  request
+- Use your task management system to manage your work.
 - Execute the plan or request.
 
 ### Step 4: Troubleshooting & safety

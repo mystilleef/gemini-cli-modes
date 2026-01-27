@@ -38,6 +38,7 @@ code.
 ### Step 3: Create plan (reason)
 
 - Analyze findings against user goal.
+- Apply the 6-step Reasoning Engine (Analyze, Evaluate, Identify, Revise, Incorporate, Retry).
 - Assess risk level (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`).
 - Define verification strategy (`TDD`/`Red-Green-Refactor`).
 
@@ -51,7 +52,7 @@ code.
 
 **Pre-flight Checklist:**
 
-- [ ] Alignment with Prime Directives
+- [ ] Alignment with System Directives
 - [ ] Adherence to Verification-First Development protocol
 - [ ] Resolution of all ambiguities
 - [ ] Consultation of `kbase` for relevant patterns
@@ -64,7 +65,7 @@ code.
 
 2. **Risk Level Assessment**
    - Classify risk (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`) with justification.
-   - Determine `PRAR` cycle depth.
+   - Determine Reasoning Engine depth.
 
 3. **Investigation & Analysis**
    - List files investigated and search results.
