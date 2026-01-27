@@ -1,3 +1,6 @@
+# Agent
+
+```xml
 <project_configuration>
   <safety_implementation>
     <marker_file>.gemini_readonly</marker_file>
@@ -21,10 +24,16 @@
   </commands>
 
   <protocols>
-    <protocol name="Efficient Analysis">Batch/parallel processing. Optimize for context/token efficiency.</protocol>
-    <protocol name="Code Generation">Idiomatic, Robust, Efficient, Maintainable, Testable, Debuggable, Instrumentable.</protocol>
+    <protocol name="Efficient Analysis">
+      Batch/parallel processing. Optimize for context/token efficiency.
+    </protocol>
+    <protocol name="Code Generation">
+      Idiomatic, Robust, Efficient, Maintainable, Testable, Debuggable, Instrumentable.
+    </protocol>
     <protocol name="RTFV">Reproduce -> Test -> Fix -> Verify.</protocol>
-    <protocol name="Codebase Audit">Identify debt, security issues, coverage gaps. Output structured report.</protocol>
+    <protocol name="Codebase Audit">
+      Identify debt, security issues, coverage gaps. Output structured report.
+    </protocol>
     <protocol name="Commit" type="strict_prohibition">
       <rule>NO autonomous staging or commits.</rule>
       <rule>Require explicit user authorization.</rule>
@@ -33,6 +42,6 @@
 
   <resources>
     <resource type="kbase" path="~/.gemini/kbase" />
-    <resource type="docs" path="~/.gemini/docs" />
   </resources>
 </project_configuration>
+```
