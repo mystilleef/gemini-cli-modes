@@ -465,6 +465,106 @@ in the provided `settings.json` file.
 
 ---
 
+## Optional MCP integrations
+
+This project provides optional hooks and knowledge base guides for integrating MCP (Model Context Protocol) server tools. These are **not required** for the core readonly system to function but provide additional capabilities for users who choose to install them.
+
+**Note:** The core readme documents only the core readonly enforcement system. If you install MCP servers like BEADS or Vibe Check, refer to the knowledge base guides for detailed usage instructions.
+
+### BEADS task management (optional)
+
+BEADS (`bd`) provides AI-native task management for complex workflows. To use this optional feature:
+
+1. Install the BEADS MCP server
+2. Add optional hooks to your `settings.json`:
+   - `beads-startup-reminder.sh` - Session start onboarding
+   - `remind-beads-onboard.sh` - Context-aware reminders
+   - `setup-beads.sh` - Installation script
+3. Refer to `~/.gemini/kbase/bd-guide.md` for usage protocol
+
+**Key capabilities:**
+- Persistent task state across sessions
+- Task types: bug, feature, task, epic, chore
+- Priority levels: 0 (Critical) → 4 (Backlog)
+- Hierarchical task organization
+- Dependency tracking
+
+### Vibe Check metacognitive oversight (optional)
+
+Vibe Check provides pattern interrupt mechanisms for metacognitive oversight. To use this optional feature:
+
+1. Install the Vibe Check MCP server
+2. Add optional hooks to your `settings.json`:
+   - `vibe-check-startup-reminder.sh` - Session start guidance
+   - `remind-vibe-check-dynamic.sh` - Context-aware reminders
+3. Refer to `~/.gemini/kbase/vibe-check-guide.md` for usage guidance
+
+**Key capabilities:**
+- Pattern interrupt at strategic checkpoints
+- Post-Planning, High Complexity, System Modification invocations
+- Feedback integration for course correction
+- Pattern learning through `vibe_learn`
+
+### Git protocol enforcement (optional)
+
+Strict Git commit protocol enforcement hook available:
+- `remind-git-protocol.sh` - Prevents autonomous commits
+
+Add to `settings.json` BeforeAgent hooks if desired.
+
+### Available optional hooks
+
+The following hooks are available in the `hooks/` directory for optional use:
+- `beads-startup-reminder.sh`
+- `remind-beads-onboard.sh`
+- `remind-git-protocol.sh`
+- `remind-vibe-check-dynamic.sh`
+- `setup-beads.sh`
+- `vibe-check-startup-reminder.sh`
+
+These hooks implement context-aware behavior, remaining silent in readonly mode to reduce noise.
+
+---
+
+## Knowledge base reference
+
+The `~/.gemini/kbase/` directory provides comprehensive reference documentation for protocols, patterns, and workflows. The knowledge base loads automatically through the `settings.json` context configuration.
+
+### Core guides
+
+| Guide | Description |
+|:------|:------------|
+| `agent-protocols.md` | Agent operational protocols and communication patterns |
+| `cloud-patterns.md` | Cloud architecture patterns and best practices |
+| `data-science-workflow.md` | Data science project workflow and methodology |
+| `e-prime-protocol.md` | E-Prime communication protocol reference |
+| `engineering-principles.md` | Software engineering principles and guidelines |
+| `GEMINI.md` | Project-specific Gemini CLI directives |
+| `gemini-prompt-engineering.md` | Prompt engineering patterns for Gemini models |
+| `ui-ux-design.md` | UI/UX design patterns and guidelines |
+
+### Optional MCP integration guides
+
+| Guide | Description |
+|:------|:------------|
+| `bd-guide.md` | BEADS task management system protocol (optional) |
+| `vibe-check-guide.md` | Vibe Check metacognitive oversight (optional) |
+
+### Context loading
+
+The `settings.json` configuration enables automatic loading:
+
+```json
+"context": {
+  "loadMemoryFromIncludeDirectories": true,
+  "includeDirectories": ["~/.gemini/kbase"]
+}
+```
+
+This ensures the agent has immediate access to all reference documentation without manual loading.
+
+---
+
 ## Understanding the operational modes
 
 All operational modes operate through the skills system, which provides
