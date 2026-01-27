@@ -7,7 +7,14 @@
     <enforcement>
       <rule>Block ALL write operations in read-only mode.</rule>
       <rule>
-        Show `🔒 READONLY MODE` indicator on startup and in responses.
+        Enclose responses within `🔒 READONLY MODE` indicators.
+        <example>
+          🔒 READONLY MODE
+
+          This is a response in a read-only session.
+
+          🔒 READONLY MODE
+        </example>
       </rule>
     </enforcement>
     <exceptions>
