@@ -55,19 +55,24 @@ Place the files and directories from this project directly inside your
 │   ├── review.toml
 │   └── writable.toml
 ├── hooks/                                  # Enforcement and behavior hooks
-│   ├── disable-readonly-sessionend.sh    # NEW: Clean session termination
+│   ├── context-orchestrator.sh           # NEW: Multi-source context aggregation
+│   ├── disable-readonly-sessionend.sh    # Clean session termination
 │   ├── enable-readonly-startup.sh
 │   ├── enforce-eprime.sh
-│   ├── enforce-readonly.sh
-│   └── remind-readonly-dynamic.sh
+│   ├── enforce-readonly.sh               # ENHANCED: 408-line security implementation
+│   ├── remind-readonly-dynamic.sh
+│   └── response-presentation-startup-hook.sh  # NEW: Response formatting guidance
 ├── kbase/                                  # CONSOLIDATED: Unified knowledge base
 │   ├── GEMINI.md
 │   ├── agent-protocols.md
+│   ├── bd-guide.md                       # ENHANCED: Verification, context, adaptability
 │   ├── cloud-patterns.md
 │   ├── data-science-workflow.md
-│   ├── e-prime-protocol.md
+│   ├── e-prime-protocol.md               # UPDATED: Improved formatting and examples
 │   ├── engineering-principles.md
 │   ├── gemini-prompt-engineering.md
+│   ├── response-presentation-guide.md    # NEW: Output quality standards
+│   ├── shell-scripting-guide.md          # NEW: POSIX compliance standards
 │   └── ui-ux-design.md
 └── skills/                                 # NEW: Skills-based architecture
     ├── build-mode/
@@ -91,39 +96,35 @@ Place the files and directories from this project directly inside your
 ### 2. `settings.json` configuration
 
 The `settings.json` file plays a crucial role for the Gemini CLI agent
-to locate the `kbase` directory, enable the experimental skills feature,
-configure hooks, and manage session lifecycle. Copy the settings in
-`settings.json` from this project to your own in `~/.gemini/`. The file
-includes:
+to locate the `kbase` directory and configure hooks for read-only
+enforcement. Copy the settings in `settings.json` from this project to
+your own in `~/.gemini/`. The file includes:
 
-- Experimental skills feature activation
-- Tools hooks configuration (`enableHooks`)
 - Context configuration for loading knowledge base
 - Model configuration with custom aliases for temperature and output
   control
-- Hooks configuration (`hooksConfig`) to enable hook system
 - Hook definitions for read-only enforcement and session lifecycle
 
-**Key hooks configured:**
+**Note:** Skills and hooks now function as standard features in Gemini
+CLI and require no experimental flags or manual activation.
+
+**Required readonly hooks:**
 
 - `SessionStart`: Creates `.gemini_readonly` marker when session begins
-- `BeforeAgent`: Injects `readonly` reminders and enforces E-Prime
-  communication protocol before agent execution
-- `BeforeTool`: Blocks write operations (write, replace, shell commands,
-  file operations, etc.) when `.gemini_readonly` marker exists
+- `BeforeAgent`: Injects read-only reminders into agent context
+- `BeforeTool`: Blocks write operations when `.gemini_readonly` marker
+  exists
 - `SessionEnd`: Removes `.gemini_readonly` marker when session
-  terminates, ensuring clean exit state
+  terminates
+
+**Note:** Extra hooks (E-Prime, `BEADS`, Vibe Check, Git Protocol) exist
+in the `hooks/` directory as optional examples. Users can add these to
+`settings.json` based on their workflow preferences.
 
 The configuration follows this structure:
 
 ```json
 {
-  "experimental": {
-    "skills": true
-  },
-  "tools": {
-    "enableHooks": true
-  },
   "context": {
     "loadMemoryFromIncludeDirectories": true,
     "includeDirectories": ["~/.gemini/kbase"]
@@ -150,9 +151,6 @@ The configuration follows this structure:
       }
     }
   },
-  "hooksConfig": {
-    "enabled": true
-  },
   "hooks": {
     "SessionStart": [
       {
@@ -176,12 +174,6 @@ The configuration follows this structure:
             "type": "command",
             "command": "~/.gemini/hooks/remind-readonly-dynamic.sh",
             "description": "Injects readonly mode reminders into agent context"
-          },
-          {
-            "name": "enforce-eprime",
-            "type": "command",
-            "command": "~/.gemini/hooks/enforce-eprime.sh",
-            "description": "Enforces E-Prime directive by injecting system message"
           }
         ]
       }
@@ -313,11 +305,17 @@ efficiency directives.
 All skills live in `~/.gemini/skills/`:
 
 - `readonly-mode/` - Enforces read-only safety with verification
-- `write-mode/` - Removes read-only marker to enable writes
-- `plan-mode/` - Investigation and strategic planning workflow
-- `review-mode/` - Self-critique and validation protocols
+  (includes `scripts/` and `tests/`)
+- `write-mode/` - Removes read-only marker to enable writes (includes
+  `scripts/` and `tests/`)
+- `plan-mode/` - Investigation and strategic planning workflow (includes
+  `tests/`)
+- `review-mode/` - Self-critique and validation protocols (includes
+  `tests/`)
 - `build-mode/` - Builder mode execution with structured protocols
-- `implement-mode/` - Autonomous plan execution workflow
+  (includes `tests/`)
+- `implement-mode/` - Autonomous plan execution workflow (includes
+  `tests/`)
 
 ### Skill file format
 
@@ -366,6 +364,50 @@ approach using the Gemini CLI native skills support, providing:
 - Clearer boundaries between user interface (commands) and
   implementation (skills)
 
+### Skill enhancements
+
+**NEW:** Skills now include enhanced capabilities through scripts and
+comprehensive test coverage:
+
+**Scripts and STATUS protocol:**
+
+- `readonly-mode/scripts/enable-readonly-mode.sh` - Creates
+  `.gemini_readonly` marker with STATUS messages
+- `write-mode/scripts/enable-write-mode.sh` - Removes `.gemini_readonly`
+  marker with STATUS messages
+- STATUS format: `SUCCESS:`, `WARN:`, `ERROR:` for structured feedback
+- POSIX-compliant implementation (`#!/bin/sh`, `set -eu`)
+
+**Test suites:**
+
+- Comprehensive test coverage across all six skills
+- Located in `tests/` subdirectories for applicable skills
+- Validates skill behavior, edge cases, and error handling
+
+### Workflow enhancements
+
+**ENHANCED:** Core skills now implement refined workflows for improved
+quality and safety:
+
+**Plan-mode 8-part format:**
+
+1. **Objective** - Concise statement of the goal
+2. **Pre-flight Checklist** - Verification steps before starting
+3. **Strategic Approach** - High-level method
+4. **Actionable Steps** - Numbered list of specific operations
+5. **Verification Plan** - How to prove the work's correctness
+6. **Risk Assessment** - Potential pitfalls and solutions
+7. **Resource Requirements** - Tools, files, or permissions needed
+8. **Vibe Check Points** - Specific moments to pause and re-evaluate
+
+**Review-mode multi-perspective framework:**
+
+- **Security** - Vulnerabilities, permissions, data handling
+- **QA** - Test coverage, testability, regression risks
+- **Architecture** - Design patterns, scalability, maintainability
+- **Performance** - Latency, resource usage, optimization
+- **DevOps** - Deployment, monitoring, infrastructure impact
+
 ## Hooks integration (required)
 
 This project includes shell hooks that the read-only mode system
@@ -378,13 +420,24 @@ app. Ensure you have the nightly build installed. Check your Gemini CLI
 version with `gemini --version` and update to the nightly release if you
 haven't already._
 
-### Available hooks
+### Required read-only hooks
+
+These hooks implement the core read-only enforcement system. Configure
+them in `settings.json`:
 
 #### `enforce-readonly.sh`
 
-Blocks write operations when the `.gemini_readonly` marker exists.
-Returns a JSON response denying the operation with clear messaging. This
-script functions as a pre-flight check before any write tools execute.
+**ENHANCED:** Blocks write operations when the `.gemini_readonly` marker
+exists. Expanded from 84 lines to 408 lines with multi-layered security
+validation.
+
+**Key enhancements:**
+
+- Quote masking to prevent shell `metacharacter` interference
+- Command chaining prevention (blocks `&&`, `||`, `;`, `|`, `&`)
+- Injection vulnerability mitigation through strict parsing
+- Allow-list validation for diagnostic tools
+- POSIX-compliant security implementation
 
 **Location:** `~/.gemini/hooks/enforce-readonly.sh`
 
@@ -404,14 +457,6 @@ session starts, ensuring all sessions begin in read-only mode by default
 
 **Location:** `~/.gemini/hooks/enable-readonly-startup.sh`
 
-#### `enforce-eprime.sh`
-
-Enforces the E-Prime communication protocol by injecting system messages
-that remind the agent to avoid `to be` verbs. E-Prime encourages more
-precise, active language and clearer technical communication.
-
-**Location:** `~/.gemini/hooks/enforce-eprime.sh`
-
 #### `disable-readonly-sessionend.sh`
 
 Automatically removes the `readonly` marker when a session ends,
@@ -421,6 +466,60 @@ termination.
 
 **Location:** `~/.gemini/hooks/disable-readonly-sessionend.sh`
 
+### Optional example hooks
+
+The `hooks/` directory includes extra hooks for workflow enhancement.
+Users can add these to `settings.json` based on their preferences:
+
+#### `context-orchestrator.sh`
+
+**NEW:** Aggregates context from many sources and ensures a safety
+baseline. Provides unified context management across the entire hook
+system.
+
+**Key features:**
+
+- Aggregates E-Prime, Git Protocol, Task Management, Vibe Check, and
+  Response Presentation reminders
+- Provides safety baseline enforcement across all sessions
+- Dynamic context injection based on readonly/builder mode state
+- `POSIX`-compliant implementation for portability
+
+**Location:** `~/.gemini/hooks/context-orchestrator.sh`
+
+#### `response-presentation-startup-hook.sh`
+
+**NEW:** Injects response formatting guidance at session start. Directs
+the agent to follow structured output quality standards defined in
+`response-presentation-guide.md`.
+
+**Key features:**
+
+- Enforces high-information, low-friction response patterns
+- Provides format selection routing (Quick Answer, How-To, Review,
+  Status, Plan)
+- Ensures E-Prime compliance and token efficiency
+- Maintains scannable format and clarity standards
+
+**Location:** `~/.gemini/hooks/response-presentation-startup-hook.sh`
+
+#### `enforce-eprime.sh`
+
+Enforces the E-Prime communication protocol by injecting system messages
+that remind the agent to avoid `to be` verbs. E-Prime encourages more
+precise, active language and clearer technical communication.
+
+**Location:** `~/.gemini/hooks/enforce-eprime.sh`
+
+**Other optional hooks available:**
+
+- `beads-startup-reminder.sh` - `BEADS` task management startup
+- `remind-beads-onboard.sh` - Context-aware `BEADS` reminders
+- `remind-git-protocol.sh` - Git commit protocol enforcement
+- `remind-vibe-check-dynamic.sh` - Vibe Check `metacognitive` reminders
+- `setup-beads.sh` - `BEADS` installation script
+- `vibe-check-startup-reminder.sh` - Vibe Check session guidance
+
 ### How hooks work
 
 The `settings.json` file configures the hooks to operate as follows:
@@ -429,10 +528,9 @@ The `settings.json` file configures the hooks to operate as follows:
    - `enable-readonly-startup.sh` executes to create the
      `.gemini_readonly` marker (Safe-Default principle)
 
-2. **BeforeAgent hooks**: Before the agent processes any input:
+2. **BeforeAgent hook**: Before the agent processes any input:
    - `remind-readonly-dynamic.sh` runs to reinforce `readonly`
      constraints
-   - `enforce-eprime.sh` runs to inject E-Prime communication reminders
 
 3. **BeforeTool hook**: When the agent attempts to use write tools
    (`write_file`, `replace`, `run_shell_command`, `delete_file`,
@@ -452,8 +550,7 @@ relevant:
 
 - `SessionStart`: `matcher: "startup"` for `enable-readonly-startup.sh`
   (runs once at session start)
-- `BeforeAgent`: `matcher: "*"` applies both hooks to all agent
-  executions
+- `BeforeAgent`: `matcher: "*"` applies hook to all agent executions
 - `BeforeTool`:
   `matcher: "write_file|replace|run_shell_command|delete_file|create_directory|move_file|copy_file"`
   (note the pipe-separated tool names) applies to all write and
@@ -465,90 +562,93 @@ in the provided `settings.json` file.
 
 ---
 
-## Optional MCP integrations
+## Optional `MCP` integrations
 
-This project provides optional hooks and knowledge base guides for integrating MCP (Model Context Protocol) server tools. These are **not required** for the core readonly system to function but provide additional capabilities for users who choose to install them.
+This project provides optional hooks and knowledge base guides for
+integrating `MCP` (Model Context Protocol) server tools. These don't
+impact the core read-only system but provide extra capabilities for
+users who choose to install them.
 
-**Note:** The core readme documents only the core readonly enforcement system. If you install MCP servers like BEADS or Vibe Check, refer to the knowledge base guides for detailed usage instructions.
+**Note:** The core `README` documents only the core read-only
+enforcement system. If you install `MCP` servers like `BEADS` or Vibe
+Check, refer to the knowledge base guides for detailed usage
+instructions.
 
-### BEADS task management (optional)
+### `BEADS` task management
 
-BEADS (`bd`) provides AI-native task management for complex workflows. To use this optional feature:
+`BEADS` (`bd`) provides AI-native task management for complex workflows.
+To use this optional feature:
 
-1. Install the BEADS MCP server
+1. Install the `BEADS` `MCP` server
 2. Add optional hooks to your `settings.json`:
-   - `beads-startup-reminder.sh` - Session start onboarding
+   - `beads-startup-reminder.sh` - Session start setup
    - `remind-beads-onboard.sh` - Context-aware reminders
-   - `setup-beads.sh` - Installation script
+   - `setup-beads.sh` - Installation script (`POSIX`-compliant)
 3. Refer to `~/.gemini/kbase/bd-guide.md` for usage protocol
 
 **Key capabilities:**
+
 - Persistent task state across sessions
 - Task types: bug, feature, task, epic, chore
 - Priority levels: 0 (Critical) → 4 (Backlog)
 - Hierarchical task organization
 - Dependency tracking
 
-### Vibe Check metacognitive oversight (optional)
+**ENHANCED** `bd-guide.md` now includes:
 
-Vibe Check provides pattern interrupt mechanisms for metacognitive oversight. To use this optional feature:
+- **Verification**: Executable verification steps in acceptance criteria
+- **Context**: Embed file paths and documentation references in task
+  metadata
+- **Adaptability**: Update task metadata when discovering constraints
+- **E-Prime**: Apply E-Prime protocol to all task metadata
 
-1. Install the Vibe Check MCP server
+### Vibe Check `metacognitive` oversight (optional)
+
+Vibe Check provides pattern interrupt mechanisms for `metacognitive`
+oversight. To use this optional feature:
+
+1. Install the Vibe Check `MCP` server
 2. Add optional hooks to your `settings.json`:
    - `vibe-check-startup-reminder.sh` - Session start guidance
    - `remind-vibe-check-dynamic.sh` - Context-aware reminders
 3. Refer to `~/.gemini/kbase/vibe-check-guide.md` for usage guidance
 
 **Key capabilities:**
+
 - Pattern interrupt at strategic checkpoints
 - Post-Planning, High Complexity, System Modification invocations
 - Feedback integration for course correction
 - Pattern learning through `vibe_learn`
 
-### Git protocol enforcement (optional)
-
-Strict Git commit protocol enforcement hook available:
-- `remind-git-protocol.sh` - Prevents autonomous commits
-
-Add to `settings.json` BeforeAgent hooks if desired.
-
-### Available optional hooks
-
-The following hooks are available in the `hooks/` directory for optional use:
-- `beads-startup-reminder.sh`
-- `remind-beads-onboard.sh`
-- `remind-git-protocol.sh`
-- `remind-vibe-check-dynamic.sh`
-- `setup-beads.sh`
-- `vibe-check-startup-reminder.sh`
-
-These hooks implement context-aware behavior, remaining silent in readonly mode to reduce noise.
-
 ---
 
 ## Knowledge base reference
 
-The `~/.gemini/kbase/` directory provides comprehensive reference documentation for protocols, patterns, and workflows. The knowledge base loads automatically through the `settings.json` context configuration.
+The `~/.gemini/kbase/` directory provides comprehensive reference
+documentation for protocols, patterns, and workflows. The knowledge base
+loads automatically through the `settings.json` context configuration.
 
 ### Core guides
 
-| Guide | Description |
-|:------|:------------|
-| `agent-protocols.md` | Agent operational protocols and communication patterns |
-| `cloud-patterns.md` | Cloud architecture patterns and best practices |
-| `data-science-workflow.md` | Data science project workflow and methodology |
-| `e-prime-protocol.md` | E-Prime communication protocol reference |
-| `engineering-principles.md` | Software engineering principles and guidelines |
-| `GEMINI.md` | Project-specific Gemini CLI directives |
-| `gemini-prompt-engineering.md` | Prompt engineering patterns for Gemini models |
-| `ui-ux-design.md` | UI/UX design patterns and guidelines |
+| Guide                            | Description                                                                                                           |
+| :------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| `agent-protocols.md`             | Agent operational protocols and communication patterns                                                                |
+| `cloud-patterns.md`              | Cloud architecture patterns and best practices                                                                        |
+| `data-science-workflow.md`       | Data science project workflow and method                                                                              |
+| `e-prime-protocol.md`            | **UPDATED:** E-Prime communication protocol reference with improved formatting and examples                           |
+| `engineering-principles.md`      | Software engineering principles and guidelines                                                                        |
+| `GEMINI.md`                      | Project-specific Gemini CLI directives                                                                                |
+| `gemini-prompt-engineering.md`   | Prompt engineering patterns for Gemini models                                                                         |
+| `response-presentation-guide.md` | **NEW:** Output quality standards, format selection router, compression rules, and evidence guidelines                |
+| `shell-scripting-guide.md`       | **NEW:** `POSIX` compliance standards, prohibited `Bashisms`, translation patterns, and portable scripting techniques |
+| `ui-ux-design.md`                | UI/UX design patterns and guidelines                                                                                  |
 
-### Optional MCP integration guides
+### Optional `MCP` integration guides
 
-| Guide | Description |
-|:------|:------------|
-| `bd-guide.md` | BEADS task management system protocol (optional) |
-| `vibe-check-guide.md` | Vibe Check metacognitive oversight (optional) |
+| Guide                 | Description                                                                                                         |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| `bd-guide.md`         | **ENHANCED:** `BEADS` task management with verification, context requirements, and adaptability patterns (optional) |
+| `vibe-check-guide.md` | Vibe Check `metacognitive` oversight (optional)                                                                     |
 
 ### Context loading
 
@@ -561,7 +661,8 @@ The `settings.json` configuration enables automatic loading:
 }
 ```
 
-This ensures the agent has immediate access to all reference documentation without manual loading.
+This ensures the agent has immediate access to all reference
+documentation without manual loading.
 
 ---
 
@@ -623,34 +724,6 @@ complete behavior.
 - **Phase:** Act
 - **Description:** Removes the read-only lock, permitting direct write
   operations without a formal plan.
-
-## `E-Prime` Communication protocol
-
-E-Prime represents a variant of English that excludes all forms of the
-verb `to be`. This project enforces E-Prime through the
-`enforce-eprime.sh` hook to encourage more precise, active technical
-communication.
-
-**Why E-Prime?**
-
-- **Clarity**: Forces more specific, descriptive language
-- **Precision**: Eliminates ambiguous identity statements
-- **Active Voice**: Encourages action-oriented descriptions
-- **Reduced Assumptions**: Prevents treating opinions as facts
-
-**Example transformations:**
-
-- `The bug is in the parser` → `The parser contains the bug`
-- `This is a security issue` → `This presents a security risk`
-- `The code is inefficient` → `The code performs inefficiently`
-- `It was fixed yesterday` → `We fixed it yesterday`
-- `This approach is better` → `This approach performs better`
-
-**Note:** The E-Prime hook injects reminders without blocking agent
-responses. It serves as a communication guideline rather than a strict
-enforcement mechanism.
-
----
 
 ![Fix Mode Diagram](assets/fix.png)
 

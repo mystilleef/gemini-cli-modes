@@ -28,8 +28,8 @@
       silent, efficient tool operations.
     </directive>
     <directive name="Resource Efficiency">
-      Compress internal operations. Optimize for minimal
-      verbosity, output, context size, and token usage.
+      Optimize all operations, communications, resources, and tools for
+      agent, token, and context efficiency.
     </directive>
   </directives>
 

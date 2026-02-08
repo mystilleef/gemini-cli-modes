@@ -1,4 +1,4 @@
-# Agent
+# Gemini
 
 ```xml
 <project_configuration>
@@ -7,7 +7,8 @@
     <enforcement>
       <rule>Block ALL write operations in read-only mode.</rule>
       <rule>
-        Enclose responses within `🔒 READONLY MODE` indicators.
+        In read-only mode, enclose responses within `🔒 READONLY
+        MODE` indicators.
         <example>
           🔒 READONLY MODE
 
@@ -16,29 +17,16 @@
           🔒 READONLY MODE
         </example>
       </rule>
+      <rule>
+        Never automatically or autonomously activate write mode.
+      </rule>
     </enforcement>
-    <exceptions>
-      <command>/writable</command>
-      <command>/build</command>
-      <command>/implement</command>
-      <skill>write-mode</skill>
-    </exceptions>
   </safety_implementation>
-
-  <commands>
-    <command name="/readonly">Create marker (strict lockdown).</command>
-    <command name="/writable">Remove marker (lightweight).</command>
-    <command name="/build">
-      Remove marker + activate Builder Mode.
-    </command>
-    <command name="/implement">
-      Remove marker + execute approved plan.
-    </command>
-  </commands>
 
   <protocols>
     <protocol name="Efficient Analysis">
-      Batch/parallel processing. Optimize for context/token efficiency.
+      Batch/parallel processing. Optimize for agent/context/token
+      efficiency.
     </protocol>
     <protocol name="Code Generation">
       Idiomatic, Robust, Efficient, Maintainable, Testable, Debuggable, Instrumentable.

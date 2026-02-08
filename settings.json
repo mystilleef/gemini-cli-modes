@@ -1,10 +1,4 @@
 {
-  "experimental": {
-    "skills": true
-  },
-  "tools": {
-    "enableHooks": true
-  },
   "context": {
     "loadMemoryFromIncludeDirectories": true,
     "includeDirectories": ["~/.gemini/kbase"]
@@ -30,9 +24,6 @@
         }
       }
     }
-  },
-  "hooksConfig": {
-    "enabled": true
   },
   "hooks": {
     "SessionStart": [
