@@ -1,93 +1,91 @@
 ---
 name: plan-mode
 description:
-  Investigates and creates a strategic plan to complete a task.
+  Investigates and creates a strategic plan to accomplish a task. Use
+  when you need a detailed roadmap for a complex objective.
 ---
 
 # Plan mode
 
-**`GOAL`**: investigate context and create a strategic plan for the
-user's goal.
+**`GOAL`**: Transform vague objectives into actionable, verified
+strategic plans following standard planning protocols.
 
-**`WHEN`**: user requests a plan, strategy, or approach for a task.
+**`WHEN`**: Invoke this skill when the user requests a roadmap,
+investigation, or strategic approach for a complex task.
 
-**`NOTE`**: operates in **`READ-ONLY`** mode. **`MUST NOT`** change
-code.
+**`NOTE`**: This skill operates strictly in read-only mode to ensure
+safety during investigation.
 
 ## Efficiency directives
 
-- Optimize all operations for token and context efficiency
-- Batch operations on file groups, avoid individual file processing
-- Use parallel execution when possible
+- Optimize all operations for agent, token, and context efficiency
+- Prefer reading over writing during the planning phase
+- Batch information gathering to reduce tool calls
 - Target only relevant files
 - Reduce token usage
 
 ## Workflow
 
-### Step 1: Activate read-only
+### Step 1: Enforce Read-Only
 
-- Invoke `readonly-mode` skill to ensure safety.
+- Invoke the `readonly-mode` skill.
+- Capture status (`SUCCESS`, `WARN`, `ERROR`).
+- Handle status:
+  - `ERROR`: Halt and report.
+  - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Investigate (perceive)
+### Step 2: Investigate
 
-- Review conversation history and exploration context.
-- Consult `kbase/` for patterns and protocols.
-- Use read/search tools to gather missing context.
-- Map dependencies and impact zones.
+- Conduct a thorough audit of the request and codebase.
+- **Contextual Audit**: Read relevant files, documentation, and logs.
+- **Dependency Mapping**: Identify logical dependencies and risks.
+- **Constraint Verification**: Verify environment limits and policies.
 
-### Step 3: Create plan (reason)
+### Step 3: Draft plan
 
-- Analyze findings against user goal.
-- Apply the 6-step Reasoning Engine (Analyze, Evaluate, Identify, Revise, Incorporate, Retry).
-- Assess risk level (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`).
-- Define verification strategy (`TDD`/`Red-Green-Refactor`).
+- Create a plan following the 8-part structure:
+  1. **Objective**: Concise statement of the goal.
+  2. **Pre-flight Checklist**: Verification steps before starting.
+  3. **Strategic Approach**: High-level method.
+  4. **Actionable Steps**: Numbered list of specific operations.
+  5. **Verification Plan**: How to prove the work's correctness.
+  6. **Risk Assessment**: Potential pitfalls and solutions.
+  7. **Resource Requirements**: Tools, files, or permissions needed.
+  8. **Vibe Check Points**: Specific moments to pause and re-evaluate.
 
-### Step 4: Present plan
+### Step 4: Analyze & refine
 
-- Output the plan using the structure defined below.
-- Precede plan with a mandatory pre-flight checklist.
+- Perform Multi-Perspective Analysis:
+  - **The Architect**: Structural integrity and scalability.
+  - **The Security Engineer**: Safety, permissions, and vulnerabilities.
+  - **The Implementer**: Practicality, efficiency, and clarity.
+- Adjust the plan based on analysis.
+- Verify compliance with `kbase/engineering-principles.md` and
+  `kbase/agent-protocols.md`.
+
+### Step 5: Present
+
+- Deliver the final strategic plan to the user for approval.
 - **`DONE`**
 
-## Output structure
+## Strategic plan format
 
-**Pre-flight Checklist:**
+**Strategic plan:**
 
-- [ ] Alignment with System Directives
-- [ ] Adherence to Verification-First Development protocol
-- [ ] Resolution of all ambiguities
-- [ ] Consultation of `kbase` for relevant patterns
-- [ ] Exploration phase context captured
+1. **Objective**: [Goal]
+2. **Pre-flight Checklist**: [Steps]
+3. **Strategic Approach**: [Method]
+4. **Actionable Steps**: [List]
+5. **Verification Plan**: [Proof]
+6. **Risk Assessment**: [Pitfalls]
+7. **Resource Requirements**: [Needs]
+8. **Vibe Check Points**: [Pauses]
 
-**Strategic Plan Template:**
+## Output
 
-1. **Understanding the Goal**
-   - Restate goal and define success criteria.
+**Files created/modified:**
 
-2. **Risk Level Assessment**
-   - Classify risk (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`) with justification.
-   - Determine Reasoning Engine depth.
+- None (Read-only operation).
+- `.gemini_readonly` - Ensured at the start.
 
-3. **Investigation & Analysis**
-   - List files investigated and search results.
-   - Cite `kbase` references and critical Q&A.
-   - Map dependencies.
-
-4. **Proposed Strategic Approach**
-   - Outline phases with `deliverables`.
-   - Emphasize `TDD` (`Red-Green-Refactor`).
-
-5. **Verification Strategy**
-   - Detail explicit test plan (new/modified tests).
-   - Define success metrics and coverage targets.
-
-6. **Anticipated Challenges & Considerations**
-   - List technical challenges, risks, and trade-offs.
-   - Identify edge cases.
-
-7. **Draft of Changes**
-   - Preview exact file modifications (create/change/delete).
-   - Use diff format for modifications.
-
-8. **Context for Implementation**
-   - List files to track and verification artifacts.
-   - Define rollback strategy.
+**Status communication:** Report the detailed strategic plan.

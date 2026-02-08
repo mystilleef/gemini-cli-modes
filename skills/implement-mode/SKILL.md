@@ -1,70 +1,90 @@
 ---
 name: implement-mode
-description: Executes a strategic plan using `bd` for task management.
+description:
+  Executes approved plans or requests with a verification-first mindset
+  and robust troubleshooting. Use when you need to implement specific
+  changes and provide a detailed session summary.
 ---
 
-# `Implement mode`
+# Implement-Mode
 
-**`GOAL`**: execute the approved plan autonomously, managing tasks via
-`bd` or an internal system.
+**`GOAL`**: Execute approved project modifications safely and
+efficiently following standard implementation protocols.
 
-**`WHEN`**: user approves a plan and requests implementation.
+**`WHEN`**: Invoke this skill when the user explicitly requests the
+execution of an approved plan or request.
 
-**`NOTE`**: operates in **BUILDER** mode. Activates **`WRITE`**
-permissions.
+**`NOTE`**: This skill requires explicit user authorization for
+high-risk operations and always restores read-only mode upon completion.
 
 ## Efficiency directives
 
 - Optimize all operations for agent, token, and context efficiency
 - Optimize for minimal output
-- Batch operations on file groups
+- Batch operations on file groups, avoid individual file processing
 - Use parallel execution when possible
 - Target only relevant files
 - Reduce token usage
 
+## Task management
+
+- Always study the `bd guide` before using the `bd` tool for task
+  management
+- Use your task management system to break down, plan, and optimize
+  workflow.
+
 ## Workflow
 
-### Step 1: Activate write mode
+### Step 1: Activate write access
 
-- Invoke `write-mode` skill.
-- Capture status from skill output.
-- If `ERROR`, halt and report.
+- Invoke the `write-mode` skill.
+- Capture status (`SUCCESS`, `WARN`, `ERROR`).
+- Handle status:
+  - `ERROR`: Halt and report.
+  - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Initialization
+### Step 2: Initialize
 
-- **Setup:** Activate your task management system to manage your work
-- **Announce:** State the goal, risk level, and management method.
+- Activate the task management system.
+- State the goal, risk level, and management method.
 
-### Step 3: Execution loop
+### Step 3: Execute plan
 
-- Refine, streamline, and optimize the plan, or user's request.
-- Use your task management system to manage your work.
-- Execute the plan or request.
+- Apply the 6-step reasoning engine:
+  1. **Analyze**: Prerequisites and order of operations.
+  2. **Evaluate**: Consequences and risks.
+  3. **Identify**: Likely causes and edge cases.
+  4. **Revise**: Plans based on observations.
+  5. **Incorporate**: All tools, policies, and constraints.
+  6. **Retry**: Transient errors.
+- Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,
+  `HIGH`).
+- Perform modifications.
 
-### Step 4: Troubleshooting & safety
+### Step 4: Verify & fix
 
-- **On failure:** don't halt immediately.
+- Run tests, linters, and builds.
+- **On failure:**
   1. **Diagnose:** Analyze the error to identify the root cause.
-  2. **Fix:** Attempt to resolve the issue autonomously (for example,
-     fix code, adjust tests).
+  2. **Fix:** Attempt to resolve the issue autonomously.
   3. **Retry:** Verify the fix.
-- **Escalation:** If the issue persists after reasonable attempts (for
-  example, 11) or proves critical/unsafe, **`THEN`** halt.
-- **Recovery:** If halting, roll back changes if safe, report to the
-  user, and revert to Explorer Mode.
+- **Escalation:** If the issue persists after reasonable attempts, halt
+  and report.
 
-### Step 5: Verification & completion
+### Step 5: Restore safety
 
-- **Verify:** Run all relevant tests, `linters`, and builds.
-- **Finish:** If verification passes, update documentation and provide a
-  session summary using the structure below.
-- **Exit:** Revert to Explorer Mode.
+- Invoke the `readonly-mode` skill.
 
-## Session summary structure
+### Step 6: Report
+
+- Provide the session summary.
+- **`DONE`**
+
+## Session summary format
 
 **Overview:**
 
-- **`Objective`:** [Goal]
+- **Objective:** [Goal]
 - **Risk:** [Level]
 - **Duration:** [Time]
 
@@ -76,10 +96,19 @@ permissions.
 
 **Verification:**
 
-- **Tests:** [Pass/`Fail`]
+- **Tests:** [Pass/Fail]
 - **Quality:** [Lint/Build Status]
 - **Coverage:** [Status]
 
 **Notes:**
 
 - [Key decisions/blockers]
+
+## Output
+
+**Files created/modified:**
+
+- Project files modified during execution.
+- `.gemini_readonly` - Restored at the end.
+
+**Status communication:** Report the detailed session summary.

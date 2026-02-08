@@ -1,26 +1,37 @@
 ---
 name: write-mode
 description:
-  Deactivates read-only safety. Use when the user authorizes changes or
-  requests write access.
+  Enable write mode by removing the safety marker. Use when the user
+  explicitly authorizes changes.
 ---
 
 # Write mode
 
-**`GOAL`**: enable write operations by removing the `lockdown` marker.
+**`GOAL`**: Activate write mode by removing the `.gemini_readonly`
+marker file.
 
-**`WHEN`**: user explicitly authorizes changes or requests write access.
+**`WHEN`**: Invoke this skill ONLY when the user explicitly authorizes
+write access or requests to disable read-only mode.
+
+**`NOTE`**: This skill removes the file that whitelisted hooks use to
+block write-capable tools.
 
 ## Efficiency directives
 
-- **`DON'T`** use your task management tool for this skill
 - Optimize all operations for agent, token, and context efficiency
-- Optimize for minimal output
-- Reduce token usage
+- Target only relevant files
+- Don't use your task management system for this skill
+- Don't perform a vibe check for this skill
 
 ## Workflow
 
-- Run `skills/write-mode/scripts/write-mode.sh`
-- Capture status from output (`SUCCESS`, `WARN`, `ERROR`)
-- Report status to user
+- Execute `scripts/enable-write-mode.sh`
 - **`DONE`**
+
+## Output
+
+**Files created/modified:**
+
+- `.gemini_readonly` - Marker file removed to enable write mode.
+
+**Status communication:** Report status of script operation.

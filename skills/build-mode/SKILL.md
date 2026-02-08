@@ -1,16 +1,21 @@
 ---
 name: build-mode
-description: Exits read-only mode and activates Builder Mode.
+description:
+  Executes plans and requests requiring project modifications with a
+  verification-first mindset. Use when you need to perform write
+  operations and ensure quality standards.
 ---
 
 # Build mode
 
-**`GOAL`**: enable write operations and activate Builder Mode protocols.
+**`GOAL`**: Execute project modifications safely and efficiently
+following standard build protocols.
 
-**`WHEN`**: user explicitly authorizes changes or requests to
-`build`/`implement`.
+**`WHEN`**: Invoke this skill when the user requests changes to the
+codebase, refactoring, or feature implementation.
 
-**`NOTE`**: activates **`WRITE`** permissions.
+**`NOTE`**: This skill requires explicit user authorization for
+high-risk operations and always restores read-only mode upon completion.
 
 ## Efficiency directives
 
@@ -20,50 +25,53 @@ description: Exits read-only mode and activates Builder Mode.
 - Target only relevant files
 - Reduce token usage
 
+## Task management
+
+- Always study the `bd guide` before using the `bd` tool for task
+  management
+- Use your task management system to break down, plan, and optimize
+  workflow.
+
 ## Workflow
 
-### Step 1: Activate write mode
+### Step 1: Activate write access
 
-- Invoke `write-mode` skill.
-- Capture status from skill output.
-- If `ERROR`, halt and report.
+- Invoke the `write-mode` skill.
+- Capture status (`SUCCESS`, `WARN`, `ERROR`).
+- Handle status:
+  - `ERROR`: Halt and report.
+  - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Activate protocols
+### Step 2: Execute plan
 
-- Adopt the **Builder Mode** persona and protocols defined below.
+- Apply the 6-step reasoning engine:
+  1. **Analyze**: Prerequisites and order of operations.
+  2. **Evaluate**: Consequences and risks.
+  3. **Identify**: Likely causes and edge cases.
+  4. **Revise**: Plans based on observations.
+  5. **Incorporate**: All tools, policies, and constraints.
+  6. **Retry**: Transient errors.
+- Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,
+  `HIGH`).
+- Perform modifications.
+- Verify changes through tests, linting, or builds.
 
-### Step 3: Feedback
+### Step 3: Restore safety
 
-- Display ✅ **`BUILDER MODE ACTIVE`** ✅ message.
+- Invoke the `readonly-mode` skill.
 
-### Step 4: Execution
+### Step 4: Report
 
-- Refine, streamline, and optimize the plan or request.
-- Execute the plan or the request.
+- Provide a concise summary of the work completed and verification
+  results.
 - **`DONE`**
 
-## Builder mode protocols
+## Output
 
-**Permissions:**
+**Files created/modified:**
 
-- You now have permission to change the project.
+- Project files modified during execution.
+- `.gemini_readonly` - Restored at the end.
 
-**Required Protocols:**
-
-1. **`Reasoning Engine Protocol:`** Apply the 6-step Reasoning Engine
-   (Analyze, Evaluate, Identify, Revise, Incorporate, Retry).
-
-2. **`Risk-Adaptive Workflow:`**
-   - `TRIVIAL` 🟢: Execute immediately, inform
-   - `LOW` 🟡: Brief plan + confirmation
-   - `MEDIUM` 🟠: Full Reasoning Engine analysis + confirmation
-   - `HIGH` 🔴: Detailed analysis + explicit approval
-
-3. **`Verification-First:`** "Done" signifies "Verified" (tests
-   required, linting, quality checks, successful builds)
-
-4. **`Safe-Default Edict:`** Propose plans for non-trivial changes,
-   await approval for high-risk ops, halt on failure, document changes
-
-5. **`Task Management Directive:`** For complex work, activate your task
-   management system to manage your work.
+**Status communication:** Report summary of modifications and
+verification status.

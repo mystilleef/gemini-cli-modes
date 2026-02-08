@@ -1,106 +1,96 @@
 ---
 name: review-mode
 description:
-  Critically reviews the last proposed plan for flaws and improvements.
+  Critically reviews plans, code, and strategies. Use when you need a
+  technical review to identify flaws, risks, and improvements.
 ---
 
 # Review mode
 
-**`GOAL`**: critically review the last strategic plan to identify flaws,
-logical errors, missed edge cases, or improvements _before_ user
-approval.
+**`GOAL`**: Conduct critical technical reviews of plans, code, and
+strategies following standard review protocols.
 
-**`WHEN`**: user requests a review of a plan or strategy.
+**`WHEN`**: Invoke this skill when the user requests a critical review
+of a plan or proposed changes.
 
-**`NOTE`**: operates in **`READ-ONLY`** mode. **`MUST NOT`** change
-code.
+**`NOTE`**: This skill operates strictly in read-only mode to ensure
+safety during analysis.
 
 ## Efficiency directives
 
-- Optimize all operations for token and context efficiency
+- Optimize all operations for agent, token, and context efficiency
+- Optimize for minimal output
 - Batch operations on file groups, avoid individual file processing
-- Use parallel execution when possible
 - Target only relevant files
 - Reduce token usage
 
 ## Workflow
 
-### Step 1: Activate read-only
+### Step 1: Enforce Read-Only
 
-- Invoke `readonly-mode` skill.
+- Invoke the `readonly-mode` skill.
+- Capture status (`SUCCESS`, `WARN`, `ERROR`).
+- Handle status:
+  - `ERROR`: Halt and report.
+  - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Analyze plan (perceive)
+### Step 2: Perceive
 
-- Fully understand plan objectives.
-- Assess from all specialist perspectives (Security, QA, Architecture,
-  Performance, DevOps).
-- Compare against `kbase` best practices.
+- Read the plan, code, or context provided for review.
 
-### Step 3: Critique (reason)
+### Step 3: Analyze
 
-- Check risk classification.
-- Surface missing considerations.
-- Synthesize decision (APPROVE/REVISE/REJECT).
+- Apply the 6-step reasoning engine:
+  1. **Analyze**: Context, objectives, and proposed changes.
+  2. **Evaluate**: Risks from Security, QA, and Ops perspectives.
+  3. **Identify**: Missing edge cases, logical flaws, and debt.
+  4. **Revise**: Understanding based on deep-dive analysis.
+  5. **Incorporate**: `KBase` patterns and project constraints.
+  6. **Retry**: If analysis yields insufficient confidence.
+- Execute Multi-perspective analysis across five viewpoints:
+  - **Security**: Vulnerabilities, permissions, data handling.
+  - **QA**: Test coverage, testability, regression risks.
+  - **Architecture**: Design patterns, scalability, maintainability.
+  - **Performance**: Latency, resource usage, optimization.
+  - **DevOps**: Deployment, monitoring, infrastructure impact.
 
-### Step 4: Present review
+### Step 4: Critique & assess risk
 
-- Output the review using the structure defined below.
+- Compare against `KBase` and best practices.
+- Re-evaluate the risk level (`TRIVIAL`, `LOW`, `MEDIUM`, `HIGH`).
+
+### Step 5: Report
+
+- Output the structured review decision.
 - **`DONE`**
 
-## Output structure
+## Review report format
 
 **Review checklist:**
 
-1. **As a Security Engineer**
-   - Vulnerability Assessment
-   - Security Controls
-   - Findings (Critical, Moderate, Best Practices)
-
-2. **As a QA Engineer**
-   - Test Coverage
-   - Quality Assurance
-   - Test Quality
-   - Findings (Critical, Moderate, Best Practices)
-
-3. **As a Senior Architect**
-   - Design & Architecture
-   - Code Quality
-   - Long-term Considerations
-   - Findings (Critical, Moderate, Best Practices)
-
-4. **As a Performance Engineer**
-   - Performance Impact
-   - Optimization Opportunities
-   - Performance Metrics
-   - Findings (Critical, Moderate, Best Practices)
-
-5. **As a DevOps Engineer**
-   - Deployment & Operations
-   - Operational Concerns
-   - Infrastructure
-   - Findings (Critical, Moderate, Best Practices)
-
-**Knowledge base alignment:**
-
-- Pattern Compliance
-- Deviations
+1. **Security**: [Findings/None]
+2. **QA**: [Findings/None]
+3. **Architecture**: [Findings/None]
+4. **Performance**: [Findings/None]
+5. **DevOps**: [Findings/None]
 
 **Risk re-assessment:**
 
-- Original vs. Re-assessed Risk Level
-- Justification
+- **Level**: [TRIVIAL/LOW/MEDIUM/HIGH]
+- **Justification**: [Reasoning]
 
-**Review decision:**
+**Decision:**
 
-- Recommendation: APPROVE ✅ / REVISE 🔄 / REJECT ❌
-- Critical Issues (Blockers)
-- Moderate Concerns (Recommendations)
-- Minor Observations
-- Confidence Level: `HIGH` 🟢 / `MEDIUM` 🟡 / `LOW` 🔴
-- Next Steps
+- **Recommendation**: [APPROVE ✅ / REVISE 🔄 / REJECT ❌]
+- **Blockers**: [Critical Issues]
+- **Concerns**: [Moderate Issues]
+- **Next Steps**: [Actionable advice]
 
-**Review summary:**
+## Output
 
-- Strengths
-- Weaknesses
-- Assessment
+**Files created/modified:**
+
+- None (Read-only operation).
+- `.gemini_readonly` - Ensured at the start.
+
+**Status communication:** Report the detailed review decision.

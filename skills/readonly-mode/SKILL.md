@@ -1,26 +1,38 @@
 ---
 name: readonly-mode
 description:
-  Activates project-wide read-only safety. Use for lockdown and safety
-  enforcement.
+  Enable read-only mode for safety enforcement. Use when the agent or
+  user wants to protect the project from modifications.
 ---
 
 # Read-only mode
 
-**`GOAL`**: enforce read-only safety on the project.
+**`GOAL`**: Activate read-only mode by creating the `.gemini_readonly`
+marker file.
 
-**`WHEN`**: user or agent requests `lockdown` or safety enforcement.
+**`WHEN`**: Invoke this skill when you need to ensure no further write
+operations occur in the current session or when explicitly requested by
+the user.
+
+**`NOTE`**: This skill creates a file that whitelisted hooks use to
+block write-capable tools.
 
 ## Efficiency directives
 
-- **`DON'T`** use your task management tool for this skill
 - Optimize all operations for agent, token, and context efficiency
-- Optimize for minimal output
-- Reduce token usage
+- Target only relevant files
+- Don't use your task management system for this skill
+- Don't perform a vibe check for this skill
 
 ## Workflow
 
-- Run `skills/readonly-mode/scripts/readonly-mode.sh`
-- Capture status from output (`SUCCESS`, `WARN`, `ERROR`)
-- Report status to user
+- Execute `scripts/enable-readonly-mode.sh`
 - **`DONE`**
+
+## Output
+
+**Files created/modified:**
+
+- `.gemini_readonly` - Marker file to enable read-only mode.
+
+**Status communication:** Report status of script operation.
