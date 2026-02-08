@@ -3,7 +3,7 @@
 Use `beads` (`bd`) as your default task management tool for **`ALL`**
 tasks.
 
-**`NOTE`**: don't use markdown `TODOs`.
+**`NOTE`**: Don't use markdown `TODOs`.
 
 ## Task management protocol
 
@@ -17,6 +17,14 @@ For complex work:
 - Split the work into cohesive individual tasks.
 - Track, revise, merge, update, and optimize tasks, as needed.
 - Address every task to completion.
+- **Verification**: Define specific, executable verification steps
+  within acceptance criteria.
+- **Context**: Embed relevant file paths and documentation references in
+  task descriptions.
+- **Adaptability**: Update task metadata immediately upon discovering
+  new technical constraints.
+- **E-Prime**: Strictly apply E-Prime directives to all task metadata.
+  Exclude `to be` verbs.
 
 ## Usage guidance
 
@@ -52,11 +60,12 @@ immediately convert it to a task via `bd create`.
 
 ## Protocol
 
-1.  **Always** use `--json` and `--description` (or `-d`) flags.
-2.  **Always** commit `.beads/issues.jsonl` with code changes.
-3.  **Consult** `bd ready` to identify high-priority work.
-4.  **Store** planning docs in `history/`.
-5.  **Sync** occurs automatically on file change.
+1. **Always** use `--json` and `--description` (or `-d`) flags for all
+   `bd` operations.
+2. **Always** commit `.beads/issues.jsonl` with code changes.
+3. **Consult** `bd ready --json` to identify high-priority work.
+4. **Store** planning docs in `history/`.
+5. **Sync** occurs automatically on file change.
 
 ## Reference
 

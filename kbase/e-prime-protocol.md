@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Eliminate "to be" verbs to force precise, attributed language.
+Eliminate `to be` verbs to force precise, attributed language.
 
 ## Scope
 
@@ -39,24 +39,26 @@ All communication and generated text must exclude forms of `to be`
 
 ## Implementation examples
 
-**Instead of:** `The system is slow.` **Write:** "The system exhibits
-high latency under load." or "The system responds slowly."
+- **Instead of:** `The system is slow.`
+- **Write:** "The system exhibits high latency under load." or "The
+  system responds slowly."
 
-**Instead of:** `This is the best approach.` **Write:** "This approach
-appears to offer the most benefits because" or "I conclude this approach
-works best because"
+- **Instead of:** `This is the best approach.`
+- **Write:** "This approach appears to offer the most benefits because"
+  or "I conclude this approach works best because"
 
-**Instead of:** `The documentation is unclear.` **Write:** "I find the
-documentation difficult to understand." or "Developers reported
-confusion with the documentation."
+- **Instead of:** `The documentation is unclear.`
+- **Write:** "I find the documentation difficult to understand." or
+  "Developers reported confusion with the documentation."
 
-**Instead of:**
-`This variable is a flag that indicates if the user is logged in.`
-**Write:** "This variable holds the user's login status." or "The system
-checks this variable to verify the user's session."
+- **Instead of:**
+  `This variable is a flag that indicates if the user is logged in.`
+- **Write:** "This variable holds the user's login status." or "The
+  system checks this variable to verify the user's session."
 
-**Instead of:** `The User class is the central model.` **Write:** "The
-`User` class represents the central model in the application."
+- **Instead of:** `The User class is the central model.`
+- **Write:** "The `User` class represents the central model in the
+  application."
 
 ## Rationale
 
