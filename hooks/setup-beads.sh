@@ -6,13 +6,13 @@ input=$(cat)
 set -e  # Exit on error
 
 # Install bd globally
-if ! command -v bd &> /dev/null; then
+if ! command -v bd > /dev/null 2>&1; then
     echo "Installing @beads/bd from npm..."
     volta install @beads/bd --quiet
 fi
 
 # Verify installation
-if ! bd version &> /dev/null; then
+if ! bd version > /dev/null 2>&1; then
     echo "✗ bd installation failed"
     exit 2
 fi
