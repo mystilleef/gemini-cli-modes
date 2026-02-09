@@ -1,8 +1,8 @@
 # Mode-based workflow for the Gemini CLI
 
-Enforce structured workflows and safety protocols for the Gemini CLI
+Enforce structured workflows and safety protocols for the `Gemini CLI`
 agent. This project prevents accidental file modifications through a
-"Safe-Default" read-only system.
+`Safe-Default` read-only system.
 
 ## Use case
 
@@ -54,7 +54,7 @@ Place all project files and directories directly into `~/.gemini/`.
 
 ### 2. Configure `settings.json` (CRITICAL)
 
-The Gemini CLI requires `~/.gemini/settings.json` to trigger the hooks
+The `Gemini CLI` requires `~/.gemini/settings.json` to trigger the hooks
 that manage read-only mode. Without this file in the correct location,
 the safety system fails to activate.
 
@@ -103,9 +103,13 @@ export GEMINI_SYSTEM_MD="~/.gemini/SYSTEM.md"
 
 ### Skills system
 
-Skills encapsulate complex logic in `~/.gemini/skills/`. Each directory
-contains a `SKILL.md` defining the workflow and efficiency directives.
-Commands invoke these skills to maintain consistency across sessions.
+The project implements operational modes as encapsulated skills within
+`~/.gemini/skills/`. Each skill directory (e.g., `plan-mode/`,
+`build-mode/`) contains a `SKILL.md` defining the specific workflow,
+safety constraints, and efficiency directives for that state. Commands
+invoke these skills to dynamically transition the agent between modes,
+ensuring consistent behavior and safety protocol enforcement across
+sessions.
 
 ### Enforcement hooks
 
@@ -119,19 +123,22 @@ The `kbase/` directory provides automatic access to technical guides:
 
 - `agent-protocols.md`: `MVP` checklist for evidence-based execution.
 - `bd-guide.md`: Task management with beads.
-- `cloud-patterns.md`: Deployment, CI/CD, data storage, and production readiness.
+- `cloud-patterns.md`: Deployment, CI/CD, data storage, and production
+  readiness.
 - `data-science-workflow.md`: 5-phase analysis workflow.
 - `e-prime-protocol.md`: E-Prime communication rules.
 - `engineering-principles.md`: Core standards and testing.
 - `gemini-prompt-engineering.md`: Prompt engineering best practices.
-- `response-presentation-guide.md`: High-bandwidth information interface guidelines.
+- `response-presentation-guide.md`: High-bandwidth information interface
+  guidelines.
 - `shell-scripting-guide.md`: `POSIX` compliance and portability.
 - `ui-ux-design.md`: UI/UX layout, typography, color, and accessibility.
-- `vibe-check-guide.md`: `Metacognitive` oversight and pattern interrupts.
+- `vibe-check-guide.md`: `Metacognitive` oversight and pattern
+  interrupts.
 
 ## Workflow example
 
-1.  **Start:** Session begins in read-only Explorer Mode via
+1.  **Start:** Session begins in read-only `Explorer Mode` via
     `settings.json` hooks.
 2.  **Investigate:** Use read-only tools to map the codebase.
 3.  **`/plan`:** Generate a strategic roadmap.
