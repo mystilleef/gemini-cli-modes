@@ -43,13 +43,13 @@ Place all project files and directories directly into `~/.gemini/`.
 
 ```bash
 ~/.gemini/
-├── `settings.json`   # CRITICAL: Hook configuration
-├── `SYSTEM.md`       # Core operating principles
-├── `GEMINI.md`       # Global directives
-├── `commands/`       # Custom CLI commands
-├── `hooks/`          # Enforcement scripts
-├── `kbase/`          # Knowledge base
-└── `skills/`         # Encapsulated workflows
+├── settings.json   # CRITICAL: Hook configuration
+├── SYSTEM.md       # Core operating principles
+├── GEMINI.md       # Global directives
+├── commands/       # Custom CLI commands
+├── hooks/          # Enforcement scripts
+├── kbase/          # Knowledge base
+└── skills/         # Encapsulated workflows
 ```
 
 ### 2. Configure `settings.json` (CRITICAL)
