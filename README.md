@@ -4,6 +4,26 @@ Enforce structured workflows and safety protocols for the Gemini CLI
 agent. This project prevents accidental file modifications through a
 "Safe-Default" read-only system.
 
+## Use case
+
+The system enforces a four-phase workflow to ensure project safety and
+code quality.
+
+1. **Explore (Default):** Every session starts in read-only mode. Use
+   this phase to investigate the codebase and define requirements
+   without risk of accidental changes.
+
+2. **Plan & Review (Optional):** Use `/plan` to generate a roadmap and
+   `/review` to audit it for flaws. These read-only commands ensure
+   strategic alignment before execution.
+
+3. **Build (Write):** Execute the plan using `/build` (fast) or
+   `/implement` (thorough). These commands grant temporary write access
+   to the project.
+
+4. **Reset (Automatic):** The system automatically restores read-only
+   mode upon task completion, returning the agent to a safe state.
+
 ## Operational modes
 
 | Command      | Mode    | Access | Description                 |
@@ -23,13 +43,13 @@ Place all project files and directories directly into `~/.gemini/`.
 
 ```bash
 ~/.gemini/
-├── settings.json   # CRITICAL: Hook configuration
-├── SYSTEM.md       # Core operating principles
-├── GEMINI.md       # Global directives
-├── commands/       # Custom CLI commands
-├── hooks/          # Enforcement scripts
-├── kbase/          # Knowledge base
-└── skills/         # Encapsulated workflows
+├── `settings.json`   # CRITICAL: Hook configuration
+├── `SYSTEM.md`       # Core operating principles
+├── `GEMINI.md`       # Global directives
+├── `commands/`       # Custom CLI commands
+├── `hooks/`          # Enforcement scripts
+├── `kbase/`          # Knowledge base
+└── `skills/`         # Encapsulated workflows
 ```
 
 ### 2. Configure `settings.json` (CRITICAL)
