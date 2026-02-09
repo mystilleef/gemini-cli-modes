@@ -28,10 +28,12 @@ high-risk operations and always restores read-only mode upon completion.
 
 ## Task management
 
-- Always study the `bd guide` before using the `bd` tool for task
-  management
-- Use your task management system to break down, plan, and optimize
-  workflow.
+- Use the `beads` (`bd`) tool for task management if available.
+- Always study the `bd guide` before the first invocation of the `bd`
+  tool.
+- If `beads` is unavailable, fallback to the internal `todo` tool.
+- Use the selected task management system to break down, plan, and
+  optimize workflow.
 
 ## Workflow
 
@@ -45,7 +47,7 @@ high-risk operations and always restores read-only mode upon completion.
 
 ### Step 2: Initialize
 
-- Activate the task management system.
+- Activate the task management system (`beads` or `todo`).
 - State the goal, risk level, and management method.
 
 ### Step 3: Execute plan
