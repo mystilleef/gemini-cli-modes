@@ -10,8 +10,6 @@ daemon.lock
 daemon.log
 daemon.pid
 bd.sock
-.local_version
-last-touched
 
 # Legacy database files
 db.sqlite
