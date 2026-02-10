@@ -1,5 +1,10 @@
 # Mode-based workflow for the Gemini CLI
 
+**NOTE:** _The Gemini CLI now includes a native experimental
+`plan mode`. This project provides an alternative safety system via the
+`/prepare` command and `prepare-mode` skill. Users may choose between
+the native implementation or this project's structured workflows._
+
 Enforce structured workflows and safety protocols for the `Gemini CLI`
 agent. This project prevents accidental file modifications through a
 `Safe-Default` read-only system.
@@ -13,8 +18,8 @@ code quality.
    this phase to investigate the codebase and define requirements
    without risk of accidental changes.
 
-2. **Prepare & Review (Optional):** Use `/prepare` to generate a roadmap and
-   `/review` to audit it for flaws. These read-only commands ensure
+2. **Prepare & Review (Optional):** Use `/prepare` to generate a roadmap
+   and `/review` to audit it for flaws. These read-only commands ensure
    strategic alignment before execution.
 
 3. **Build (Write):** Execute the roadmap using `/build` (fast) or
