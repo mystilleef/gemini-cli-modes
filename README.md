@@ -1,6 +1,6 @@
 # Mode-based workflow for the Gemini CLI
 
-**NOTE:** _The Gemini CLI now includes a native experimental
+**NOTE:** _The `Gemini CLI` now includes a native experimental
 `plan mode`. This project provides an alternative safety system via the
 `/prepare` command and `prepare-mode` skill. Users may choose between
 the native implementation or this project's structured workflows._
