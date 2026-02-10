@@ -24,7 +24,7 @@ TASK MANAGEMENT REMINDER:
   - Always study the bd guide before the first invocation of the bd tool.
 VIBE CHECK REMINDER:
   - For complex work, interact with the vibe check mcp to help brainstorm, verify,
-    and validate your ideas, plans, or solutions before executing them.
+    and validate your ideas, roadmaps, or solutions before executing them.
   - Always study the vibe check guide before the first invocation of the vibe check mcp tools.
 PRESENTATION REMINDER:
   - Strictly follow your response presentation directive in your response presentation guide.
