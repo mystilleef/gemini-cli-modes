@@ -22,12 +22,12 @@ Select format based on query type:
 | `How-To`       | Procedures/Workflows | Summary + Ordered steps       |
 | `Review`       | Audits/Critiques     | Severity + Remediation        |
 | `Status`       | Task completion      | Files modified + Verification |
-| `Plan`         | Complex/High-risk    | Risks + Verification plan     |
+| `Prepare`      | Complex/High-risk    | Risks + Verification roadmap     |
 
 ### Mandatory components
 
 - **Review**: Findings by severity; clear remediation steps.
-- **Plan**: Risk assessment; exact verification commands.
+- **Prepare**: Risk assessment; exact verification commands.
 - **Status**: Summary of work; proof of success (for example, test
   results).
 
@@ -40,7 +40,7 @@ Select format based on query type:
 - Include `### TL;DR` for responses exceeding 6 lines.
 - Strictly follow E-Prime (exclude `to be` verbs).
 - Avoid consecutive empty lines.
-- Use `[ ]` / `[x]` for multi-step plans.
+- Use `[ ]` / `[x]` for multi-step roadmaps.
 
 ### Formatting
 

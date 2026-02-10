@@ -8,7 +8,7 @@ tasks.
 ## Task management protocol
 
 Use your task management system to manage and optimize tasks, requests,
-plans, memory, state, context, and workflows.
+roadmaps, memory, state, context, and workflows.
 
 ## Task management directives
 
@@ -33,7 +33,7 @@ For complex work:
 - _Examples:_ "What does this function do?" "List files in `src`."
 
 **Task (use `bd`)**: persists state, modifies code, or requires
-multi-step planning.
+multi-step preparation.
 
 - _Examples:_ "Refactor `auth.ts`." "Fix bug #123." "Investigate
   performance issues."
@@ -64,7 +64,7 @@ immediately convert it to a task via `bd create`.
    `bd` operations.
 2. **Always** commit `.beads/issues.jsonl` with code changes.
 3. **Consult** `bd ready --json` to identify high-priority work.
-4. **Store** planning docs in `history/`.
+4. **Store** preparation docs in `history/`.
 5. **Sync** occurs automatically on file change.
 
 ## Reference

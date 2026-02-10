@@ -6,7 +6,7 @@ Provide a non-negotiable 3-phase checklist for evidence-based execution.
 
 ## Scope
 
-- In: task understanding, planning, risk, and verification steps.
+- In: task understanding, preparation, risk, and verification steps.
 - Out: tooling specifics, code style, or domain rules.
 
 ## Operational Protocols
@@ -28,18 +28,18 @@ _Ground understanding in evidence and assess risk._
 - **[ ] Ambiguity Resolution:**
   - Resolve all ambiguities in the user's request before proceeding.
 
-## Phase 2: Identify & Revise (Planning)
+## Phase 2: Identify & Revise (Preparation)
 
-_Make every plan safe, transparent, and verifiable._
+_Make every roadmap safe, transparent, and verifiable._
 
 - **[ ] Hypothesis Generation (Step 3):**
   - Identify likely causes and look beyond the obvious.
   - Explain reasoning for the chosen approach.
 
-- **[ ] Plan Adaptability (Step 4):**
-  - Outline how to revise plans based on new observations during execution.
+- **[ ] Roadmap Adaptability (Step 4):**
+  - Outline how to revise roadmaps based on new observations during execution.
 
-- **[ ] Explicit Verification Plan:**
+- **[ ] Explicit Verification Roadmap:**
   - Provide exact, runnable commands to prove success.
 
 ## Phase 3: Incorporate & Retry (Execution)
@@ -48,7 +48,7 @@ _Prove the implemented solution correct and meets quality standards._
 
 - **[ ] Completeness (Step 5):**
   - Incorporate all tools, policies, and constraints during execution.
-  - Execute every command from the verification plan.
+  - Execute every command from the verification roadmap.
 
 - **[ ] Persistence & Verification (Step 6):**
   - Retry transient errors; change strategy for logical errors.

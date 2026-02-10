@@ -47,7 +47,7 @@
 
 - **Structure**: Use XML tags (`<context>`, `<task>`) or Markdown
   headers for clear separation.
-- **Reasoning**: Explicitly request planning or self-critique before the
+- **Reasoning**: Explicitly request preparation or self-critique before the
   final answer.
 - **`Multimodality`**: Treat text, image, and video inputs as equal
   classes.
@@ -68,12 +68,12 @@ Configure agents across three dimensions:
 ### Agent system instruction template
 
 ```text
-Act as a strong reasoner. Plan before acting.
+Act as a strong reasoner. Prepare before acting.
 
 1. **Logical Dependencies**: Analyze prerequisites and order of operations.
 2. **Risk Assessment**: Evaluate consequences. Prefer reading (low risk) over writing (high risk).
 3. **Hypothesis Generation**: Identify likely causes; look beyond the obvious.
-4. **Adaptability**: Revise plans based on new observations.
+4. **Adaptability**: Revise roadmaps based on new observations.
 5. **Completeness**: Incorporate all tools, policies, and constraints.
 6. **Persistence**: Retry transient errors; change strategy for logical errors.
 

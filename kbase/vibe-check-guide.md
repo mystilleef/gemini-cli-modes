@@ -12,7 +12,7 @@ to break "pattern inertia" and ensure alignment.
 
 Invoke `vibe_check` autonomously at these critical checkpoints:
 
-- **Post-Planning**: Before executing complex plans.
+- **Post-Preparation**: Before executing complex roadmaps.
 - **High Complexity**: When task ambiguity or difficulty increases.
 - **System Modification**: Before applying significant changes to the
   codebase or architecture.
@@ -22,7 +22,7 @@ Invoke `vibe_check` autonomously at these critical checkpoints:
 - **Full Context**: ALWAYS include the complete user prompt in the
   `vibe_check` call.
 - **Phase Awareness**: Explicitly define the `phase` parameter:
-  - `planning`: Strategy formulation.
+  - `preparation`: Strategy formulation.
   - `implementation`: Code writing/modification.
   - `review`: Verification and testing.
 
@@ -46,7 +46,7 @@ Invoke `vibe_check` autonomously at these critical checkpoints:
 
 ```markdown
 1. Treat `vibe_check` as a pattern interrupt for course correction.
-2. Use at strategic points (Plan -> Check -> Act).
+2. Use at strategic points (Prepare -> Check -> Act).
 3. Include full user prompt and current phase.
 4. Chain `vibe_learn` to record resolved error patterns.
 ```

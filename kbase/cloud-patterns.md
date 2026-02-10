@@ -185,7 +185,7 @@ Automated path from code commit to production deployment:
 **Dashboard Design**
 
 - Real-time system health visualization
-- Historical trend analysis for capacity planning
+- Historical trend analysis for capacity preparation
 - Alert status and on-call escalation visibility
 
 ### Deployment Checklist
