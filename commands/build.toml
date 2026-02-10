@@ -1,4 +1,2 @@
-description = "Exits read-only mode and enters Builder Mode"
-prompt = """
-Invoke the `build-mode` skill.
-"""
+description = "Build approved roadmaps or requests."
+prompt = "Invoke the `build-mode` skill."

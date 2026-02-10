@@ -1,4 +1,2 @@
-description = "Critically reviews the last proposed plan for flaws and improvements."
-prompt = """
-Invoke the `review-mode` skill.
-"""
+description = "Critically reviews the last proposed roadmap for flaws and improvements."
+prompt = "Invoke the `review-mode` skill."

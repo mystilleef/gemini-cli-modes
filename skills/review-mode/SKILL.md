@@ -1,17 +1,17 @@
 ---
 name: review-mode
 description:
-  Critically reviews plans, code, and strategies. Use when you need a
+  Critically reviews roadmaps, code, and strategies. Use when you need a
   technical review to identify flaws, risks, and improvements.
 ---
 
 # Review mode
 
-**`GOAL`**: Conduct critical technical reviews of plans, code, and
+**`GOAL`**: Conduct critical technical reviews of roadmaps, code, and
 strategies following standard review protocols.
 
 **`WHEN`**: Invoke this skill when the user requests a critical review
-of a plan or proposed changes.
+of a roadmap or proposed changes.
 
 **`NOTE`**: This skill operates strictly in read-only mode to ensure
 safety during analysis.
@@ -36,7 +36,7 @@ safety during analysis.
 
 ### Step 2: Perceive
 
-- Read the plan, code, or context provided for review.
+- Read the roadmap, code, or context provided for review.
 
 ### Step 3: Analyze
 

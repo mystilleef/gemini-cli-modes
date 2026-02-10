@@ -1,4 +1,2 @@
-description = "Executes a strategic plan using 'bd' for task management (or internal fallback)."
-prompt = """
-Invoke the `implement-mode` skill.
-"""
+description = "Executes approved roadmaps or requests."
+prompt = "Invoke the `implement-mode` skill."

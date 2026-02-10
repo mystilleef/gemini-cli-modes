@@ -1,2 +1,2 @@
-description = "Enters strict read-only mode - no modifications allowed"
+description = "Enters strict read-only mode."
 prompt = "Invoke the `readonly-mode` skill."

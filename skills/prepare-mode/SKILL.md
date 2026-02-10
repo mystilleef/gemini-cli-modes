@@ -1,14 +1,14 @@
 ---
-name: plan-mode
+name: prepare-mode
 description:
-  Investigates and creates a strategic plan to accomplish a task. Use
+  Investigates and creates a preparation roadmap to accomplish a task. Use
   when you need a detailed roadmap for a complex objective.
 ---
 
-# Plan mode
+# Prepare mode
 
 **`GOAL`**: Transform vague objectives into actionable, verified
-strategic plans following standard planning protocols.
+preparation roadmaps following standard preparation protocols.
 
 **`WHEN`**: Invoke this skill when the user requests a roadmap,
 investigation, or strategic approach for a complex task.
@@ -19,7 +19,7 @@ safety during investigation.
 ## Efficiency directives
 
 - Optimize all operations for agent, token, and context efficiency
-- Prefer reading over writing during the planning phase
+- Prefer reading over writing during the preparation phase
 - Batch information gathering to reduce tool calls
 - Target only relevant files
 - Reduce token usage
@@ -41,14 +41,14 @@ safety during investigation.
 - **Dependency Mapping**: Identify logical dependencies and risks.
 - **Constraint Verification**: Verify environment limits and policies.
 
-### Step 3: Draft plan
+### Step 3: Draft roadmap
 
-- Create a plan following the 8-part structure:
+- Create a roadmap following the 8-part structure:
   1. **Objective**: Concise statement of the goal.
   2. **Pre-flight Checklist**: Verification steps before starting.
   3. **Strategic Approach**: High-level method.
   4. **Actionable Steps**: Numbered list of specific operations.
-  5. **Verification Plan**: How to prove the work's correctness.
+  5. **Verification Roadmap**: How to prove the work's correctness.
   6. **Risk Assessment**: Potential pitfalls and solutions.
   7. **Resource Requirements**: Tools, files, or permissions needed.
   8. **Vibe Check Points**: Specific moments to pause and re-evaluate.
@@ -59,24 +59,24 @@ safety during investigation.
   - **The Architect**: Structural integrity and scalability.
   - **The Security Engineer**: Safety, permissions, and vulnerabilities.
   - **The Implementer**: Practicality, efficiency, and clarity.
-- Adjust the plan based on analysis.
+- Adjust the roadmap based on analysis.
 - Verify compliance with `kbase/engineering-principles.md` and
   `kbase/agent-protocols.md`.
 
 ### Step 5: Present
 
-- Deliver the final strategic plan to the user for approval.
+- Deliver the final preparation roadmap to the user for approval.
 - **`DONE`**
 
-## Strategic plan format
+## Preparation roadmap format
 
-**Strategic plan:**
+**Preparation roadmap:**
 
 1. **Objective**: [Goal]
 2. **Pre-flight Checklist**: [Steps]
 3. **Strategic Approach**: [Method]
 4. **Actionable Steps**: [List]
-5. **Verification Plan**: [Proof]
+5. **Verification Roadmap**: [Proof]
 6. **Risk Assessment**: [Pitfalls]
 7. **Resource Requirements**: [Needs]
 8. **Vibe Check Points**: [Pauses]
@@ -88,4 +88,4 @@ safety during investigation.
 - None (Read-only operation).
 - `.gemini_readonly` - Ensured at the start.
 
-**Status communication:** Report the detailed strategic plan.
+**Status communication:** Report the detailed preparation roadmap.

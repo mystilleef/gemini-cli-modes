@@ -1,7 +1,7 @@
 ---
 name: build-mode
 description:
-  Executes plans and requests requiring project modifications with a
+  Executes roadmaps and requests requiring project modifications with a
   verification-first mindset. Use when you need to perform write
   operations and ensure quality standards.
 ---
@@ -29,7 +29,7 @@ high-risk operations and always restores read-only mode upon completion.
 
 - Always study the `bd guide` before using the `bd` tool for task
   management
-- Use your task management system to break down, plan, and optimize
+- Use your task management system to break down, prepare, and optimize
   workflow.
 
 ## Workflow
@@ -42,13 +42,13 @@ high-risk operations and always restores read-only mode upon completion.
   - `ERROR`: Halt and report.
   - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Execute plan
+### Step 2: Execute roadmap
 
 - Apply the 6-step reasoning engine:
   1. **Analyze**: Prerequisites and order of operations.
   2. **Evaluate**: Consequences and risks.
   3. **Identify**: Likely causes and edge cases.
-  4. **Revise**: Plans based on observations.
+  4. **Revise**: Roadmaps based on observations.
   5. **Incorporate**: All tools, policies, and constraints.
   6. **Retry**: Transient errors.
 - Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,

@@ -1,7 +1,7 @@
 ---
 name: implement-mode
 description:
-  Executes approved plans or requests with a verification-first mindset
+  Executes approved roadmaps or requests with a verification-first mindset
   and robust troubleshooting. Use when you need to implement specific
   changes and provide a detailed session summary.
 ---
@@ -12,7 +12,7 @@ description:
 efficiently following standard implementation protocols.
 
 **`WHEN`**: Invoke this skill when the user explicitly requests the
-execution of an approved plan or request.
+execution of an approved roadmap or request.
 
 **`NOTE`**: This skill requires explicit user authorization for
 high-risk operations and always restores read-only mode upon completion.
@@ -30,7 +30,7 @@ high-risk operations and always restores read-only mode upon completion.
 
 - Always study the `bd guide` before using the `bd` tool for task
   management
-- Use your task management system to break down, plan, and optimize
+- Use your task management system to break down, prepare, and optimize
   workflow.
 
 ## Workflow
@@ -48,13 +48,13 @@ high-risk operations and always restores read-only mode upon completion.
 - Activate the task management system.
 - State the goal, risk level, and management method.
 
-### Step 3: Execute plan
+### Step 3: Execute roadmap
 
 - Apply the 6-step reasoning engine:
   1. **Analyze**: Prerequisites and order of operations.
   2. **Evaluate**: Consequences and risks.
   3. **Identify**: Likely causes and edge cases.
-  4. **Revise**: Plans based on observations.
+  4. **Revise**: Roadmaps based on observations.
   5. **Incorporate**: All tools, policies, and constraints.
   6. **Retry**: Transient errors.
 - Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,

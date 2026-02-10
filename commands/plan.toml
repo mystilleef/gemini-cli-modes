@@ -1,4 +1,0 @@
-description = "Investigates and creates a strategic plan to accomplish a task."
-prompt = """
-Invoke the `plan-mode` skill.
-"""
