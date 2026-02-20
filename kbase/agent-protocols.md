@@ -1,56 +1,50 @@
 # Mandatory Verification Protocol (MVP)
 
 ## Purpose
+This protocol establishes a rigorous, evidence-based framework for agent execution. It ensures high-fidelity results through systematic analysis, preparation, and verification.
 
-Provide a non-negotiable 3-phase checklist for evidence-based execution.
+## Core Directives
+- **Proportional Response**: Scale protocol overhead to match task complexity.
+- **Resource Efficiency**: Optimize all operations for agent, token, and context efficiency.
+- **Verification-First**: Deliver only verified solutions through evidence-based testing.
 
-## Scope
+## Phase 1: Evidence-Based Analysis (Pre-flight)
+*Ground understanding in evidence and assess risk.*
 
-- In: task understanding, preparation, risk, and verification steps.
-- Out: tooling specifics, code style, or domain rules.
+- **[ ] Contextual Analysis (Step 1)**:
+    - List specific files and resources examined.
+    - Map logical dependencies and prerequisites.
+- **[ ] Proportional Risk Assessment (Step 2)**:
+    - Assign a risk level (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`).
+    - Justify the level based on potential consequences.
+- **[ ] Ambiguity Resolution**:
+    - Resolve all uncertainties before proceeding.
 
-## Operational Protocols
+## Phase 2: Strategic Preparation (Roadmap)
+*Design safe, transparent, and verifiable execution paths.*
 
-Behavioral standards for agent execution, verification, and reporting.
+- **[ ] Hypothesis Generation (Step 3)**:
+    - Identify likely causes and look beyond the obvious.
+    - Explain the reasoning for the chosen approach.
+- **[ ] Roadmap Adaptability (Step 4)**:
+    - Define triggers for revising the plan based on new observations.
+- **[ ] Verification Roadmap**:
+    - Provide exact, runnable commands to validate success.
 
-## Phase 1: Analyze & Evaluate (Pre-flight)
+## Phase 3: Verified Execution (Action)
+*Implement solutions and prove correctness.*
 
-_Ground understanding in evidence and assess risk._
+- **[ ] Completeness (Step 5)**:
+    - Incorporate all relevant tools, policies, and constraints.
+    - Execute every command from the verification roadmap.
+- **[ ] Persistence & Validation (Step 6)**:
+    - Retry transient errors; pivot strategy for logical failures.
+    - Confirm all verification steps passed.
+    - Present concrete evidence of success.
 
-- **[ ] Evidence of Contextual Analysis (Step 1):**
-  - List specific files/resources examined to understand the request.
-  - Map logical dependencies and prerequisites.
+## Phase 4: Performance Refinement (Post-flight)
+*Analyze outcomes to drive continuous improvement.*
 
-- **[ ] Proactive Risk Assessment (Step 2):**
-  - State risk level (`TRIVIAL`/`LOW`/`MEDIUM`/`HIGH`) with justification.
-  - Evaluate consequences of the proposed change.
-
-- **[ ] Ambiguity Resolution:**
-  - Resolve all ambiguities in the user's request before proceeding.
-
-## Phase 2: Identify & Revise (Preparation)
-
-_Make every roadmap safe, transparent, and verifiable._
-
-- **[ ] Hypothesis Generation (Step 3):**
-  - Identify likely causes and look beyond the obvious.
-  - Explain reasoning for the chosen approach.
-
-- **[ ] Roadmap Adaptability (Step 4):**
-  - Outline how to revise roadmaps based on new observations during execution.
-
-- **[ ] Explicit Verification Roadmap:**
-  - Provide exact, runnable commands to prove success.
-
-## Phase 3: Incorporate & Retry (Execution)
-
-_Prove the implemented solution correct and meets quality standards._
-
-- **[ ] Completeness (Step 5):**
-  - Incorporate all tools, policies, and constraints during execution.
-  - Execute every command from the verification roadmap.
-
-- **[ ] Persistence & Verification (Step 6):**
-  - Retry transient errors; change strategy for logical errors.
-  - Confirm all verification commands passed without errors.
-  - Provide evidence of success (e.g., "All tests passed").
+- **[ ] Outcome Analysis**:
+    - Evaluate the effectiveness of the solution.
+    - Identify opportunities to optimize future performance or resource usage.

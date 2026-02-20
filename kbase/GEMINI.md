@@ -14,6 +14,7 @@ Technology-agnostic knowledge base for autonomous agents.
 - `e-prime-protocol.md` - E-Prime communication rules
 - `engineering-principles.md` - Core engineering principles and testing
 - `gemini-prompt-engineering.md` - Prompt engineering best practices
+- `git-commit-guide.md` - Conventional Commits v1.0.0 standards
 - `response-presentation-guide.md` - High-bandwidth information
   interface guidelines
 - `shell-scripting-guide.md` - POSIX-compliant shell scripting standards
