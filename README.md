@@ -1,9 +1,11 @@
 # Mode-based workflow for the Gemini CLI
 
-**NOTE:** _The `Gemini CLI` now includes a native experimental
-`plan mode`. This project provides an alternative safety system via the
-`/prepare` command and `prepare-mode` skill. Users may choose between
-the native implementation or this project's structured workflows._
+> [!WARNING]
+>
+> Native `plan mode` conflicts with this project's safety architecture.
+> Disable native `plan mode` to ensure system stability. This project
+> enforces structured workflows via the `/prepare`, `/review`, `/build`,
+> and `/implement` commands.
 
 Enforce structured workflows and safety protocols for the `Gemini CLI`
 agent. This project prevents accidental file modifications through a
@@ -109,7 +111,7 @@ export GEMINI_SYSTEM_MD="~/.gemini/SYSTEM.md"
 ### Skills system
 
 The project implements operational modes as encapsulated skills within
-`~/.gemini/skills/`. Each skill directory (e.g., `prepare-mode/`,
+`~/.gemini/skills/`. Each skill directory (for example, `prepare-mode/`,
 `build-mode/`) contains a `SKILL.md` defining the specific workflow,
 safety constraints, and efficiency directives for that state. Commands
 invoke these skills to dynamically transition the agent between modes,
