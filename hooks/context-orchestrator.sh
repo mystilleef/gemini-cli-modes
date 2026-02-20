@@ -19,56 +19,41 @@ COMMIT PROTOCOL REMINDER:
   - You are STRICTLY PROHIBITED from autonomously staging files or performing Git commits.
   - You MUST obtain explicit user authorization before executing any git write operation.
 TASK MANAGEMENT REMINDER:
-  - For complex work, then activate your task management system to manage your work.
-  - Use the "bd" tool for all task management operations.
-  - Always study the bd guide before the first invocation of the bd tool.
+  - **Init**: Study the bd guide before using the bd tool for the first time.
+  - **Task**: Use "bd" for all persistent work; avoid markdown TODOs.
+  - **Split**: Break complex work into cohesive tasks.
+  - **Verify**: Define executable verification in acceptance criteria.
+  - **Context**: Embed file paths and documentation references.
+  - **Transition**: Convert discovered work to tasks via "bd create".
+  - **Failure**: Upon any "bd" command failure or usage error, you MUST study "kbase/bd-guide.md" before attempting a retry.
+  - **E-Prime**: Apply strictly to all task metadata.
 VIBE CHECK REMINDER:
-  - For complex work, interact with the vibe check mcp to help brainstorm, verify,
-    and validate your ideas, roadmaps, or solutions before executing them.
-  - Always study the vibe check guide before the first invocation of the vibe check mcp tools.
+  - **Init**: Study the vibe check guide before using the vibe check tools for the first time.
+  - **Invoke**: Post-planning, during ambiguity, or before system changes.
+  - **Phase**: Define "preparation", "implementation", or "review".
+  - **Context**: Include full user prompt and roadmap.
+  - **Interrupt**: Treat feedback as a high-priority course correction signal.
+  - **Learn**: Log resolved patterns via "vibe_learn".
 PRESENTATION REMINDER:
-  - Strictly follow your response presentation directive in your response presentation guide.
+  - Study the response presentation guide before your first response.
+  - Activate your response presentation directives.
+INQUIRY PROTOCOL:
+  - **Technical Docs**: Use ref tools for API, library, and framework specifications.
+  - **General Research**: Use Perplexity tools for real-time data, complex reasoning, or deep research.
+  - **Selection**: Prioritize ref for implementation details; use Perplexity for architectural patterns or troubleshooting.
+  - **Verification**: Cross-reference critical technical findings from Perplexity with official documentation via ref.
 '
+readonly CORE_BASELINE
 
 # 3. Main Execution Logic
 main() (
-  if command -v realpath > /dev/null 2>&1; then
-    project_root=$(realpath "${GEMINI_PROJECT_DIR:-.}" 2> /dev/null || echo ".")
-  else
-    project_root="${GEMINI_PROJECT_DIR:-.}"
-  fi
-  marker="${project_root}/.gemini_readonly"
-
-  if [ -f "${marker}" ]; then
-    system_msg="READONLY MODE"
-    dynamic_ctx="Strictly enforce your read-only directives.
-
-Enclose responses within '🔒 READONLY MODE' indicators.
-
-For example:
-
-🔒 READONLY MODE
-
-This is a response in a read-only session.
-
-🔒 READONLY MODE
-
-IMPORTANT: If you successfully remove the '.gemini_readonly' marker during this turn, you MUST stop using these indicators immediately for the remainder of your response."
-  else
-    system_msg="BUILDER MODE"
-    dynamic_ctx="You are in Builder Mode. You have full write access. Do NOT show the '🔒 READONLY MODE' indicators."
-  fi
-
-  # Swapped order: Baseline first, then Dynamic Context
-  full_context="${CORE_BASELINE} ${dynamic_ctx}"
+  full_context="${CORE_BASELINE}"
 
   if command -v jq > /dev/null 2>&1; then
     jq -n \
       --arg context "${full_context}" \
-      --arg system_msg "${system_msg}" \
     '{
       decision: "allow",
-      systemMessage: $system_msg,
       hookSpecificOutput: {
         hookEventName: "BeforeAgent",
         additionalContext: $context
@@ -82,8 +67,15 @@ IMPORTANT: If you successfully remove the '.gemini_readonly' marker during this 
     # Remove the trailing \n added by sed for the last line
     esc_context="${esc_context%\\n}"
 
-    printf '{"decision": "allow", "systemMessage": "%s", "hookSpecificOutput": {"hookEventName": "BeforeAgent", "additionalContext": "%s"}}\n' \
-      "${system_msg}" "${esc_context}"
+    printf \
+    '{
+      "decision": "allow",
+      "hookSpecificOutput": {
+        "hookEventName": "BeforeAgent",
+        "additionalContext": "%s"
+       }
+    }\n' \
+      "${esc_context}"
   fi
 )
 

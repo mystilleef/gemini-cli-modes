@@ -8,14 +8,14 @@
 set -eu
 
 # 1. Robust Input Handling
-INPUT_DATA=$(cat)
+input=$(cat)
 
 # 2. Project Setup
 PROJECT_DIR="${GEMINI_PROJECT_DIR:-.}"
 
 # 3. Whitelist Configuration
 # Diagnostic and read-only tools permitted in Read-Only mode
-WHITELIST_TOOLS="bd ls git grep find cat stat whoami date echo printf pwd bash sh jq head tail wc file fd rg bat sort uniq cut tr diff basename dirname realpath which uname tree"
+WHITELIST_TOOLS="bd ls git grep find cat stat whoami date echo printf pwd bash sh jq head tail wc file fd rg bat sort uniq cut tr diff basename dirname realpath which uname tree node npm npx pnpm yarn bun tsc eslint prettier jest vitest biome"
 
 # POSIX-compliant absolute path resolution
 # Returns absolute path if possible, original path if resolution fails
@@ -142,9 +142,9 @@ is_whitelisted() (
   # --- Rule 2: Skill-based Write-Mode Transition ---
   # Note: Path validation happens after masking to prevent bypass via quotes
   case "${cmd_str}" in
-    *skills/write-mode/scripts/enable-write-mode.sh*)
+    *skills/write-mode/scripts/enable-write-mode.sh* | *skills/readonly-mode/scripts/enable-readonly-mode.sh*)
       # Path found in original command - will be validated post-masking
-      _debug_log "Rule 2: Write-mode script path found in original command"
+      _debug_log "Rule 2: Transition script path found in original command"
       rule2_matched=1
       ;;
     *)
@@ -256,7 +256,7 @@ is_whitelisted() (
   # This prevents bypass via quotes: echo "skills/write-mode/scripts/enable-write-mode.sh"
   if [ "${rule2_matched}" = "1" ]; then
     case "${masked_cmd}" in
-      *skills/write-mode/scripts/enable-write-mode.sh*)
+      *skills/write-mode/scripts/enable-write-mode.sh* | *skills/readonly-mode/scripts/enable-readonly-mode.sh*)
         _debug_log "Rule 2: Path verified in masked command - allowing"
         return 0
         ;;
@@ -341,7 +341,7 @@ main() {
   fi
 
   # Extract command
-  cmd=$(printf '%s\n' "${INPUT_DATA}" | jq -r '.tool_input.command // empty')
+  cmd=$(printf '%s\n' "${input}" | jq -r '.tool_input.command // empty')
 
   # Validate command is not empty
   if [ -z "${cmd}" ]; then
