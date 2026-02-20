@@ -24,9 +24,26 @@ safety during analysis.
 - Target only relevant files
 - Reduce token usage
 
+## Confirmation directives
+
+_After_ reporting the review decision, use the `ask_user` tool to offer
+4 options:
+
+1. **Revise plan** - Invoke the `prepare-mode` skill to address findings
+2. **Quick build** - Invoke the `build-mode` skill for rapid execution
+3. **Implement** - Invoke the `implement-mode` skill for thorough
+   execution
+4. **Abort** - Cancel the workflow and wait for the next instruction
+
+Set the default response based on the review recommendation:
+
+- If recommendation indicates `REVISE` or `REJECT`, make option 1 the
+  default.
+- If recommendation indicates `APPROVE`, make option 2 the default.
+
 ## Workflow
 
-### Step 1: Enforce Read-Only
+### Step 1: Enforce read-only
 
 - Invoke the `readonly-mode` skill.
 - Capture status (`SUCCESS`, `WARN`, `ERROR`).
@@ -62,6 +79,11 @@ safety during analysis.
 ### Step 5: Report
 
 - Output the structured review decision.
+
+### Step 6: Confirmation
+
+- Use the `ask_user` tool for confirmation with 4 options.
+- Await user response before further action.
 - **`DONE`**
 
 ## Review report format
@@ -93,4 +115,14 @@ safety during analysis.
 - None (Read-only operation).
 - `.gemini_readonly` - Ensured at the start.
 
-**Status communication:** Report the detailed review decision.
+**Status communication:**
+
+First line of output indicates user's decision:
+
+- `REVISE: user wants to revise the plan` - user chose revision
+- `BUILD: user wants to build the plan` - user chose quick build
+- `IMPLEMENT: user wants to implement the plan` - user chose
+  implementation
+- `ABORT: user cancelled workflow` - user aborted process
+
+**Following lines:** complete review report text

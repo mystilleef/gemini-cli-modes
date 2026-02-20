@@ -1,8 +1,8 @@
 ---
 name: prepare-mode
 description:
-  Investigates and creates a preparation roadmap to accomplish a task. Use
-  when you need a detailed roadmap for a complex objective.
+  Investigates and creates a preparation roadmap to accomplish a task.
+  Use when you need a detailed roadmap for a complex objective.
 ---
 
 # Prepare mode
@@ -24,9 +24,23 @@ safety during investigation.
 - Target only relevant files
 - Reduce token usage
 
+## Confirmation directives
+
+_After_ presenting the preparation roadmap, use the `ask_user` tool to
+offer 4 options:
+
+1. **Review plan** - Invoke the `review-mode` skill for a technical audit
+2. **Quick build** - Invoke the `build-mode` skill for rapid execution
+3. **Implement** - Invoke the `implement-mode` skill for thorough
+   execution
+4. **Abort** - Cancel the workflow and wait for the next instruction
+
+Make option 1 the default response. Assume "Review plan" if the user
+gives an empty response.
+
 ## Workflow
 
-### Step 1: Enforce Read-Only
+### Step 1: Enforce read-only
 
 - Invoke the `readonly-mode` skill.
 - Capture status (`SUCCESS`, `WARN`, `ERROR`).
@@ -37,35 +51,38 @@ safety during investigation.
 ### Step 2: Investigate
 
 - Conduct a thorough audit of the request and codebase.
-- **Contextual Audit**: Read relevant files, documentation, and logs.
-- **Dependency Mapping**: Identify logical dependencies and risks.
-- **Constraint Verification**: Verify environment limits and policies.
+- **Contextual audit**: Read relevant files, documentation, and logs.
+- **Dependency mapping**: Identify logical dependencies and risks.
+- **Constraint verification**: Verify environment limits and policies.
 
 ### Step 3: Draft roadmap
 
 - Create a roadmap following the 8-part structure:
   1. **Objective**: Concise statement of the goal.
-  2. **Pre-flight Checklist**: Verification steps before starting.
-  3. **Strategic Approach**: High-level method.
-  4. **Actionable Steps**: Numbered list of specific operations.
-  5. **Verification Roadmap**: How to prove the work's correctness.
-  6. **Risk Assessment**: Potential pitfalls and solutions.
-  7. **Resource Requirements**: Tools, files, or permissions needed.
-  8. **Vibe Check Points**: Specific moments to pause and re-evaluate.
+  2. **Pre-flight checklist**: Verification steps before starting.
+  3. **Strategic approach**: High-level method.
+  4. **Actionable steps**: Numbered list of specific operations.
+  5. **Verification roadmap**: How to prove the work's correctness.
+  6. **Risk assessment**: Potential pitfalls and solutions.
+  7. **Resource requirements**: Tools, files, or permissions needed.
 
 ### Step 4: Analyze & refine
 
-- Perform Multi-Perspective Analysis:
+- Perform Multi-perspective analysis:
   - **The Architect**: Structural integrity and scalability.
   - **The Security Engineer**: Safety, permissions, and vulnerabilities.
   - **The Implementer**: Practicality, efficiency, and clarity.
-- Adjust the roadmap based on analysis.
-- Verify compliance with `kbase/engineering-principles.md` and
-  `kbase/agent-protocols.md`.
+- Adjust the roadmap based on analysis results.
+- Verify compliance with `kbase/agent-protocols.md`.
 
 ### Step 5: Present
 
 - Deliver the final preparation roadmap to the user for approval.
+
+### Step 6: Confirmation
+
+- Use the `ask_user` tool for confirmation with 4 options.
+- Await user response before further action.
 - **`DONE`**
 
 ## Preparation roadmap format
@@ -73,13 +90,12 @@ safety during investigation.
 **Preparation roadmap:**
 
 1. **Objective**: [Goal]
-2. **Pre-flight Checklist**: [Steps]
-3. **Strategic Approach**: [Method]
-4. **Actionable Steps**: [List]
-5. **Verification Roadmap**: [Proof]
-6. **Risk Assessment**: [Pitfalls]
-7. **Resource Requirements**: [Needs]
-8. **Vibe Check Points**: [Pauses]
+2. **Pre-flight checklist**: [Steps]
+3. **Strategic approach**: [Method]
+4. **Actionable steps**: [List]
+5. **Verification roadmap**: [Proof]
+6. **Risk assessment**: [Pitfalls]
+7. **Resource requirements**: [Needs]
 
 ## Output
 
@@ -88,4 +104,14 @@ safety during investigation.
 - None (Read-only operation).
 - `.gemini_readonly` - Ensured at the start.
 
-**Status communication:** Report the detailed preparation roadmap.
+**Status communication:**
+
+First line of output indicates user's decision:
+
+- `REVIEW: user wants to review the plan` - user chose review
+- `BUILD: user wants to build the plan` - user chose quick build
+- `IMPLEMENT: user wants to implement the plan` - user chose
+  implementation
+- `ABORT: user cancelled workflow` - user aborted process
+
+**Following lines:** complete preparation roadmap text
