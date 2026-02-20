@@ -8,8 +8,8 @@
       "base": {
         "modelConfig": {
           "generateContentConfig": {
-            "temperature": 0.1,
-            "topP": 0.95
+            "temperature": 0,
+            "topP": 0.9
           }
         }
       },
@@ -17,9 +17,7 @@
         "extends": "base",
         "modelConfig": {
           "generateContentConfig": {
-            "temperature": 0.2,
-            "topP": 0.9,
-            "topK": 1
+            "temperature": 0.1
           }
         }
       }
