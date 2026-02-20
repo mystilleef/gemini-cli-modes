@@ -28,10 +28,9 @@ high-risk operations and always restores read-only mode upon completion.
 
 ## Task management
 
-- Always study the `bd guide` before using the `bd` tool for task
-  management
-- Use your task management system to break down, prepare, and optimize
-  workflow.
+- Use the native `write_todos` tool for all task management.
+- Break down complex work into cohesive subtasks.
+- Maintain accurate task statuses (`pending`, `in_progress`, `completed`) to provide visibility via the CLI progress indicator.
 
 ## Workflow
 
@@ -45,7 +44,7 @@ high-risk operations and always restores read-only mode upon completion.
 
 ### Step 2: Initialize
 
-- Activate the task management system.
+- Initialize the task list using `write_todos`.
 - State the goal, risk level, and management method.
 
 ### Step 3: Execute roadmap
