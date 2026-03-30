@@ -1,44 +1,28 @@
 ---
 name: review-mode
-description:
-  Critically reviews roadmaps, code, and strategies. Use when you need a
-  technical review to identify flaws, risks, and improvements.
+description: "Performs a multi-perspective technical review of roadmaps, code, or architecture — checking for security vulnerabilities, missing edge cases, scalability issues, and regression risks. Produces a structured report with APPROVE, REVISE, or REJECT recommendation. Use when the user says 'review this', 'critique the plan', 'code review', 'find weaknesses', 'red team this', or needs a devil's advocate analysis before implementation."
 ---
 
 # Review mode
 
-**`GOAL`**: Conduct critical technical reviews of roadmaps, code, and
-strategies following standard review protocols.
+**`GOAL`**: Conduct critical technical reviews of roadmaps, code, and strategies — identify flaws, risks, and improvements across security, QA, architecture, performance, and DevOps.
 
-**`WHEN`**: Invoke this skill when the user requests a critical review
-of a roadmap or proposed changes.
+**`WHEN`**: Invoke this skill when the user requests a critical review of a roadmap, code, or proposed changes.
 
-**`NOTE`**: This skill operates strictly in read-only mode to ensure
-safety during analysis.
-
-## Efficiency directives
-
-- Optimize all operations for agent, token, and context efficiency
-- Optimize for minimal output
-- Batch operations on file groups, avoid individual file processing
-- Target only relevant files
-- Reduce token usage
+**`NOTE`**: Operates strictly in read-only mode to ensure safety during analysis.
 
 ## Confirmation directives
 
-_After_ reporting the review decision, use the `ask_user` tool to offer
-4 options:
+_After_ reporting the review decision, use the `ask_user` tool to offer 4 options:
 
 1. **Revise plan** - Invoke the `prepare-mode` skill to address findings
 2. **Quick build** - Invoke the `build-mode` skill for rapid execution
-3. **Implement** - Invoke the `implement-mode` skill for thorough
-   execution
+3. **Implement** - Invoke the `implement-mode` skill for thorough execution
 4. **Abort** - Cancel the workflow and wait for the next instruction
 
 Set the default response based on the review recommendation:
 
-- If recommendation indicates `REVISE` or `REJECT`, make option 1 the
-  default.
+- If recommendation indicates `REVISE` or `REJECT`, make option 1 the default.
 - If recommendation indicates `APPROVE`, make option 2 the default.
 
 ## Workflow
@@ -57,28 +41,22 @@ Set the default response based on the review recommendation:
 
 ### Step 3: Analyze
 
-- Apply the 6-step reasoning engine:
-  1. **Analyze**: Context, objectives, and proposed changes.
-  2. **Evaluate**: Risks from Security, QA, and Ops perspectives.
-  3. **Identify**: Missing edge cases, logical flaws, and debt.
-  4. **Revise**: Understanding based on deep-dive analysis.
-  5. **Incorporate**: `KBase` patterns and project constraints.
-  6. **Retry**: If analysis yields insufficient confidence.
-- Execute Multi-perspective analysis across five viewpoints:
-  - **Security**: Vulnerabilities, permissions, data handling.
-  - **QA**: Test coverage, testability, regression risks.
-  - **Architecture**: Design patterns, scalability, maintainability.
-  - **Performance**: Latency, resource usage, optimization.
-  - **DevOps**: Deployment, monitoring, infrastructure impact.
+- Evaluate the subject across five viewpoints:
+  - **Security**: Vulnerabilities, permissions, data handling, injection risks.
+  - **QA**: Test coverage, testability, regression risks, missing edge cases.
+  - **Architecture**: Design patterns, scalability, maintainability, coupling.
+  - **Performance**: Latency, resource usage, N+1 queries, unnecessary allocations.
+  - **DevOps**: Deployment impact, monitoring gaps, infrastructure changes.
+- Cross-reference findings with `KBase` patterns and project constraints.
 
 ### Step 4: Critique & assess risk
 
-- Compare against `KBase` and best practices.
+- Compare against best practices from `KBase`.
 - Re-evaluate the risk level (`TRIVIAL`, `LOW`, `MEDIUM`, `HIGH`).
 
 ### Step 5: Report
 
-- Output the structured review decision.
+- Output the structured review decision using the format below.
 
 ### Step 6: Confirmation
 
@@ -121,8 +99,7 @@ First line of output indicates user's decision:
 
 - `REVISE: user wants to revise the plan` - user chose revision
 - `BUILD: user wants to build the plan` - user chose quick build
-- `IMPLEMENT: user wants to implement the plan` - user chose
-  implementation
+- `IMPLEMENT: user wants to implement the plan` - user chose implementation
 - `ABORT: user cancelled workflow` - user aborted process
 
 **Following lines:** complete review report text

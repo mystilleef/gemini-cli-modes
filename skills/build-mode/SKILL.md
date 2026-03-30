@@ -1,29 +1,15 @@
 ---
 name: build-mode
-description:
-  Executes roadmaps and requests requiring project modifications with a
-  verification-first mindset. Use when you need to perform write
-  operations and ensure quality standards.
+description: "Edits source files, updates configurations, and runs tests to execute a prepared roadmap or user request. Activates write access, applies changes, verifies with tests/lints/builds, then restores read-only mode. Use when the user says 'build this', 'make these changes', 'implement the plan quickly', or requests codebase modifications, refactoring, or feature implementation."
 ---
 
 # Build mode
 
-**`GOAL`**: Execute project modifications safely and efficiently
-following standard build protocols.
+**`GOAL`**: Execute project modifications safely — activate write access, apply changes, verify correctness, and restore read-only mode.
 
-**`WHEN`**: Invoke this skill when the user requests changes to the
-codebase, refactoring, or feature implementation.
+**`WHEN`**: Invoke this skill when the user requests changes to the codebase, refactoring, or feature implementation.
 
-**`NOTE`**: This skill requires explicit user authorization for
-high-risk operations and always restores read-only mode upon completion.
-
-## Efficiency directives
-
-- Optimize all operations for agent, token, and context efficiency
-- Batch operations on file groups, avoid individual file processing
-- Use parallel execution when possible
-- Target only relevant files
-- Reduce token usage
+**`NOTE`**: Requires explicit user authorization for high-risk operations. Always restores read-only mode upon completion.
 
 ## Task management
 
@@ -41,19 +27,16 @@ high-risk operations and always restores read-only mode upon completion.
   - `ERROR`: Halt and report.
   - `SUCCESS`/`WARN`: Continue.
 
-### Step 2: Execute roadmap
+### Step 2: Execute changes
 
-- Apply the 6-step reasoning engine:
-  1. **Analyze**: Prerequisites and order of operations.
-  2. **Evaluate**: Consequences and risks.
-  3. **Identify**: Likely causes and edge cases.
-  4. **Revise**: Roadmaps based on observations.
-  5. **Incorporate**: All tools, policies, and constraints.
-  6. **Retry**: Transient errors.
-- Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,
-  `HIGH`).
+- Review the roadmap or request to identify prerequisites and order of operations.
+- Assess risk level for each change:
+  - **TRIVIAL**: Typos, comments, formatting — apply directly.
+  - **LOW**: Single-file edits with clear scope — apply and verify.
+  - **MEDIUM**: Multi-file changes or dependency updates — verify each step before proceeding.
+  - **HIGH**: Architectural changes, security-sensitive code, or data migrations — confirm with user before each major step.
 - Perform modifications.
-- Verify changes through tests, linting, or builds.
+- After each logical group of changes, run the project's test suite, linter, or build command to catch regressions early.
 
 ### Step 3: Restore safety
 
@@ -61,8 +44,7 @@ high-risk operations and always restores read-only mode upon completion.
 
 ### Step 4: Report
 
-- Provide a concise summary of the work completed and verification
-  results.
+- Provide a concise summary of the work completed and verification results.
 - **`DONE`**
 
 ## Output
@@ -72,5 +54,4 @@ high-risk operations and always restores read-only mode upon completion.
 - Project files modified during execution.
 - `.gemini_readonly` - Restored at the end.
 
-**Status communication:** Report summary of modifications and
-verification status.
+**Status communication:** Report summary of modifications and verification status.

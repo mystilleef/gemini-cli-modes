@@ -1,30 +1,15 @@
 ---
 name: implement-mode
-description:
-  Executes approved roadmaps or requests with a verification-first mindset
-  and robust troubleshooting. Use when you need to implement specific
-  changes and provide a detailed session summary.
+description: "Executes an approved roadmap end-to-end: edits source files, refactors modules, updates configs, runs tests and linters, auto-fixes failures, and produces a detailed session summary. Use when the user says 'implement this', 'execute the plan', 'apply these changes thoroughly', or needs autonomous multi-step code changes with built-in troubleshooting."
 ---
 
-# Implement-Mode
+# Implement mode
 
-**`GOAL`**: Execute approved project modifications safely and
-efficiently following standard implementation protocols.
+**`GOAL`**: Execute an approved roadmap or request end-to-end — activate write access, apply changes, verify and fix, then restore read-only mode and report.
 
-**`WHEN`**: Invoke this skill when the user explicitly requests the
-execution of an approved roadmap or request.
+**`WHEN`**: Invoke this skill when the user explicitly requests execution of an approved roadmap or request with thorough verification.
 
-**`NOTE`**: This skill requires explicit user authorization for
-high-risk operations and always restores read-only mode upon completion.
-
-## Efficiency directives
-
-- Optimize all operations for agent, token, and context efficiency
-- Optimize for minimal output
-- Batch operations on file groups, avoid individual file processing
-- Use parallel execution when possible
-- Target only relevant files
-- Reduce token usage
+**`NOTE`**: Requires explicit user authorization for high-risk operations. Always restores read-only mode upon completion.
 
 ## Task management
 
@@ -47,28 +32,24 @@ high-risk operations and always restores read-only mode upon completion.
 - Initialize the task list using `write_todos`.
 - State the goal, risk level, and management method.
 
-### Step 3: Execute roadmap
+### Step 3: Execute changes
 
-- Apply the 6-step reasoning engine:
-  1. **Analyze**: Prerequisites and order of operations.
-  2. **Evaluate**: Consequences and risks.
-  3. **Identify**: Likely causes and edge cases.
-  4. **Revise**: Roadmaps based on observations.
-  5. **Incorporate**: All tools, policies, and constraints.
-  6. **Retry**: Transient errors.
-- Follow the risk-adaptive workflow (`TRIVIAL`, `LOW`, `MEDIUM`,
-  `HIGH`).
-- Perform modifications.
+- Review the roadmap to identify prerequisites and order of operations.
+- Assess risk level for each change:
+  - **TRIVIAL**: Typos, comments, formatting — apply directly.
+  - **LOW**: Single-file edits with clear scope — apply and verify.
+  - **MEDIUM**: Multi-file changes or dependency updates — verify each step before proceeding.
+  - **HIGH**: Architectural changes, security-sensitive code, or data migrations — confirm with user before each major step.
+- Perform modifications in the determined order.
 
 ### Step 4: Verify & fix
 
-- Run tests, linters, and builds.
+- Run the project's test suite, linter, and build command.
 - **On failure:**
-  1. **Diagnose:** Analyze the error to identify the root cause.
-  2. **Fix:** Attempt to resolve the issue autonomously.
-  3. **Retry:** Verify the fix.
-- **Escalation:** If the issue persists after reasonable attempts, halt
-  and report.
+  1. **Diagnose:** Read the error output to identify the root cause.
+  2. **Fix:** Apply a targeted fix to the failing code.
+  3. **Retry:** Re-run the failing command to confirm the fix.
+- **Escalation:** If the issue persists after three attempts, halt and report the error details to the user.
 
 ### Step 5: Restore safety
 
