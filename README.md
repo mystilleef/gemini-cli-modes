@@ -1,154 +1,67 @@
-# Mode-based workflow for the Gemini CLI
+# Gemini CLI Modes — Obsolete
 
 > [!WARNING]
 >
-> Native `plan mode` conflicts with this project's safety architecture.
-> Disable native `plan mode` to ensure system stability. This project
-> enforces structured workflows via the `/prepare`, `/review`, `/build`,
-> and `/implement` commands.
+> This project is obsolete and no longer recommended for new Gemini CLI
+> workflows.
+>
+> It was created to compensate for limitations in earlier Gemini CLI versions,
+> before native **Plan Mode** and **Agents** existed. Modern Gemini CLI now
+> supports both.
 
-Enforce structured workflows and safety protocols for the `Gemini CLI`
-agent. This project prevents accidental file modifications through a
-`Safe-Default` read-only system.
+## Use SPAE instead
 
-## Use case
+For modern structured Gemini CLI workflows, use the SPAE framework:
 
-The system enforces a four-phase workflow to ensure project safety and
-code quality.
+<https://github.com/mystilleef/gemini-cli-spae>
 
-1. **Explore (Default):** Every session starts in read-only mode. Use
-   this phase to investigate the codebase and define requirements
-   without risk of accidental changes.
+SPAE provides a cleaner and more current approach to disciplined AI-assisted
+development:
 
-2. **Prepare & Review (Optional):** Use `/prepare` to generate a roadmap
-   and `/review` to audit it for flaws. These read-only commands ensure
-   strategic alignment before execution.
+- **Spec** — define the requirements.
+- **Plan** — break the work into actionable steps.
+- **Act** — implement the plan.
+- **Evaluate** — review, verify, and refine the result.
 
-3. **Build (Write):** Execute the roadmap using `/build` (fast) or
-   `/implement` (thorough). These commands grant temporary write access
-   to the project.
+This approach works with the current Gemini CLI feature set instead of working
+around missing capabilities from older releases.
 
-4. **Reset (Automatic):** The system automatically restores read-only
-   mode upon task completion, returning the agent to a safe state.
+## Historical purpose
 
-## Operational modes
+`gemini-cli-modes` implemented a custom mode-based workflow for older Gemini CLI
+versions that lacked first-class support for:
 
-| Command      | Mode    | Access | Description                 |
-| :----------- | :------ | :----- | :-------------------------- |
-| `/readonly`  | Strict  | RO     | Default safety state.       |
-| `/prepare`   | Prepare | RO     | Strategic investigation.    |
-| `/review`    | Review  | RO     | Multi-perspective critique. |
-| `/build`     | Builder | RW     | Structured execution.       |
-| `/implement` | Exec    | RW     | Autonomous execution.       |
-| `/writable`  | Direct  | RW     | Unstructured write access.  |
+- planning before implementation,
+- agent-assisted task decomposition,
+- review gates,
+- and safer separation between read-only exploration and writable execution.
 
-## Installation
+It provided commands such as:
 
-### 1. Deploy files
+- `/readonly`
+- `/prepare`
+- `/review`
+- `/build`
+- `/implement`
+- `/writable`
 
-Place all project files and directories directly into `~/.gemini/`.
+It also used hooks and marker files to reduce accidental writes while
+investigating, planning, or reviewing.
 
-```bash
-~/.gemini/
-├── settings.json   # CRITICAL: Hook configuration
-├── SYSTEM.md       # Core operating principles
-├── GEMINI.md       # Global directives
-├── commands/       # Custom CLI commands
-├── hooks/          # Enforcement scripts
-├── kbase/          # Knowledge base
-└── skills/         # Encapsulated workflows
-```
+These safeguards were useful at the time, but they are no longer the best way to
+structure Gemini CLI work.
 
-### 2. Configure `settings.json` (CRITICAL)
+## Recommendation
 
-The `Gemini CLI` requires `~/.gemini/settings.json` to trigger the hooks
-that manage read-only mode. Without this file in the correct location,
-the safety system fails to activate.
+Do not install or copy this project into new `~/.gemini/` configurations.
 
-```json
-{
-  "context": {
-    "loadMemoryFromIncludeDirectories": true,
-    "includeDirectories": ["~/.gemini/kbase"]
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup",
-        "command": ".../enable-readonly-startup.sh"
-      }
-    ],
-    "BeforeAgent": [
-      {"matcher": "*", "command": ".../remind-readonly-dynamic.sh"}
-    ],
-    "BeforeTool": [
-      {
-        "matcher": "write_file|replace|...",
-        "command": ".../enforce-readonly.sh"
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": "exit",
-        "command": ".../disable-readonly-sessionend.sh"
-      }
-    ]
-  }
-}
-```
+Use modern Gemini CLI with:
 
-### 3. Enable `SYSTEM.md`
+- native Plan Mode,
+- native Agents,
+- and SPAE:
 
-Set the environment variable in your shell profile to activate core
-principles:
+<https://github.com/mystilleef/gemini-cli-spae>
 
-```bash
-export GEMINI_SYSTEM_MD="~/.gemini/SYSTEM.md"
-```
-
-## System architecture
-
-### Skills system
-
-The project implements operational modes as encapsulated skills within
-`~/.gemini/skills/`. Each skill directory (for example, `prepare-mode/`,
-`build-mode/`) contains a `SKILL.md` defining the specific workflow,
-safety constraints, and efficiency directives for that state. Commands
-invoke these skills to dynamically transition the agent between modes,
-ensuring consistent behavior and safety protocol enforcement across
-sessions.
-
-### Enforcement hooks
-
-The system relies on four core hooks to manage the `.gemini_readonly`
-marker. The `enforce-readonly.sh` hook provides multi-layered security
-by blocking write tools and preventing command injection.
-
-## Knowledge base
-
-The `kbase/` directory provides automatic access to technical guides:
-
-- `agent-protocols.md`: `MVP` checklist for evidence-based execution.
-- `bd-guide.md`: Task management with beads.
-- `cloud-patterns.md`: Deployment, CI/CD, data storage, and production
-  readiness.
-- `data-science-workflow.md`: 5-phase analysis workflow.
-- `e-prime-protocol.md`: E-Prime communication rules.
-- `engineering-principles.md`: Core standards and testing.
-- `gemini-prompt-engineering.md`: Prompt engineering best practices.
-- `response-presentation-guide.md`: High-bandwidth information interface
-  guidelines.
-- `shell-scripting-guide.md`: `POSIX` compliance and portability.
-- `ui-ux-design.md`: UI/UX layout, typography, color, and accessibility.
-- `vibe-check-guide.md`: `Metacognitive` oversight and pattern
-  interrupts.
-
-## Workflow example
-
-1.  **Start:** Session begins in read-only `Explorer Mode` via
-    `settings.json` hooks.
-2.  **Investigate:** Use read-only tools to map the codebase.
-3.  **`/prepare`:** Generate a strategic roadmap.
-4.  **`/review`:** Critique the roadmap from diverse perspectives.
-5.  **`/build`:** Execute the approved roadmap with write access.
-6.  **Exit:** Session cleanup removes the read-only marker.
+This repository remains available only for historical reference or for
+maintaining older Gemini CLI setups that still depend on its custom modes.
